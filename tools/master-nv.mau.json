@@ -1,0 +1,63 @@
+{
+ "_doc": "TP-04 Master data. ⛔ CHƯA ĐIỀN — agent KHÔNG được chạy bảng Nhóm / xếp hạng A/B/C khi 'ten' và 'hang' còn trống. 'ht_lam_chinh' là số hội thoại mã này giữ vai trò chính trong kỳ 03–05/11/2026, chỉ để anh/QL dễ nhận ra ai là ai. ⚠ ĐÂY LÀ BẢN MẪU để commit. Bản thật là tools/master-nv.json, ⛔ không commit (có tên thật nhân viên).",
+ "nguon_hang_ql": {
+  "A": [
+   "Hải Anh",
+   "Kiều Hương",
+   "Liên",
+   "Thắm",
+   "Nhi",
+   "Hoa"
+  ],
+  "B": [
+   "Mai",
+   "Ngọc",
+   "Hoài Linh",
+   "Đặng Hương",
+   "Thành",
+   "Lương",
+   "Thùy Linh"
+  ],
+  "C": [
+   "Tuyết Nhi",
+   "Mỹ Linh",
+   "Mỹ Chung"
+  ],
+  "_doc": "Danh sách QL đánh giá, lấy từ phương án §7.1 — 16 tên. ⚠ Bản xuất có 40 mã NV. 16 ≠ 40 → bản đồ tên↔mã BẮT BUỘC phải do QL cung cấp, ⛔ agent không tự ghép."
+ },
+ "nhom": {
+  "_doc": "Điền: tên nhóm → dịch vụ phụ trách. Ví dụ {\"Nhóm 1\":{\"dich_vu\":[\"HAM_MAT\",\"NGUC\"]}}",
+  "Nhóm 1": {
+   "dich_vu": [
+    "HAM_MAT",
+    "NGUC"
+   ]
+  },
+  "Nhóm 2": {
+   "dich_vu": [
+    "MAT",
+    "MUI"
+   ]
+  },
+  "Nhóm 3": {
+   "dich_vu": [
+    "BODY",
+    "DA_TRE_HOA"
+   ]
+  }
+ },
+ "nv": {
+  "NV-000000001": {
+   "ten": "<tên thật>",
+   "nhom": "Nhóm 2",
+   "hang": "A",
+   "ht_lam_chinh": 0
+  },
+  "NV-000000002": {
+   "ten": null,
+   "nhom": null,
+   "hang": null,
+   "ht_lam_chinh": 0
+  }
+ }
+}

@@ -1,0 +1,31 @@
+# ═══════════════════════════════════════════════════════════════════
+# ⛔ REPO NÀY PUBLIC. Mọi thứ dưới đây là HỘI THOẠI KHÁCH THẬT.
+#    Lọt một file là lọt dữ liệu cá nhân của khách — ⛔ không có cách sửa sau.
+# ═══════════════════════════════════════════════════════════════════
+
+# Bản xuất Caresoft — KHÔNG commit, kể cả đã che tên/SĐT.
+# Bản xuất vẫn còn: giờ nhắn đến từng giây, tên quảng cáo, nội dung bệnh lý
+# khách tự kể, và một số tên thật LỌT QUA bộ che (xem TP-03 §3).
+du-lieu/
+data/
+*.txt
+!template/*.txt
+!doc/*.txt
+
+# Kết quả chạy — KHÔNG commit. ht.csv chứa nguyên mã hội thoại + mã NV;
+# mau-ai.md chứa NGUYÊN VĂN hội thoại.
+out/
+!out/.gitkeep
+
+# TP-04 đã điền = bản đồ mã NV → TÊN THẬT nhân viên. ⛔ Không commit.
+tools/master-nv.json
+!tools/master-nv.mau.json
+
+# Rác
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
+~$*
+*.xlsx
+!template/*.xlsx

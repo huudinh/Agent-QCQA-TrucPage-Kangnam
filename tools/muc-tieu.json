@@ -1,0 +1,128 @@
+{
+  "_doc": "Mục tiêu & ngưỡng lấy từ doc/note-chot-muc-tieu-truc-page.md. ⚠ Mọi giá trị đang ở trạng thái 'demo' — CHƯA AI CHỐT. Khi anh/QL chốt, đổi 'trang_thai' thành 'chot' và điền 'gia_tri'. tp.py chỉ tô màu RAG cho chỉ số có trang_thai='chot'; chỉ số còn 'demo' in kèm dấu ⚠.",
+  "ky_ap_dung": "11/2026",
+  "nguon": "note-chot-muc-tieu-truc-page.md · bản demo-1",
+
+  "dinh_nghia": {
+    "sdt_tho": { "gia_tri": "hop_le_khong_trung", "trang_thai": "demo", "ghi_chu": "Bản xuất Caresoft đã che số thành [SĐT ẩn] nên code KHÔNG kiểm được đầu số. Xem TP-03 §3." },
+    "sdt_kh_cu": { "gia_tri": "khong_tinh", "trang_thai": "demo", "ghi_chu": "⛔ Chưa có lịch sử 30 ngày để biết ai là khách cũ." },
+    "quoc_te_ra_so_khi": { "gia_tri": ["SDT", "ZALO", "WHATSAPP"], "trang_thai": "demo" },
+    "inbox_nhan": { "gia_tri": "kh_nhan_it_nhat_1_tin", "trang_thai": "demo" },
+    "moc_24_48h_tinh_tu": { "gia_tri": "tin_dau_tien_cua_kh", "trang_thai": "demo" },
+    "gio_truc": { "gia_tri": "08:30-22:00", "trang_thai": "demo", "ghi_chu": "⚠ Ba con số đang xung đột: phương án ghi 08:00–21:30 · note ghi 08–22h · bản xuất Caresoft gắn cờ 'ngoài giờ' theo 08:30–22:00. tp.py dùng 08:30–22:00 để KHỚP với cờ của Caresoft. Chốt lại thì đổi ở đây." },
+    "so_cong_bang": { "gia_tri": true, "trang_thai": "demo", "ghi_chu": "Mẫu số CR24/CR48 chỉ gồm inbox đã đủ 24h/48h tính từ tin đầu của KH." },
+    "phien_chat_ket_thuc_sau_phut": { "gia_tri": 30, "trang_thai": "demo" },
+    "tin_bot_tinh_vao_sla": { "gia_tri": false, "trang_thai": "demo" },
+    "tin_sticker_tinh": { "gia_tri": false, "trang_thai": "demo", "ghi_chu": "Bản xuất gộp thành [Hình ảnh/Video/Đính kèm], ⛔ không tách được sticker." },
+    "do_bang": { "gia_tri": "trung_vi_va_p75", "trang_thai": "demo" },
+    "thoi_gian_tinh_theo": { "gia_tri": "gio_thuc", "trang_thai": "demo" }
+  },
+
+  "tong": {
+    "inbox_ngay": { "gia_tri": 560, "trang_thai": "demo" },
+    "sdt_ngay": { "gia_tri": 180, "trang_thai": "demo" },
+    "sdt_7ngay": { "gia_tri": 1260, "trang_thai": "demo" },
+    "cr24": { "gia_tri": 0.32, "trang_thai": "demo" },
+    "cr48": { "gia_tri": 0.37, "trang_thai": "demo" },
+    "chi_phi_tren_sdt": { "gia_tri": 285000, "trang_thai": "demo", "ghi_chu": "⛔ Không tính được: bản xuất hội thoại KHÔNG có số chi quảng cáo." },
+    "moc_13h_phan_tram_ngay": { "gia_tri": 0.38, "trang_thai": "demo" }
+  },
+
+  "nhiet": {
+    "_doc": "Ngưỡng của hai thang nhiệt do code chạy. ⚠ Hiệu chỉnh lại sau 2 tuần (phương án §5). Ngưỡng nhiet_loc hiện lấy theo ĐỘ PHÂN BIỆT đo được trên kỳ 03–05/11/2026: CR thô theo số tín hiệu = 14,9% (0) · 25,3% (1) · 31,0% (2) · 55,0% (3).",
+    "kf60_hot_tu": 4,
+    "kf60_warm_tu": 2,
+    "loc_hot_tu": 2,
+    "loc_warm_tu": 1,
+    "trang_thai": "demo"
+  },
+
+  "rag": {
+    "dat": { "gia_tri": 1.0, "trang_thai": "demo" },
+    "canh_bao": { "gia_tri": 0.85, "trang_thai": "demo" },
+    "giam_so_cung_ky_bao_do": { "gia_tri": 0.10, "trang_thai": "demo" },
+    "inbox_tang_sdt_khong_tang": { "gia_tri": 0.15, "trang_thai": "demo" },
+    "chi_phi_sdt_tang_bao_ads": { "gia_tri": 0.15, "trang_thai": "demo" },
+    "o_mau_nho_duoi": { "gia_tri": 30, "trang_thai": "demo" }
+  },
+
+  "dich_vu": {
+    "HAM_MAT":    { "ten": "Hàm mặt",       "gia_tri_don": "cao",    "inbox_ngay": 80,  "cr24": 0.25, "cr48": 0.32, "trang_thai": "demo" },
+    "MAT":        { "ten": "Mắt",            "gia_tri_don": "thuong", "inbox_ngay": 140, "cr24": 0.35, "cr48": 0.40, "trang_thai": "demo" },
+    "MUI":        { "ten": "Mũi",            "gia_tri_don": "thuong", "inbox_ngay": 120, "cr24": 0.33, "cr48": 0.38, "trang_thai": "demo" },
+    "NGUC":       { "ten": "Ngực",           "gia_tri_don": "cao",    "inbox_ngay": 70,  "cr24": 0.28, "cr48": 0.34, "trang_thai": "demo" },
+    "BODY":       { "ten": "Body / Hút mỡ",  "gia_tri_don": "thuong", "inbox_ngay": 90,  "cr24": 0.30, "cr48": 0.36, "trang_thai": "demo" },
+    "DA_TRE_HOA": { "ten": "Da / Trẻ hóa",   "gia_tri_don": "thuong", "inbox_ngay": 60,  "cr24": 0.40, "cr48": 0.44, "trang_thai": "demo" },
+    "KHAC":       { "ten": "Khác (⚠ chưa có trong danh sách chốt)", "gia_tri_don": null, "inbox_ngay": null, "cr24": null, "cr48": null, "trang_thai": "chua_co" },
+    "KHONG_XAC_DINH": { "ten": "Chưa xếp được dịch vụ", "gia_tri_don": null, "inbox_ngay": null, "cr24": null, "cr48": null, "trang_thai": "chua_co" }
+  },
+
+  "thi_truong": {
+    "HA_NOI":     { "ten": "Miền Bắc",  "inbox_ngay": 250, "cr24": 0.33, "sdt_ngay": 83, "trang_thai": "demo" },
+    "HO_CHI_MINH":{ "ten": "Miền Nam",  "inbox_ngay": 250, "cr24": 0.34, "sdt_ngay": 85, "trang_thai": "demo" },
+    "QUOC_TE":    { "ten": "Quốc tế",   "inbox_ngay": 60,  "cr24": 0.20, "sdt_ngay": 12, "trang_thai": "demo" },
+    "KHONG_XAC_DINH": { "ten": "Chưa xác định", "inbox_ngay": null, "cr24": null, "sdt_ngay": null, "trang_thai": "chua_co" }
+  },
+
+  "khung_gio_note": {
+    "_doc": "Bộ khung giờ của note §5 — tp.py dùng mặc định (--khung note).",
+    "00-06": { "phan_tram_inbox": 0.08, "sdt_1h": 0.08, "sdt_24h": 0.20, "sdt_48h": 0.26, "trang_thai": "demo" },
+    "06-09": { "phan_tram_inbox": 0.09, "sdt_1h": 0.15, "sdt_24h": 0.28, "sdt_48h": 0.34, "trang_thai": "demo" },
+    "09-12": { "phan_tram_inbox": 0.16, "sdt_1h": 0.20, "sdt_24h": 0.35, "sdt_48h": 0.40, "trang_thai": "demo" },
+    "12-14": { "phan_tram_inbox": 0.11, "sdt_1h": 0.18, "sdt_24h": 0.31, "sdt_48h": 0.36, "trang_thai": "demo" },
+    "14-18": { "phan_tram_inbox": 0.18, "sdt_1h": 0.20, "sdt_24h": 0.34, "sdt_48h": 0.39, "trang_thai": "demo" },
+    "18-22": { "phan_tram_inbox": 0.28, "sdt_1h": 0.22, "sdt_24h": 0.36, "sdt_48h": 0.42, "trang_thai": "demo" },
+    "22-24": { "phan_tram_inbox": 0.10, "sdt_1h": 0.14, "sdt_24h": 0.27, "sdt_48h": 0.33, "trang_thai": "demo" }
+  },
+
+  "hanh_trinh": {
+    "tin_2_chieu_den_sdt_trung_vi": { "gia_tri": 8,  "p75": 14, "trang_thai": "demo" },
+    "phut_den_sdt_trung_vi":        { "gia_tri": 20, "p75": 60, "trang_thai": "demo" },
+    "tin_nv_den_sdt_trung_vi":      { "gia_tri": 4,  "trang_thai": "demo" },
+    "phut_den_xin_so_dau_trung_vi": { "gia_tri": 5,  "trang_thai": "demo" },
+    "so_lan_xin_den_khi_cho_so":    { "gia_tri": 2,  "trang_thai": "demo" },
+    "phien_dai_chua_xin_so_phut":   { "gia_tri": 15, "trang_thai": "demo" },
+    "kh_phan_hoi_sau_tin_nv_dau":   { "gia_tri": 0.70, "trang_thai": "demo" },
+    "hoi_thoai_mot_chieu":          { "gia_tri": 0.15, "trang_thai": "demo" }
+  },
+
+  "sla": {
+    "phan_hoi_dau_trong_gio_phut":      { "gia_tri": 2,    "trang_thai": "demo" },
+    "ty_le_phan_hoi_dau_duoi_5p":       { "gia_tri": 0.90, "trang_thai": "demo" },
+    "phan_hoi_dau_ngoai_gio_phut":      { "gia_tri": 15,   "trang_thai": "demo" },
+    "phan_hoi_giua_hoi_thoai_phut":     { "gia_tri": 3,    "trang_thai": "demo" },
+    "hoi_thoai_bo_sot":                 { "gia_tri": 0.02, "trang_thai": "demo", "ghi_chu": "> 30 phút chưa trả lời" },
+    "xin_so_truoc_tin_nv_thu_5":        { "gia_tri": 0.80, "trang_thai": "demo" },
+    "so_lan_xin_o_ht_chua_ra_so":       { "gia_tri": 2,    "trang_thai": "demo" },
+    "ty_le_sdt_hop_le":                 { "gia_tri": 0.92, "trang_thai": "demo", "ghi_chu": "⛔ Không đo được — số đã bị che." },
+    "cham_lai_trong_24h":               { "gia_tri": 0.95, "trang_thai": "demo" },
+    "cham_lai_lan_2_trong_48h":         { "gia_tri": 0.80, "trang_thai": "demo" },
+    "inbox_cu_3_30_ngay_ra_sdt":        { "gia_tri": 0.08, "trang_thai": "demo", "ghi_chu": "⛔ Không đo được — chưa có lịch sử 30 ngày." },
+    "tu_choi_nhung_van_ra_sdt":         { "gia_tri": 0.25, "trang_thai": "demo" }
+  },
+
+  "qc": {
+    "diem_tuan_thu_kich_ban": { "gia_tri": 80, "trang_thai": "demo" },
+    "diem_xu_ly_tu_choi":     { "gia_tri": 75, "trang_thai": "demo" },
+    "loi_nghiem_trong":       { "gia_tri": 0,  "trang_thai": "demo" },
+    "inbox_rac":              { "gia_tri": 0.10, "trang_thai": "demo" }
+  },
+
+  "xep_hang": {
+    "_doc": "⚠ Hai bộ trọng số đang xung đột: phương án §7.1 (50 CEI / 20 SLA / 20 rubric / 10 cứu được) và note §9 (50 SĐT / 20 SLA / 20 QC / 10 chăm sóc). tp.py dùng bộ note vì note là văn bản chốt.",
+    "trong_so": { "chi_so_sdt": 0.50, "sla": 0.20, "qc": 0.20, "cham_soc": 0.10 },
+    "nguong": { "A": 90, "B": 75, "C": 0 },
+    "nguong_phuong_an": { "A": 75, "B": 55, "C": 0 },
+    "theo": "diem_tuyet_doi",
+    "trang_thai": "demo",
+    "mau_toi_thieu_moi_nv": 10
+  },
+
+  "tran_tai": {
+    "A": { "gia_tri": 80, "trang_thai": "demo" },
+    "B": { "gia_tri": 65, "trang_thai": "demo" },
+    "C": { "gia_tri": 50, "trang_thai": "demo" },
+    "C_nhan_gia_tri_cao_toi_da": { "gia_tri": 0.20, "trang_thai": "demo" },
+    "vuot_tran_canh_bao": { "gia_tri": 0.10, "trang_thai": "demo" }
+  }
+}
