@@ -1,5 +1,10 @@
 # 01 · Cài đặt
 
+> 📘 **Trang hướng dẫn có nút Copy từng file:** https://claude.ai/artifact/GfkDRraeVwVoRtrSVcrvtj
+> Người mới vào khối thì mở trang đó trước — nó có sẵn 2 thẻ bộ não, 7 sổ tri thức và 26 prompt mẫu,
+> bấm Copy là dán được ngay, không cần tải repo.
+> Sinh lại trang: `python tools/trang-huong-dan.py` → `tools/huong-dan.html`.
+
 ## 1 · Yêu cầu
 
 - **Python 3.9+** — chỉ dùng thư viện chuẩn, ⛔ không cần `pip install` gì.
@@ -26,6 +31,8 @@ Agent-QCQA-TrucPage-Kangnam/
 │  └─ master-nv.json         ← 🔴 bản thật, CÓ TÊN NHÂN VIÊN, ⛔ không commit
 ├─ du-lieu/                  ← ⛔ không commit. Bỏ bản xuất Caresoft vào đây
 ├─ out/                      ← ⛔ không commit. Kết quả chạy
+│  ├─ trang-huong-dan.py     ← sinh trang hướng dẫn + prompt mẫu (nhúng thật nội dung file)
+│  └─ huong-dan.html         ← trang đã sinh; publish file này làm artifact
 ├─ template/MAU_hoi-thoai.md ← khuôn bản xuất, để đối chiếu khi Caresoft đổi cú pháp
 └─ doc/                      ← tài liệu + hai file nguồn (phương án, note chốt mục tiêu)
 ```

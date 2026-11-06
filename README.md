@@ -9,6 +9,12 @@
 
 `v1.0` · 06/11/2026 · Claude / ChatGPT / Gemini / Claude Code
 
+### 📘 [**Hướng dẫn cài đặt & 26 prompt mẫu →**](https://claude.ai/artifact/GfkDRraeVwVoRtrSVcrvtj)
+
+> Trang hướng dẫn có **nút Copy từng file**: 2 thẻ bộ não · 7 sổ tri thức · 5 prompt mẫu dạng file · 26 prompt mẫu lọc theo lệnh · 5 luật người đọc báo cáo phải biết · 9 khoản đang chặn.
+> Người mới vào khối thì **mở trang này trước, đừng đọc README**.
+> Sinh lại bằng `python tools/trang-huong-dan.py` — nội dung các file nhúng thật từ repo nên sửa sổ tri thức rồi chạy lại là trang tự khớp.
+
 ---
 
 ## Bài toán
@@ -168,6 +174,106 @@ Hai khoản **không mở được bằng dữ liệu**, phải đổi cách xu�
 | Gộp 4 nguồn telesale | `Agent-TongHopBaoCao-Telesale` |
 
 ⚠ Khác `Agent-InsightDashboard-Kangnam` ở **nhịp** và **đơn vị việc**: agent kia đọc theo kỳ 7 ngày và ra chân dung + hook. Agent này chạy **2 lần/ngày** và ra **một bảng việc có mã hội thoại, có hạn giờ**.
+
+---
+
+## 📊 Ba mẫu báo cáo đã dựng
+
+Cả hai chạy trên cùng một bản xuất `du-lieu/Bệnh viện thẩm mỹ Kangnam_20261103-20261105.txt`
+(2.087 hội thoại đọc được · 2.086 hợp lệ · kỳ 03–05/11/2026).
+Khác nhau ở **bộ tiêu chí** và **người đọc chính**, không phải ở dữ liệu.
+
+| | Mẫu 1 · Trực page QC/QA | Mẫu 2 · Sức khoẻ team |
+|---|---|---|
+| Link | [claude.ai/artifact/5LTvbByV2SUN5TwGwAT5yX](https://claude.ai/artifact/5LTvbByV2SUN5TwGwAT5yX) | [claude.ai/artifact/SUfxsHxkvTjxYYCtdAzneG](https://claude.ai/artifact/SUfxsHxkvTjxYYCtdAzneG) |
+| Mẫu 3 | [claude.ai/artifact/NjRqQFQ1XYZwLNcrg8k1JD](https://claude.ai/artifact/NjRqQFQ1XYZwLNcrg8k1JD) — bám sát biểu mẫu đối tác, có thanh lọc 14 lát cắt ||
+| Người đọc chính | QL trực page, dùng hằng ngày | Trưởng nhóm / BGĐ, đọc theo kỳ |
+| Bộ tiêu chí | 11 tiêu chí (Q1–Q11) | **8 tiêu chí (Q1–Q8)** |
+| Mẫu số chính | inbox hợp lệ (2.086) | **inbox mới** (1.977, đã trừ 109 khách cũ) |
+| SLA | FRT tin đầu, khung 08:30–22:00 | **SLA lần đầu + SLA toàn hội thoại**, khung 08:15–21:30 |
+| Xếp hạng | CEI24, không chia A/B/C | **A/B/C tính lại từ dữ liệu kỳ** |
+| Lọc | theo dịch vụ, 9 lát cắt | 5 lát cắt trong tab, không lọc toàn trang |
+| Lưu trạng thái | có — đánh dấu việc đã xử lý, form kiến nghị | không |
+| Thiết kế | hệ riêng, có chế độ tối | theo biểu mẫu đối tác, Be Vietnam Pro, một chế độ sáng |
+
+### Mẫu 1 — 7 tab
+`Việc cần làm` · `Thẻ điểm của tôi` · `Cả đội` · `Chẩn đoán` · `Kịch bản` · `Kiến nghị QC/QA` · `Cách tính & luật`
+
+Q1–Q7 máy đếm, Q8–Q11 AI chấm trên mẫu đã đọc.
+Bộ lọc Dịch vụ tính lại thật 9 lát cắt; CEI và điểm AI giữ ở mức toàn kỳ vì cắt tiếp sẽ hết mẫu.
+Dùng capability `db` + `user`: trạng thái việc dùng chung giữa mọi người mở link, mục Kiến nghị
+giới hạn ở quyền Editor.
+
+### Mẫu 2 — 5 tab
+`Sức khoẻ team` · `Thẻ điểm nhân viên` · `Kịch bản` · `Việc cần làm` · `Cách tính & luật`
+
+| Mã | Tiêu chí | Mục tiêu | Đo bằng |
+|---|---|---|---|
+| Q1 | Tỉ lệ xin số | ≥ 32% | Máy · SĐT thô ÷ inbox mới phát sinh trong kỳ |
+| Q2 | Ra số trong 6h | ≥ 24% | Máy · tính từ tin đầu của khách |
+| Q3 | Ra số trong 24h | ≥ 32% | Máy |
+| Q4 | Ra số trong 48h | ≥ 37% | Máy |
+| Q5 | SLA toàn hội thoại ≤ 5 phút | ≥ 85% | Máy · mọi lượt khách chờ, khung 08:15–21:30 |
+| Q6 | Xử lí từ chối | ≥ 1,5/2 | AI · trên mẫu hội thoại đã đọc |
+| Q7 | Tuân thủ kịch bản | ≥ 1,5/2 | AI |
+| Q8 | Tuân thủ quy trình | ≥ 80 | Máy · chạm lại · xin ≥ 2 lần · không treo |
+
+**Điểm tổng = tỉ lệ so với trung bình đội** (đội = 100):
+Q1 30% · Q3 15% · Q5 20% · Q8 15% · Q6 10% · Q7 10%.
+Hạng **A ≥ 110 · B 92–109 · C < 92**. Ô dưới 20 hội thoại để trống và bị loại khỏi điểm tổng.
+
+**Thị trường** (6 nhóm): Hà Nội · Hồ Chí Minh · Các tỉnh khác · Việt kiều · Quốc tế · Chưa xác định.
+Suy từ lời khách vì bản xuất không có trường này — độ phủ 21%, chỉ dùng để chia kịch bản,
+⛔ không dùng để so hiệu quả.
+
+
+### Mẫu 3 — Truy soát trực page (bám sát biểu mẫu đối tác)
+
+[claude.ai/artifact/NjRqQFQ1XYZwLNcrg8k1JD](https://claude.ai/artifact/NjRqQFQ1XYZwLNcrg8k1JD) · 6 tab,
+cùng bộ Q1–Q8 với mẫu 2 nhưng dựng đúng bố cục biểu mẫu:
+
+- **Thanh lọc toàn cục**: Kỳ truy soát · So với kỳ · Page · Khối · Dịch vụ · Thị trường.
+  Bốn ô đầu khoá kèm tooltip vì chưa có dữ liệu; Dịch vụ và Thị trường lọc thật, **một chiều**
+  (chọn chiều này thì chiều kia về Tất cả).
+- **14 lát cắt tính riêng** ([tools/v2slices.py](tools/v2slices.py)) — mỗi lát có đủ KPI đội, ma trận
+  nhân viên, xếp hạng, diễn biến theo ngày, SLA theo ngày, tương quan FRT. ⛔ Không chia tỉ lệ từ số tổng.
+- **Tab Sức khoẻ team đủ 8 khối** như biểu mẫu: Chỉ số toàn đội · Ma trận NV × Q1–Q8 (bấm dòng mở thẻ
+  điểm) · Nhận xét nhanh · Diễn biến · SLA theo ngày + theo dịch vụ · Vì sao mất số · Mẫu tin dán chung
+  chứa từ cấm · Tương quan FRT và số người cùng trả lời.
+
+**Hai định nghĩa sửa lại cho khớp biểu mẫu** (khác mẫu 2):
+
+| | Mẫu 2 | Mẫu 3 |
+|---|---|---|
+| Q5 trên ô KPI | 73,8% — tỉ lệ **hội thoại** giữ mọi lượt ≤ 5p | **13,7 phút TB · 90,6% lượt ≤ 5p** trên 4.806 lượt |
+| % tin nhắn 1 chạm | 10,3% — **nhân viên** chỉ gửi 1 tin | **36,6% — khách** chỉ nhắn ≤ 1 tin rồi im |
+
+Ô KPI có mũi tên ▲▼ so **mục tiêu** (chưa có kỳ trước để so kỳ).
+Ba khối tính trên toàn kỳ và ghi rõ trên trang: *Vì sao mất số* · *Mẫu tin dán chung* · *Câu hỏi giá*.
+
+```bash
+python tools/v2calc.py    # thêm SLA theo lượt + cờ khách nhắn ≤1 tin
+python tools/v2slices.py  # → v2slices.json: 14 lát cắt đầy đủ
+python tools/v2extra.py   # → v2extra.json: mẫu tin từ cấm, câu hỏi giá
+```
+
+### Script sinh số
+```bash
+python tools/v2calc.py   # đọc file gốc → v2rows.json: SLA khung mới, khách cũ, thị trường
+python tools/v2agg.py    # → v2.json: Q1-Q8 theo người · dịch vụ · thị trường · khung giờ · ngày
+```
+
+### Kết quả kỳ 03–05/11/2026 (bộ Q mới)
+```
+inbox mới 1.977 (trừ 109 khách cũ) · Q1 21,5% · Q2 19,0% · Q3 21,8% · Q4 25,3%
+Q5 SLA toàn hội thoại 73,8% (tin đầu 80,1% · ngưỡng 2 phút 50,4%) · Q8 64,5 · một chạm 10,3%
+hạng: A 2 người · B 9 · C 6
+```
+
+**Ba điều chỉ lộ ra ở bộ Q mới:**
+1. SLA tụt từ 80,1% xuống 73,8% khi tính cả hội thoại thay vì chỉ tin đầu — chỗ rơi nằm ở *giữa*.
+2. Nhóm C không chậm: `NV-202194914` SLA 88,5% mà Q1 chỉ 13,1%. Lỗi nằm ở kịch bản, không ở tốc độ.
+3. Hàm mặt có SLA cao nhất (80,3%) mà Q1 thấp nhất (17,8%) — dịch vụ giá trị cao đang rơi ở bước chốt.
 
 ---
 

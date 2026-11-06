@@ -1,0 +1,437 @@
+<header class="top">
+  <div class="wrap" style="padding-block:40px 34px">
+    <p class="eyebrow">Hướng dẫn cài đặt &amp; prompt mẫu</p>
+    <h1>Agent-QCQA-TrucPage-Kangnam</h1>
+    <p class="lede">Agent QC/QA trực page <b>hằng ngày</b> của Bệnh viện Thẩm mỹ Kangnam.
+      Mỗi ngày hai lần, đọc bộ số <b>do code tính 100%</b> cộng một mẫu hội thoại <b>do code chọn</b>,
+      để trả lời ba câu: <b>hôm nay rò SĐT ở đâu · vì sao rò · ai phải làm gì trước 10h</b>.
+      Cài xong trong <b>~15 phút</b>.</p>
+    <div class="chips">
+      <span class="chip on">v1.0</span>
+      <span class="chip">7 sổ tri thức</span>
+      <span class="chip">__N_PROMPT__ prompt mẫu</span>
+      <span class="chip">5 lệnh script</span>
+      <span class="chip">Claude · ChatGPT · Gemini</span>
+    </div>
+    <p class="dim" style="margin-top:16px">Đã kiểm chứng trên <b>2.087 hội thoại thật</b> (03–05/11/2026).
+      Chỉ số gốc: <b>CR48</b> = SĐT thô trong 48h ÷ inbox đã đủ 48h. Không tối ưu số lượng báo cáo.</p>
+  </div>
+</header>
+
+<nav class="bar">
+  <div class="wrap">
+    <a href="#cai-dat">1 · Cài đặt</a>
+    <a href="#chay">2 · Chạy script</a>
+    <a href="#lenh">3 · Bảy lệnh</a>
+    <a href="#prompt">4 · Prompt mẫu</a>
+    <a href="#luat">5 · Luật phải biết</a>
+    <a href="#chan">6 · Đang chặn</a>
+  </div>
+</nav>
+
+<main>
+
+<section id="cai-dat" class="wrap">
+  <div class="sec-h">
+    <span class="pre">Mục 1</span>
+    <h2>Cài đặt theo nền tảng</h2>
+    <span class="bar"></span>
+    <p>Agent là <b>prompt + tri thức + một script Python</b>, không phải phần mềm. Không cài gì lên máy
+      ngoài Python 3.9 trở lên.</p>
+  </div>
+
+  <div class="steps3">
+    <div><b><span class="n">1</span>Lấy bộ file</b><span>Tải ZIP rồi giải nén. Không tải được thì bấm Copy từng file ở dưới.</span></div>
+    <div><b><span class="n">2</span>Tạo project + dán bộ não</b><span>Thẻ A cho Claude/Gemini, Thẻ B cho ChatGPT, Thẻ C khi nền tảng chặn upload nhiều file.</span></div>
+    <div><b><span class="n">3</span>Upload 7 sổ tri thức</b><span>Thiếu sổ nào thì agent đoán chỗ đó — và không báo lỗi.</span></div>
+  </div>
+
+  <div class="dl">
+    <h3>Tải bộ file</h3>
+    <p>Toàn bộ repo: 2 thẻ bộ não · 7 sổ tri thức · <code>tools/tp.py</code> · từ điển · bảng mục tiêu · 5 prompt mẫu · tài liệu.</p>
+    <a class="dl-btn" href="__REPO__/archive/refs/heads/main.zip">⬇ Tải ZIP</a>
+    <p style="margin-top:12px;font-size:13px;color:var(--ink-3)">Giải nén bằng <b>Extract All</b> — đừng kéo file trực tiếp từ cửa sổ ZIP.
+      Thư mục cần upload nằm ở <code>Agent-QCQA-TrucPage-Kangnam-main/knowledge/</code>.<br>
+      Xem repo: <a href="__REPO__" target="_blank" rel="noopener">github.com/huudinh/Agent-QCQA-TrucPage-Kangnam</a></p>
+  </div>
+
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" aria-selected="true" data-panel="p-claude">Claude Project</button>
+    <button class="tab" role="tab" aria-selected="false" data-panel="p-gpt">ChatGPT Custom GPT</button>
+    <button class="tab" role="tab" aria-selected="false" data-panel="p-gemini">Gemini Gems</button>
+  </div>
+
+  <div class="card" id="p-claude" role="tabpanel">
+    <h3>Claude Project — khuyến nghị</h3>
+    <p class="dim" style="margin-bottom:12px">Ô instructions không giới hạn ký tự nên dùng được bộ não đầy đủ.</p>
+    <ol class="steps">
+      <li><b>Projects</b> → <b>Create project</b> → đặt tên <code>KANGNAM TPQ – Trực Page QC/QA</code>.</li>
+      <li><b>Set project instructions</b> → dán <b>Thẻ A</b>.</li>
+      <li><b>Add content</b> → upload <b>đủ 7 sổ</b> trong <code>knowledge/</code>.</li>
+      <li>⛔ <b>Không</b> upload bản xuất Caresoft gốc. Mỗi lần chạy mới đính kèm 3 file trong <code>out/&lt;ky&gt;/</code>.</li>
+      <li>Mở chat mới → gõ prompt <b>số 01</b> ở Mục 4 để kiểm agent đã nạp đủ sổ.</li>
+    </ol>
+    <p class="dim" style="margin-top:12px">Dùng Claude Code / VS Code: mở thư mục <code>Agent-QCQA-TrucPage-Kangnam/</code> rồi nói
+      <i>&ldquo;Đọc SYSTEM-PROMPT.md và toàn bộ knowledge/, sau đó hành xử đúng như Agent-QCQA-TrucPage-Kangnam&rdquo;</i>.</p>
+  </div>
+
+  <div class="card" id="p-gpt" role="tabpanel" hidden>
+    <h3>ChatGPT Custom GPT</h3>
+    <p class="dim" style="margin-bottom:12px">Ô Instructions giới hạn <b>8.000 ký tự</b> → bắt buộc dùng Thẻ B.</p>
+    <ol class="steps">
+      <li><b>Explore GPTs</b> → <b>Create</b> → tab <b>Configure</b>.</li>
+      <li>Name: <code>Trực Page QC/QA Kangnam</code>.</li>
+      <li>Instructions → dán <b>Thẻ B</b>.</li>
+      <li>Knowledge → upload <b>đủ 7 sổ</b> trong <code>knowledge/</code>.</li>
+      <li>⛔ Tắt Web Browsing — agent này không cần tra web, mọi số đến từ file.</li>
+    </ol>
+    <div class="note warn" style="margin-top:14px">
+      <b>Thẻ B đã cắt</b> phần giải thích của 12 luật, bảng &ldquo;khi thiếu dữ liệu&rdquo; chi tiết và
+      khuôn báo cáo. Chúng vẫn nằm trong <code>TP-01</code> và <code>TP-06</code> —
+      nên <b>bắt buộc</b> upload đủ 7 sổ, đừng chỉ dán Thẻ B.
+    </div>
+  </div>
+
+  <div class="card" id="p-gemini" role="tabpanel" hidden>
+    <h3>Gemini Gems</h3>
+    <ol class="steps">
+      <li><b>Gems</b> → <b>New Gem</b> → tên <code>Trực Page QC/QA Kangnam</code>.</li>
+      <li>Instructions → dán <b>Thẻ A</b>.</li>
+      <li>Knowledge → upload <b>đủ 7 sổ</b>. Gem nào chặn nhiều file thì dán <b>Thẻ C</b>.</li>
+    </ol>
+    <div class="note" style="margin-top:14px">
+      Gemini hay <b>tự làm tròn và tự tính lại</b> con số trong file. Nếu thấy một con số không khớp
+      <code>bao-cao.md</code>, dán lại luật ② của <code>TP-01 §7</code>:
+      <i>&ldquo;code đếm, AI đọc — không nêu số không có trong so.json&rdquo;</i>.
+    </div>
+  </div>
+
+  <h3 style="font-size:16px;font-weight:800;color:var(--primary-ink);margin:28px 0 12px">Ba thẻ dán sẵn</h3>
+  <div class="grid g3">
+__CC__
+  </div>
+
+  <h3 style="font-size:16px;font-weight:800;color:var(--primary-ink);margin:28px 0 8px">Bảy sổ cần nạp</h3>
+  <p class="dim" style="margin:0 0 13px">Có ZIP rồi thì upload thẳng từ thư mục <code>knowledge/</code>.
+    <b>Không tải được ZIP</b> thì bấm Copy từng sổ, dán vào một file <code>.md</code> trên máy rồi upload.
+    Thứ tự dưới đây là thứ tự agent đọc: vai trò → chỉ số → dữ liệu → master data → rubric → mẫu báo cáo → thư viện câu.</p>
+  <div class="note" style="margin:0 0 13px">
+    <b>Thiếu một sổ thì agent không báo lỗi</b> — nó đoán chỗ đó rồi trả lời như thường.
+    Đó là lý do phải upload <b>đủ 7</b>, kể cả <code>TP-04</code> đang trống và <code>TP-07</code> chưa có câu nào được duyệt:
+    hai sổ đó cho agent biết nó đang <b>thiếu</b> gì, để nó nói ra thay vì bịa.
+  </div>
+__FILES_KNOW__
+
+  <h3 style="font-size:16px;font-weight:800;color:var(--primary-ink);margin:28px 0 8px">Năm prompt mẫu dạng file</h3>
+  <p class="dim" style="margin:0 0 13px">⛔ <b>Không upload</b> mấy file này. Đây là prompt để <b>gõ vào chat</b>,
+    không phải tri thức — upload chúng làm knowledge file sẽ khiến agent coi prompt là luật.</p>
+__FILES_PR__
+</section>
+
+<section id="chay" class="wrap">
+  <div class="sec-h">
+    <span class="pre">Mục 2</span>
+    <h2>Chạy script trước, gọi agent sau</h2>
+    <span class="bar"></span>
+    <p>Số liệu do <b>code</b> tính 100%. Agent chỉ đọc. Mỗi ngày có hàng trăm đến hàng nghìn hội thoại —
+      để AI đếm thì nó sai, và mỗi ngày sai một kiểu, không so kỳ được.</p>
+  </div>
+
+  <div class="note stop">
+    <b>⛔ Đừng đưa bản xuất Caresoft gốc cho agent đọc.</b> Hai lý do:
+    ① AI đếm 2.000 hội thoại sẽ sai · ② bản gốc còn <b>21 tên khách thật lọt qua bộ che</b>
+    ở dòng <code>**HT:** &lt;tên&gt; đã trả lời một quảng cáo</code>. Đưa <code>out/&lt;ky&gt;/mau-ai.md</code> —
+    file này do code chọn mẫu và đã bỏ trường đó.
+  </div>
+
+  <h3 style="font-size:16px;font-weight:800;color:var(--primary-ink);margin:24px 0 10px">Năm lệnh, chạy đúng thứ tự</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Lệnh</th><th>Lớp</th><th>Ra file gì</th><th>Ai đọc</th></tr></thead>
+      <tbody>
+        <tr><td><code>tp.py kiem &lt;file&gt;</code></td><td>L0</td><td>phiếu chất lượng dữ liệu · <b>3 ngưỡng DỪNG</b></td><td>bạn</td></tr>
+        <tr><td><code>tp.py tinh &lt;file&gt;</code></td><td>L1</td><td><code>ht.csv</code> (75 cột) · <code>so.json</code> · <code>lich-su.csv</code></td><td>code</td></tr>
+        <tr class="hl"><td><code>tp.py bao-cao --ky &lt;ky&gt;</code></td><td>L1</td><td><code>bao-cao.md</code> — 10 mục bảng số</td><td><b>agent</b></td></tr>
+        <tr class="hl"><td><code>tp.py viec &lt;file&gt; --ngay dd/mm</code></td><td>L4</td><td><code>viec-&lt;ddmm&gt;.csv</code> — hàng chờ <code>P0</code>–<code>P6</code></td><td><b>agent</b> · QL</td></tr>
+        <tr class="hl"><td><code>tp.py mau &lt;file&gt; --n 120</code></td><td>L2</td><td><code>mau-ai.md</code> — mẫu phân tầng, có nguyên văn</td><td><b>agent</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note warn" style="margin-top:14px">
+    <b>Windows hiện dấu <code>?</code> thay tiếng Việt?</b> Chạy <code>set PYTHONIOENCODING=utf-8</code>
+    (cmd) hoặc <code>$env:PYTHONIOENCODING="utf-8"</code> (PowerShell) trước.
+  </div>
+
+  <h3 style="font-size:16px;font-weight:800;color:var(--primary-ink);margin:26px 0 10px">Nhịp trong ngày</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Giờ</th><th>Việc</th><th>Ai</th></tr></thead>
+      <tbody>
+        <tr><td class="num">trước 8:15</td><td>Xuất toàn bộ tin D-1 từ Caresoft, bỏ vào <code>du-lieu/</code> đúng tên</td><td>QL / code</td></tr>
+        <tr class="hl"><td class="num">8:45</td><td>Chạy <code>kiem</code> → <code>tinh</code> → <code>bao-cao</code> → <code>viec</code> → <code>mau</code>, rồi gõ <b><code>NGÀY</code></b></td><td>hệ</td></tr>
+        <tr><td class="num">9:00</td><td>QL giao việc, họp đầu ca 10 phút — <b>1 vấn đề + 1 câu mẫu của ngày</b></td><td>QL trực page</td></tr>
+        <tr><td class="num">trước 13:05</td><td>Xuất tin từ 0h đến 13:00 hôm nay</td><td>QL / code</td></tr>
+        <tr class="hl"><td class="num">13:30</td><td>Gõ <b><code>TRƯA</code></b> — cứu Hot/Warm trước khi hết cửa sổ 24h</td><td>hệ</td></tr>
+        <tr><td class="num">17:00</td><td>QL chốt cột <b>Kết quả</b> trên Google Sheet, bàn giao ca tối</td><td>QL trực page</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="dim" style="margin-top:11px">Cột <b>Kết quả</b> là thứ duy nhất cho biết câu gợi ý nào thật sự cứu được số.
+    Không điền cột đó thì ⛔ không tính được <i>tỷ lệ cứu được</i>, và ⛔ không chạy được điểm tuần thang 100.</p>
+</section>
+
+<section id="lenh" class="wrap">
+  <div class="sec-h">
+    <span class="pre">Mục 3</span>
+    <h2>Bảy lệnh của agent</h2>
+    <span class="bar"></span>
+    <p>Gõ đúng từ khóa in đậm. Lệnh nào cũng mở đầu bằng <b>cỡ mẫu và kỳ</b>, và nói rõ số nào
+      <b>chốt</b>, số nào <b>tạm</b>.</p>
+  </div>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Lệnh</th><th>Khi nào</th><th>Cần kèm file nào</th><th>Prompt</th></tr></thead>
+      <tbody>
+        <tr><td><b>NGÀY</b> &lt;dd/mm&gt;</td><td>8:45</td><td><code>bao-cao.md</code> · <code>mau-ai.md</code> · <code>viec-&lt;ddmm&gt;.csv</code></td><td class="num">05–08</td></tr>
+        <tr><td><b>TRƯA</b> &lt;dd/mm&gt;</td><td>13:30</td><td><code>bao-cao.md</code> bản trưa · <code>viec</code> đã có cột Kết quả</td><td class="num">09–10</td></tr>
+        <tr><td><b>NV</b> &lt;mã&gt;</td><td>khi cần kèm cặp</td><td><code>bao-cao.md</code> · <code>ht.csv</code> · phần <code>mau-ai.md</code> của người đó</td><td class="num">11–13</td></tr>
+        <tr><td><b>TUẦN</b> &lt;từ&gt; → &lt;đến&gt;</td><td>thứ 2</td><td>thêm <code>lich-su.csv</code> · kết quả chấm rubric · <code>viec-*.csv</code></td><td class="num">14–16</td></tr>
+        <tr><td><b>COACH</b> &lt;nhóm|mã&gt;</td><td>sau <code>TUẦN</code></td><td>kết quả chấm rubric · <code>TP-07</code></td><td class="num">17–20</td></tr>
+        <tr><td><b>HT</b> &lt;mã&gt;</td><td>soi một hội thoại</td><td><code>mau-ai.md</code></td><td class="num">21–22</td></tr>
+        <tr><td><b>KIỂM</b></td><td>khi nghi dữ liệu lệch</td><td>phiếu chất lượng dữ liệu</td><td class="num">26</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid g2" style="margin-top:18px">
+    <div class="card">
+      <h3>Năm lớp — ai làm gì</h3>
+      <pre style="margin:0;font:400 12.2px/1.7 var(--mono);color:var(--ink-2);white-space:pre-wrap">L0 NẠP &amp; KIỂM      code
+L1 MÁY TÍNH SỐ     code
+────────────────────────────
+L2 CHẤM HỘI THOẠI  AGENT
+L3 CHẨN ĐOÁN       AGENT
+L4 DANH SÁCH VIỆC  code + AGENT
+L5 HỌC THEO TUẦN   AGENT</pre>
+      <p class="dim" style="margin:10px 0 0">Code xếp <code>P0</code>–<code>P6</code>; agent viết
+        <b>câu gợi ý nhắn tiếp</b>. Hai việc đó không đổi chỗ cho nhau.</p>
+    </div>
+    <div class="card">
+      <h3>Mức ưu tiên <code>P0</code>–<code>P6</code></h3>
+      <p class="dim" style="margin-bottom:9px">Code xếp sẵn trong <code>viec-&lt;ddmm&gt;.csv</code>.</p>
+      <ol class="steps" style="font-size:13.8px">
+        <li><b>P0</b> cảnh báo đỏ — ≤ 30 phút, QL chi nhánh + CSKH</li>
+        <li><b>P1</b> HOT chưa số, còn cửa sổ 24h — trước 10:00</li>
+        <li><b>P2</b> khách nhắn cuối, chưa ai trả &gt; 15 phút — ngay</li>
+        <li><b>P3</b> WARM chưa số, cửa sổ còn &lt; 6h</li>
+        <li><b>P4</b> đã từ chối, chưa thử cách xin thứ 2 — trong ca</li>
+        <li><b>P5</b> 🔴 chưa chạy được — thiếu tag bàn giao lead</li>
+        <li><b>P6</b> lạnh quá 24h → remarketing</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section id="prompt" class="wrap">
+  <div class="sec-h">
+    <span class="pre">Mục 4</span>
+    <h2>__N_PROMPT__ prompt mẫu</h2>
+    <span class="bar"></span>
+    <p>Copy nguyên, thay phần trong <code>&lt;...&gt;</code>, dán vào chat cùng các file mà Mục 3 yêu cầu.
+      Mỗi prompt đã gắn sẵn các câu <b>⛔ chặn</b> — đừng xóa, chúng là phần giữ cho agent không bịa số.</p>
+  </div>
+
+  <div class="qa-bar" role="group" aria-label="Lọc theo lệnh">
+__CHIPS_NHOM__
+  </div>
+
+__PROMPTS__
+</section>
+
+<section id="luat" class="wrap">
+  <div class="sec-h">
+    <span class="pre">Mục 5</span>
+    <h2>Năm luật người dùng phải biết</h2>
+    <span class="bar"></span>
+    <p>Agent có 12 luật bất biến trong <code>TP-01 §7</code>. Năm cái dưới đây là những cái mà
+      <b>người đọc báo cáo</b> cũng cần biết, nếu không sẽ đọc sai số.</p>
+  </div>
+
+  <div class="note stop">
+    <b>① Code đếm, AI đọc.</b> Thấy agent nêu một con số mà bạn không tìm được trong
+    <code>bao-cao.md</code> → con số đó <b>không tin được</b>. Hỏi lại:
+    <i>&ldquo;số này ở mục nào của bao-cao.md?&rdquo;</i>
+  </div>
+
+  <div class="note">
+    <b>② So công bằng.</b> Mẫu số CR24/CR48 chỉ gồm inbox <b>đã đủ</b> 24h/48h kể từ tin đầu của khách.
+    Nên trong một bản xuất 3 ngày, <b>CR48 chốt chỉ có cho đúng một ngày</b>. Inbox chưa đủ giờ hiện riêng
+    ở cột <i>đang chạy</i>, ⛔ không nhập vào tỷ lệ.
+  </div>
+
+  <div class="note">
+    <b>③ Chốt và tạm.</b> Báo cáo sáng ngày D: CR24 <b>chốt</b> cho inbox D-2 · CR48 <b>chốt</b> cho D-3
+    · inbox D-1 là <b>tạm</b>. ⛔ Không đánh giá nhân viên bằng số tạm — file 8:30 chỉ có tin đến hết D-1
+    nên inbox hôm qua chưa đủ 24h.
+  </div>
+
+  <div class="note warn">
+    <b>④ Lỗi hệ không trừ điểm người.</b> Ba thứ luôn vào mục 🔧 <i>việc hệ thống</i>:
+    inbox đến <b>ngoài giờ trực</b> · bỏ sót <b>vắt ca</b> (khách nhắn còn trong giờ, câu trả lời chỉ đến
+    sau khi ca đóng) · hội thoại <b>1 chiều</b> (khách nhắn 1 tin rồi im — đây là chỉ số của Ads).
+    Đo trên kỳ đầu: &ldquo;bỏ sót 15,0%&rdquo; nhìn như thảm họa, nhưng <b>157/313 là vắt ca</b> — phần quy được
+    cho người trực chỉ <b>5,3%</b>.
+  </div>
+
+  <div class="note ok">
+    <b>⑤ So người bằng CEI, không bằng tỷ lệ ra số thô.</b> Ai nhận inbox lạnh sẽ luôn thua ai nhận
+    inbox nóng. CEI = CR thực tế ÷ CR kỳ vọng, kỳ vọng tính theo từng ô <i>dịch vụ × nhiệt × khung giờ</i>.
+    Ví dụ thật của kỳ đầu: một mã NV có FRT <b>37 giây</b> và xin số ở <b>76,5%</b> hội thoại — cả hai
+    tốt hơn người đứng đầu — mà CEI24 chỉ <b>0,68</b>. Nghĩa là xin đúng giờ, xin nhiều, nhưng
+    <b>nội dung câu xin sai</b>.
+  </div>
+
+  <h3 style="font-size:16px;font-weight:800;color:var(--primary-ink);margin:28px 0 11px">Hai thang nhiệt — đừng lẫn</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Thang</th><th>Tín hiệu</th><th>Dùng để</th><th>HOT chưa số</th></tr></thead>
+      <tbody>
+        <tr><td><code>nhiet_code</code></td><td>5 tín hiệu KF-60, <b>có cả ③ đã cho SĐT</b> · HOT ≥ 4</td><td>so với các agent khác dùng KF-60</td><td class="num"><b>0</b> 🔴</td></tr>
+        <tr class="hl"><td><code>nhiet_loc</code> <span class="star">★</span></td><td>4 tín hiệu, <b>bỏ ③</b> · HOT ≥ 2</td><td>xếp <code>P1</code>/<code>P3</code> · chọn mẫu · làm ô cho CEI</td><td class="num"><b>156</b> ✅</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="dim" style="margin-top:11px">Tín hiệu ③ là <b>kết quả</b>, không phải tín hiệu quan tâm. Giữ nó trong phép tính
+    thì muốn HOT (≥ 4/5) mà chưa có số là phải đủ <b>cả 4 tín hiệu còn lại</b> — gần như không xảy ra, và mức
+    <code>P1</code> (đúng cái việc đáng làm nhất) sẽ <b>rỗng</b>.
+    Cả hai thang đều là <b>bộ lọc từ khóa của script</b>, ⛔ không phải điểm KF-60 — điểm KF-60 do agent chấm ở L2.</p>
+
+  <div class="note stop" style="margin-top:16px">
+    <b>⛔ Cờ <code>canh_bao_nghi</code> không phải khiếu nại.</b>
+    <i>&ldquo;Có trường hợp nào biến chứng khi dùng dịch vụ này ko ah&rdquo;</i> là <b>rào cản trước mổ</b>.
+    Code không phân biệt được hai cái đó, nên nó chia hai tầng: <code>chac</code> vào thẳng <code>P0</code>,
+    <code>nghi</code> chỉ <b>buộc</b> hội thoại vào mẫu agent đọc. Việc phân biệt là của agent.
+  </div>
+</section>
+
+<section id="chan" class="wrap">
+  <div class="sec-h">
+    <span class="pre">Mục 6</span>
+    <h2>Chín khoản đang chặn</h2>
+    <span class="bar"></span>
+    <p>Agent vẫn chạy được <b>8 trong 10 mục</b> báo cáo mà không cần những thứ này. Nhưng chín khoản
+      dưới đây là lý do một số bảng còn ghi <code>—</code> hoặc <code>⚠ thiếu TP-04</code>.</p>
+  </div>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>#</th><th>Chặn gì</th><th>Chặn đầu ra nào</th><th>Ai mở</th></tr></thead>
+      <tbody>
+        <tr class="hl"><td class="num">1</td><td>Bản đồ <b>40 mã NV → tên · nhóm · hạng</b><br><span class="dim">QL cho 16 tên, bản xuất có 40 mã — ⛔ không ghép được từ dữ liệu</span></td><td>bảng Nhóm · xếp hạng A/B/C · luật chia inbox · giáo án theo nhóm</td><td>QL trực page</td></tr>
+        <tr><td class="num">2</td><td><b>Bảng phân ca</b> theo khung giờ</td><td>cột <i>Số NV</i> của ma trận cohort · trần tải/ca</td><td>QL ca</td></tr>
+        <tr class="hl"><td class="num">3</td><td><b>Giờ trực chính thức</b><br><span class="dim">ba con số xung đột: phương án 08:00–21:30 · note 08–22h · bản xuất Caresoft tự khai <b>08:30–22:00</b></span></td><td>mẫu số của <b>toàn bộ</b> SLA</td><td>Anh / QL</td></tr>
+        <tr><td class="num">4</td><td><b>Số chi quảng cáo</b></td><td>Chi phí/SĐT · mốc realtime 13h</td><td>Performance</td></tr>
+        <tr><td class="num">5</td><td><b>Trường thị trường</b><br><span class="dim">bản xuất không có; suy từ chữ khách chỉ phủ 10,4%</span></td><td>toàn bộ mục 4 của note</td><td>Caresoft / QL</td></tr>
+        <tr><td class="num">6</td><td><b>Tag bàn giao / lead</b></td><td>mức ưu tiên <code>P5</code></td><td>Caresoft / Sale</td></tr>
+        <tr><td class="num">7</td><td><b>62 inbox nhóm <code>KHAC</code></b><br><span class="dim">tạo hình môi · hút tuyến mồ hôi · vùng kín · triệt lông — ngoài 6 dịch vụ note §3 chốt</span></td><td>mục tiêu CR của nhóm này</td><td>QL</td></tr>
+        <tr><td class="num">8</td><td><b>Bản xuất nhiều page</b><br><span class="dim">bản hiện tại chỉ có 1 page</span></td><td>chiều cắt theo Page</td><td>Caresoft</td></tr>
+        <tr><td class="num">9</td><td>Đóng dấu <b>chốt</b> cho <code>tools/muc-tieu.json</code></td><td>mọi cờ 🟢🟡🔴 hiện chỉ để tham khảo</td><td>Anh / QL</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note warn" style="margin-top:16px">
+    <b>Hai khoản không mở được bằng dữ liệu</b>, phải đổi cách xuất:
+    SĐT đã bị che thành <code>[SĐT ẩn]</code> → ⛔ không đo được <i>tỷ lệ SĐT hợp lệ ≥ 92%</i> ·
+    chưa có lịch sử 30 ngày → ⛔ không tách <i>inbox mới</i> với <i>khách cũ quay lại</i>.
+  </div>
+
+  <div class="note stop" style="margin-top:10px">
+    <b>🔒 Repo này public.</b> <code>.gitignore</code> chặn <code>du-lieu/</code> · <code>out/</code> ·
+    <code>tools/master-nv.json</code> (file có tên thật nhân viên). Bộ che của Caresoft <b>hở ba chỗ</b>:
+    21 tên khách thật lọt ở dòng <code>**HT:**</code> · có chỗ tên khách bị che thành <code>[tên NV]</code> ·
+    60 hội thoại có NV nhắc lại SĐT mà khách chưa từng gửi. Xem <code>TP-03 §3</code>.
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><b>Agent-QCQA-TrucPage-Kangnam</b> · v1.0 · 06/11/2026 ·
+      <a href="__REPO__" target="_blank" rel="noopener">github.com/huudinh/Agent-QCQA-TrucPage-Kangnam</a></p>
+    <p style="margin:0">Trang này do <code>tools/trang-huong-dan.py</code> sinh ra — nội dung các file nhúng thật từ repo.
+      Sửa sổ tri thức rồi chạy lại script là trang tự khớp.</p>
+  </div>
+</footer>
+
+<script id="tp-data" type="application/json">__DATA__</script>
+<script>
+(function(){
+  "use strict";
+  var DATA = {};
+  try { DATA = JSON.parse(document.getElementById('tp-data').textContent) || {}; }
+  catch(e) { DATA = {}; }
+
+  var tabs = [].slice.call(document.querySelectorAll('.tab'));
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(){
+      tabs.forEach(function(x){
+        x.setAttribute('aria-selected', x === t ? 'true' : 'false');
+        var pn = document.getElementById(x.dataset.panel);
+        if (pn) pn.hidden = (x !== t);
+      });
+    });
+  });
+
+  var GIOI_HAN = 4000;
+  [].forEach.call(document.querySelectorAll('[data-peek]'), function(pre){
+    var s = DATA[pre.dataset.peek] || '';
+    pre.textContent = s.length > GIOI_HAN
+      ? s.slice(0, GIOI_HAN) + '\n\n… (còn ' + (s.length - GIOI_HAN).toLocaleString('vi-VN')
+        + ' ký tự — bấm Copy để lấy đủ)'
+      : s;
+  });
+
+  function toast(msg){
+    var el = document.createElement('div');
+    el.className = 'toast'; el.textContent = msg;
+    document.body.appendChild(el);
+    setTimeout(function(){ el.remove(); }, 2200);
+  }
+
+  [].forEach.call(document.querySelectorAll('[data-copy]'), function(btn){
+    btn.addEventListener('click', function(){
+      var txt = DATA[btn.dataset.copy] || '';
+      if (!txt) { toast('Không có nội dung để copy'); return; }
+      function ok(){
+        var cu = btn.textContent;
+        btn.textContent = '✓ Đã copy ' + txt.length.toLocaleString('vi-VN') + ' ký tự';
+        btn.classList.add('done');
+        setTimeout(function(){ btn.textContent = cu; btn.classList.remove('done'); }, 2600);
+      }
+      function duPhong(){
+        var ta = document.createElement('textarea');
+        ta.value = txt; ta.style.position = 'fixed'; ta.style.left = '-9999px';
+        document.body.appendChild(ta); ta.select();
+        try { document.execCommand('copy'); ok(); }
+        catch(e) { toast('Trình duyệt chặn copy — mở "Xem nội dung" rồi chọn thủ công'); }
+        ta.remove();
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(txt).then(ok).catch(duPhong);
+      } else { duPhong(); }
+    });
+  });
+
+  var nut = [].slice.call(document.querySelectorAll('.qa-bar button'));
+  var the = [].slice.call(document.querySelectorAll('.prompt'));
+  nut.forEach(function(b){
+    b.addEventListener('click', function(){
+      var f = b.dataset.f;
+      nut.forEach(function(x){ x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+      the.forEach(function(p){ p.hidden = !(f === 'all' || p.dataset.nhom === f); });
+    });
+  });
+})();
+</script>
