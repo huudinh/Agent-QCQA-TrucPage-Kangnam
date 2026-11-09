@@ -1,0 +1,1599 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Kangnam · Truy soát trực page</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap">
+<style>
+:root{color-scheme:light;--bg:#f5f6f8;--panel:#fff;--line:#e3e6eb;--fg:#1c2230;--mut:#667085;--ok:#11845b;--okb:#e5f5ee;--warn:#b25e09;--warnb:#fff4e0;--bad:#c4321f;--badb:#fde9e6;--acc:#2A52BE;--accb:#e8edf9;--red:#ED2E38;--r:10px}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.5 "Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--fg)}
+.w{max-width:1200px;margin:auto;padding:16px 16px 60px}
+header{display:flex;align-items:center;gap:14px;padding:6px 0 4px}
+.flag{display:flex;flex-direction:column;width:6px;height:44px;border-radius:3px;overflow:hidden;flex:none}.flag i{flex:1}.flag i:nth-child(1){background:#2A52BE}.flag i:nth-child(2){background:#5b7fd4}.flag i:nth-child(3){background:#9db4e8}
+.brand{font:700 12px/1 "Be Vietnam Pro",sans-serif;letter-spacing:.14em;color:#2A52BE;text-transform:uppercase}
+header h1{font:700 30px/1.25 "Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;margin:2px 0 0;color:var(--fg)}
+.sub{color:var(--mut);font-size:13px}
+.tabs{display:flex;gap:4px;overflow-x:auto;background:var(--bg);padding:10px 0 0;border-bottom:1px solid var(--line);margin:12px 0 0}
+.gbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;flex-wrap:wrap;gap:10px;align-items:end;padding:10px 0;margin-bottom:12px;border-bottom:1px solid var(--line)}
+.gbar label{display:flex;flex-direction:column;font-size:12px;color:var(--mut);gap:2px}
+.gbar select{min-width:170px}
+.tab{border:0;background:none;font:inherit;padding:8px 14px;border-bottom:3px solid transparent;color:var(--mut);cursor:pointer;white-space:nowrap}
+.tab b{display:block;color:inherit;font-size:15px}.tab span{font-size:12px}
+.tab[aria-selected=true]{color:var(--fg);border-bottom-color:var(--acc)}
+.pg{display:none}.pg.on{display:block}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;margin-bottom:12px}
+.card h2{font-size:17px;margin:0 0 6px}.card h3{font-size:15px;margin:12px 0 6px}
+.note{color:var(--mut);font-size:13px}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr))}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px}
+.kpi .k{font-size:12.5px;color:var(--mut)}.kpi .v{font-size:19px;font-weight:700;line-height:1.3}.kpi .t{font-size:12px;color:var(--mut)}
+.g{color:var(--ok)}.y{color:var(--warn)}.r{color:var(--bad)}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:end;margin:6px 0 10px}
+.bar label{display:flex;flex-direction:column;font-size:12px;color:var(--mut);gap:2px}
+select,input[type=search]{font:inherit;font-size:14px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--fg);min-width:150px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:5px 12px;font:inherit;font-size:13px;cursor:pointer}
+.chip[aria-pressed=true]{background:#2A52BE;color:#fff;border-color:#2A52BE}
+.chip .n{font-weight:700;margin-left:4px}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th{position:sticky;top:0;background:#f1f3f6;text-align:left;font-weight:600;font-size:12px;color:var(--mut);padding:6px 8px;border-bottom:1px solid var(--line);white-space:nowrap;cursor:pointer}
+td{padding:7px 8px;border-bottom:1px solid #eef0f3;vertical-align:top}
+td.n,th.n{text-align:right;white-space:nowrap}
+.scroll{overflow:auto;max-height:70vh;border:1px solid var(--line);border-radius:8px}
+.tag{display:inline-block;font-size:11.5px;font-weight:600;padding:1px 8px;border-radius:999px;white-space:nowrap}
+.t-N4{background:var(--badb);color:var(--bad)}.t-AN_TOAN{background:var(--badb);color:var(--bad)}.t-HOT_CHUA_SO{background:var(--warnb);color:var(--warn)}.t-CO_SO_CHUA_LICH{background:var(--accb);color:var(--acc)}.t-WARM_CHUA_SO{background:#eef0f3;color:var(--fg)}
+.st{display:inline-block;font-size:12px;font-weight:600;padding:2px 9px;border-radius:999px;margin-right:8px}
+.st-chua{background:#eef0f3;color:#4b5563}.st-cho{background:#fff4d6;color:#8a5a00}.st-ok{background:#e3f5ea;color:#17703a}.st-back{background:#fde8e8;color:#b42318}
+.xl{margin-top:8px;padding-top:8px;border-top:1px dashed #e5e7eb}.xl-top{display:flex;flex-wrap:wrap;gap:4px 8px;align-items:center}
+.xl-act{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.xl-form{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.xl-form input{flex:1;min-width:200px}
+.btn{font:inherit;font-size:13px;padding:5px 12px;border-radius:8px;border:1px solid var(--line);background:#fff;cursor:pointer}.btn:disabled{opacity:.5}
+.btn.pri{background:#2A52BE;color:#fff;border-color:#2A52BE}.btn.ok{background:#17703a;color:#fff;border-color:#17703a}.btn.bad{color:#b42318;border-color:#f3b4b0}
+.item.s-ok{opacity:.62}.xlmsg{background:#fde8e8;color:#b42318;padding:6px 10px;border-radius:8px;font-size:13px}
+.qcl{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0}.qcl>div{padding:10px;border-radius:10px;font-size:13.5px}.qcl .x{background:#fdf0ef}.qcl .o{background:#eaf6ee}.qcl b{display:block;font-size:12px;color:var(--mut);margin-bottom:3px}
+@media(max-width:640px){.qcl{grid-template-columns:1fr}}
+label.full{display:flex;flex-direction:column;gap:4px;margin:8px 0;font-size:13px;color:var(--mut)}label.full textarea,label.full input{font:inherit;color:var(--fg);padding:8px;border:1px solid var(--line);border-radius:8px}
+.kn-f label{display:flex;flex-direction:column;font-size:12px;color:var(--mut);gap:2px}
+.knr{border-top:1px solid var(--line);padding:10px 0}.knr .res{background:#f6f7f9;border-radius:8px;padding:8px 10px;margin-top:6px;font-size:13.5px;white-space:pre-line}
+.item{display:grid;grid-template-columns:110px 1fr;gap:10px;padding:10px 0;border-bottom:1px solid #eef0f3}
+.item:last-child{border:0}
+.item .code{font-weight:700;font-family:ui-monospace,Menlo,monospace}
+.item .meta{font-size:12.5px;color:var(--mut)}
+.item .next{font-size:13.5px;margin-top:2px}
+.meter{margin:8px 0}
+.meter .top{display:flex;justify-content:space-between;font-size:13.5px}
+.meter .trk{height:10px;background:#eef0f3;border-radius:5px;position:relative;margin-top:4px}
+.meter .fill{position:absolute;left:0;top:0;bottom:0;border-radius:5px}
+.meter .tgt{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--fg)}
+.meter .avg{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--mut);opacity:.6}
+.meter .sub2{font-size:12px;color:var(--mut)}
+.say{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.say>div{border-radius:8px;padding:10px 12px;font-size:13.5px}.say>div>div{margin:3px 0}
+.say .yes{background:var(--okb)}.say .no{background:var(--badb)}
+.say b{display:block;font-size:12px;margin-bottom:4px}
+.heat td.q{text-align:center;font-weight:600;width:58px}.heat{table-layout:auto}
+.steps{margin:6px 0;padding-left:20px}.steps li{margin:4px 0}
+.copy{border:1px solid var(--line);background:#fff;border-radius:6px;font:inherit;font-size:12px;padding:2px 8px;cursor:pointer;margin-left:6px}
+.alert{border-left:4px solid var(--red)}
+.pvwarn{background:var(--badb);border-left:4px solid var(--red);border-radius:8px;
+  padding:9px 12px;margin:8px 0 10px;color:var(--fg)}
+.pvwarn .pvbtn{border:1px solid var(--red);background:#fff;color:var(--bad);border-radius:6px;
+  font:inherit;font-size:12px;font-weight:600;padding:3px 10px;cursor:pointer;margin-left:6px}
+.pvwarn .pvbtn:hover{background:var(--red);color:#fff}
+.hint{background:var(--accb);border-radius:8px;padding:10px 12px;font-size:13.5px}
+.bars2 .row{display:grid;grid-template-columns:150px 1fr 84px;gap:8px;align-items:center;font-size:13px;margin:5px 0}
+.bars2 .trk{height:12px;background:#eef0f3;border-radius:6px;overflow:hidden}.bars2 .fill{height:100%;background:var(--acc)}
+details summary{cursor:pointer;font-weight:600}
+@media(max-width:640px){.say{grid-template-columns:1fr}.item{grid-template-columns:1fr}.hide-m{display:none}.kpi .v{font-size:17px}header h1{font-size:25px}}
+
+
+.tier{display:inline-block;min-width:26px;text-align:center;font-weight:700;font-size:12.5px;padding:2px 7px;border-radius:6px}
+.tier-A{background:#e3f5ea;color:#17703a}.tier-B{background:#fff4d6;color:#8a5a00}.tier-C{background:#fde8e8;color:#b42318}
+.ins{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.ins>div{border-radius:10px;padding:10px 12px;font-size:13.5px}.ins b{display:block;font-size:12px;letter-spacing:.04em;text-transform:uppercase;margin-bottom:4px}
+.ins .i1{background:#fdf0ef}.ins .i1 b{color:var(--bad)}.ins .i2{background:var(--warnb)}.ins .i2 b{color:var(--warn)}.ins .i3{background:var(--accb)}.ins .i3 b{color:var(--acc)}
+.mx td.q{text-align:center;font-weight:600;width:64px}.mx tr.tA td:first-child{border-left:3px solid #17703a}.mx tr.tB td:first-child{border-left:3px solid #c98a00}.mx tr.tC td:first-child{border-left:3px solid #b42318}
+.mx tr.click{cursor:pointer}.mx tr.click:hover td{background:#f6f8fc}
+.mx td:nth-child(2){white-space:nowrap}.mxr{display:block;font-size:11.5px;line-height:1.2}
+#trendTbl td:first-child{white-space:nowrap}
+.sla th.n{text-align:center}
+#pvTbl td:first-child{min-width:150px}
+.pvbox{position:sticky;left:8px;max-width:calc(100vw - 72px)}
+.loi3{border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.loi3 .lr{display:grid;grid-template-columns:150px 1fr 1.3fr 1.2fr;font-size:13.5px;border-top:1px solid var(--line)}
+.loi3 .lr>div{padding:9px 12px}.loi3 .lr>div+div{border-left:1px solid #eef0f3}
+.loi3 .lh{border-top:0;background:#f1f3f6;font-size:12px;font-weight:600;color:var(--mut)}.loi3 .lh>div{padding:6px 12px}
+.loi3 .lt{font-weight:700}.loi3 .lb{font-size:12px;color:var(--mut);font-weight:600;margin-top:6px}.loi3 .lb:first-child{margin-top:0}
+.loi3 ul{margin:0;padding-left:18px}.loi3 li{margin:2px 0}
+.subtabs{display:flex;gap:6px;flex-wrap:wrap;margin:4px 0 8px}
+.t-CHUA_TRA_LOI{background:var(--badb);color:var(--bad)}
+.src{font-size:12px;color:var(--mut);margin-top:8px}
+.ins dl{margin:0}.ins dt{font-size:12px;font-weight:700;color:var(--fg);margin-top:8px}.ins dt:first-child{margin-top:0}.ins dd{margin:2px 0 0;line-height:1.45}
+tr.pvm td{border-bottom:0;padding-bottom:3px}
+tr.pvs td{padding:0 8px 10px;background:#fafbfd;font-size:13px}
+tr.pvs .pvl{font-size:12px;font-weight:600;color:var(--mut)}
+.pvul{margin:2px 0 0;padding-left:18px}.pvul li{margin:2px 0;color:var(--warn)}.pvul li.r{color:var(--bad)}
+tr.pick td{background:#eef3ff}
+
+
+@media(max-width:640px){
+.gbar{position:static;display:grid;grid-template-columns:1fr 1fr;gap:8px}.gbar label{min-width:0}.gbar select{min-width:0;width:100%}.gbar .note{grid-column:1/-1}
+#teamKpi,#meHead .grid,#urgent .grid{grid-template-columns:1fr 1fr}
+.loi3 .lr{grid-template-columns:1fr}.loi3 .lr>div+div{border-left:0;border-top:1px dashed #eef0f3}.loi3 .lh{display:none}
+.bars2 .row{grid-template-columns:110px 1fr 76px}
+}
+.sla td.c{text-align:center;white-space:nowrap;min-width:112px}.sla td.c b{font-size:13.5px}.sla td.c .n{display:block;font-size:11px;color:var(--mut)}
+.ar{font-weight:700;margin-left:4px}.ar.up{color:var(--ok)}.ar.dn{color:var(--bad)}.ar.eq{color:var(--fg)}
+.sla tr.tm td{background:#f1f4fb;font-weight:600}
+.mx td.q span,.heat td.q span{white-space:nowrap}
+
+.prov{display:inline-block;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;
+  padding:2px 6px;border-radius:4px;vertical-align:middle;font-weight:600}
+.prov.code{background:#e7f1ea;color:#146c47}
+.prov.ai{background:#f0eaf9;color:#6b3fa0}
+.prov.gap{background:#eef0f3;color:var(--mut)}
+.q{font-style:italic}
+.kpi .v small{font-size:13px;font-weight:600;color:var(--mut)}
+.mini{font-size:12px;color:var(--mut)}
+.srcA{display:inline-block;font-size:11px;font-weight:600;background:#e3f5ea;color:#17703a;
+  padding:1px 8px;border-radius:999px;white-space:nowrap}
+.pill{display:inline-block;font-size:11.5px;background:#eef0f3;color:#4b5563;padding:1px 8px;
+  border-radius:999px;margin-right:4px}
+.ev{margin-top:8px;padding-top:8px;border-top:1px dashed #e5e7eb;font-size:13px;color:var(--mut)}
+.ev code{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--acc)}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--fg);color:#fff;
+  font-size:13px;padding:8px 15px;border-radius:999px;z-index:50}
+td code{font-family:ui-monospace,Menlo,monospace;font-size:12.5px}
+.slagrid{display:grid;gap:12px;grid-template-columns:1fr 1fr;align-items:start}
+.ins4{display:grid;gap:12px;grid-template-columns:repeat(4,1fr);align-items:start}
+.ins4>div{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:#fff;
+  min-width:0}
+.ins4 b.hd{display:block;font-size:12px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--fg);font-weight:700;margin-bottom:10px}
+.ins4 .bx{border-radius:8px;padding:9px 11px;margin-bottom:8px;font-size:13px;line-height:1.5}
+.ins4 .bx:last-child{margin-bottom:0}
+.ins4 .bx b{display:block;font-size:11px;letter-spacing:.05em;text-transform:uppercase;
+  margin-bottom:4px;font-weight:700}
+.ins4 .b-chung{background:var(--accb)}.ins4 .b-chung b{color:var(--acc)}
+.ins4 .b-yeu{background:#fdf0ef}.ins4 .b-yeu b{color:var(--bad)}
+.ins4 .b-uu{background:var(--warnb)}.ins4 .b-uu b{color:var(--warn)}
+.ins4 code{font-size:11.5px}
+@media(max-width:1060px){.ins4{grid-template-columns:1fr 1fr}}
+@media(max-width:620px){.ins4{grid-template-columns:1fr}}
+.kb4{display:grid;gap:12px;grid-template-columns:repeat(3,1fr)}
+.kbsec{background:#fff;border:1px solid var(--line);border-left:4px solid var(--line);
+  border-radius:10px;padding:12px 14px;min-width:0}
+.kbsec h3{margin:0 0 8px;font-size:15px}
+.kbsec ul{margin:0;padding-left:18px}
+.kbsec li{margin:4px 0;font-size:13.5px}
+.kbsec.s1{border-left-color:var(--ok)}.kbsec.s1 h3{color:var(--ok)}
+.kbsec.s2{border-left-color:var(--bad)}.kbsec.s2 h3{color:var(--bad)}
+.kbsec.s3{border-left-color:var(--warn)}.kbsec.s3 h3{color:var(--warn)}
+.kbsec.s4{grid-column:1/-1;border-left-color:var(--acc)}.kbsec.s4 h3{color:var(--acc)}
+.kbsec .lb{font-size:12px;font-weight:700;color:var(--mut);margin:10px 0 2px;text-transform:uppercase}
+.kbsec details{border:1px solid var(--line);border-radius:8px;padding:8px 10px;margin:5px 0}
+.kbsec details[open]{background:#fafbfd}
+.kbsec summary{font-size:13.5px}
+@media(max-width:900px){.kb4{grid-template-columns:1fr}}
+.slagrid h3{margin:0 0 6px}
+.slagrid .scroll{max-height:62vh}
+.slagrid .sla td.c{min-width:74px;padding:6px 5px}
+.slagrid .sla td.c b{font-size:12.5px}
+.slagrid .sla td.c .n{font-size:10px}
+.slagrid .sla th{font-size:11px;padding:6px 5px}
+.slagrid .sla td:first-child{white-space:nowrap;font-size:12.5px}
+@media(max-width:860px){.slagrid{grid-template-columns:1fr}}
+</style>
+
+<div class="w">
+<header>
+  <div class="flag"><i></i><i></i><i></i></div>
+  <div>
+    <div class="brand">Kangnam · QC/QA trực page</div>
+    <h1>Truy soát trực page</h1>
+    <div class="sub" id="sub"></div>
+  </div>
+</header>
+<div class="tabs" role="tablist" id="tabs"></div>
+<div class="gbar">
+  <label>Kỳ truy soát<select id="fKy"></select></label>
+  <label>Từ ngày<select id="fD1"></select></label>
+  <label>Đến ngày<select id="fD2"></select></label>
+  <label>Page<select id="fPage"></select></label>
+  <label>Khung giờ<select id="fKg"></select></label>
+  <label>Nguồn<select id="fNguon"></select></label>
+  <label>Dịch vụ<select id="fDv"></select></label>
+  <label>Thị trường<select id="fMkt"></select></label>
+  <button class="btn" id="fReset" type="button" style="align-self:end">Bỏ lọc</button>
+  <span class="note" id="scope"></span>
+</div>
+<main id="panels"></main>
+<div class="src" id="foot"></div>
+</div>
+<script src="data/v2.js"></script>
+<script src="data/rows.js"></script>
+<script src="agg.js"></script>
+<script>
+"use strict";
+
+/* ---------- 8 tiêu chí ---------- */
+var CRIT=[
+ {id:"q1",n:"Tỉ lệ xin số",goal:32,dir:"up",u:"%",who:"Máy",
+  d:"SĐT thô ÷ inbox mới phát sinh trong kỳ. Khách cũ nhắn lại không tính vào mẫu số, kể cả khi họ bấm vào một quảng cáo mới."},
+ {id:"q2",n:"Ra số trong 6h",goal:24,dir:"up",u:"%",who:"Máy",
+  d:"Khách để SĐT trong 6 giờ kể từ tin đầu của họ ÷ inbox mới đã đủ 6 giờ."},
+ {id:"q3",n:"Ra số trong 24h",goal:32,dir:"up",u:"%",who:"Máy",
+  d:"Như Q2 nhưng cửa sổ 24 giờ. Inbox chưa đủ 24h không nằm trong mẫu số."},
+ {id:"q4",n:"Ra số trong 48h",goal:37,dir:"up",u:"%",who:"Máy",
+  d:"Như Q2 nhưng cửa sổ 48 giờ. Kỳ 3 ngày nên chỉ 632 inbox đủ 48h."},
+ {id:"q5",n:"SLA toàn hội thoại ≤ 5 phút",goal:85,dir:"up",u:"%",who:"Máy",
+  d:"Hội thoại mà MỌI lượt khách phải chờ đều dưới 5 phút — không chỉ tin đầu. Chỉ tính lượt chờ bắt đầu trong khung trực 08:15–21:30."},
+ {id:"q6",n:"Xử lí từ chối",goal:1.5,dir:"up",u:"",who:"AI",
+  d:"Khách nêu rào cản hoặc từ chối cho số: có đổi lý do ở lượt xin thứ hai, có mở kênh thay thế, có cho khách đường rút — hay chỉ lặp lại câu cũ. Thang 0–2."},
+ {id:"q7",n:"Tuân thủ kịch bản",goal:1.5,dir:"up",u:"",who:"AI",
+  d:"Đủ ba nhịp: hỏi 1–2 câu phân loại → trao một mảnh giá trị thật (đọc ảnh, tính chỉ số, nêu khoảng giá) → xin số gắn lý do. Thang 0–2."},
+ {id:"q8",n:"Tuân thủ quy trình",goal:80,dir:"up",u:"%",who:"Máy",
+  d:"Trung bình ba tín hiệu bám đuổi: hội thoại chưa ra số có được chạm lại · có từ 2 lượt xin số trở lên · không để khách nhắn cuối rồi treo."}
+];
+var QID=["q1","q2","q3","q4","q5","q6","q7","q8"];
+function crit(id){ for(var i=0;i<CRIT.length;i++) if(CRIT[i].id===id) return CRIT[i]; return null; }
+
+/* ---------- tiện ích ---------- */
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+  .replace(/"/g,"&quot;");}
+function pc(v,d){return v===null||v===undefined?"—":v.toFixed(d===undefined?1:d).replace(".",",")+"%";}
+function n2(v){return v===null||v===undefined?"—":v.toFixed(2).replace(".",",");}
+function n0(v){return v===null||v===undefined?"—":String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g,".");}
+
+/* Tiêu đề và mọi câu nhắc kỳ lấy thẳng từ dữ liệu — đổi kỳ không phải sửa trang */
+var KYI=(function(){
+  var ds=(V2.ngay||[]).map(function(x){return x.key;});
+  var m=/^(\d\d)-(\d\d)_(\d\d)-(\d\d)-(\d{4})$/.exec(V2.ky||"");
+  var kh=ds.length?(ds.length===1?ds[0]:ds[0]+"–"+ds[ds.length-1]):"—";
+  return {days:ds,dau:ds[0]||"",cuoi:ds.length?ds[ds.length-1]:"",
+          khoang:kh,nhan:kh+(m?"/"+m[5]:""),npage:(V2.pages||[]).length};
+})();
+function cauPage(duoi){
+  return KYI.npage>1
+    ? '<span class="prov gap">chưa đủ dữ liệu</span> Bản xuất có '+KYI.npage+' page nhưng bộ số chưa cắt theo page, '+duoi
+    : '<span class="prov gap">chưa đủ dữ liệu</span> Bản xuất chỉ có 1 page nên '+duoi;
+}
+function el(id){return document.getElementById(id);}
+function fmtQ(id,v){
+  if(v===null||v===undefined) return "—";
+  var c=crit(id);
+  return c&&c.u==="%" ? pc(v) : n2(v);
+}
+function clsQ(id,v){
+  if(v===null||v===undefined) return "";
+  var c=crit(id); if(!c) return "";
+  return v>=c.goal?"g":(v>=c.goal*0.8?"y":"r");
+}
+function toast(m){var t=document.createElement("div");t.className="toast";t.textContent=m;
+  document.body.appendChild(t);setTimeout(function(){t.remove();},1800);}
+function copyText(txt){
+  function fb(){try{var ta=document.createElement("textarea");ta.value=txt;ta.style.position="fixed";
+    ta.style.opacity="0";document.body.appendChild(ta);ta.select();document.execCommand("copy");
+    ta.remove();toast("Đã chép câu mẫu");}catch(e){toast("Trình duyệt chặn sao chép — copy tay nhé");}}
+  try{ if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(function(){toast("Đã chép câu mẫu");},fb); return; } }catch(e){}
+  fb();
+}
+var TOPA=["NV-232258930","NV-236425444"];
+function teamQ(q){
+  if(q==="q6"||q==="q7"){
+    var a=V2.nv.filter(function(x){return x[q]!==null&&x[q]!==undefined;})
+      .map(function(x){return x[q];});
+    return a.length?a.reduce(function(s,x){return s+x;},0)/a.length:null;
+  }
+  return V2.team[q];
+}
+function nvById(id){ for(var i=0;i<V2.nv.length;i++) if(V2.nv[i].nv===id) return V2.nv[i]; return null; }
+
+/* ---------- lỗi thường gặp: 3 nhóm, rút từ chính số của người đó ---------- */
+function loiCuaNV(p){
+  var TM=T(), out=[];
+
+  /* 1 · KỊCH BẢN */
+  if(p.q7!==null&&p.q7!==undefined&&p.q7<1.3){
+    out.push(["bad","Kịch bản tư vấn",
+      "Q7 <b>"+n2(p.q7)+"/2</b> (đội "+n2(sTeamQ("q7"))+") · Q1 <b>"+pc(p.q1)+"</b> (đội "+pc(TM.q1)+")",
+      "Thiếu nhịp giữa. Nhận câu hỏi giá là xin số luôn, chưa đọc ảnh / chưa tính chỉ số / chưa nêu một "
+      +"khoảng giá niêm yết nào. Khách hỏi lại, bạn xin lại — hội thoại đứng tại chỗ.",
+      "Ba nhịp bắt buộc: hỏi 1–2 câu phân loại → trao một mảnh giá trị thật → xin số gắn lý do hội chẩn. "
+      +"Câu mẫu ở tab <b>Kịch bản</b>, nhóm <i>khách mở đầu bằng câu hỏi giá</i>."]);
+  }else if(p.q7!==null&&p.q7!==undefined&&p.q7>=1.6){
+    out.push(["ok","Kịch bản tư vấn",
+      "Q7 <b>"+n2(p.q7)+"/2</b> — nhóm dẫn đầu đội",
+      "Không có lỗi nổi bật. Nhịp hỏi → trao giá trị → xin số đã thành phản xạ.",
+      "Giữ nguyên. Câu của bạn nên được QL duyệt vào kịch bản chuẩn cho cả đội."]);
+  }else{
+    out.push(["mid","Kịch bản tư vấn",
+      "Q7 "+(p.q7===null||p.q7===undefined?"chưa chấm":"<b>"+n2(p.q7)+"/2</b>"),
+      "Ở mức trung bình đội: có hỏi phân loại nhưng bước trao giá trị còn mỏng, hay nhảy thẳng sang "
+      +"câu xin số mẫu.",
+      "Thêm đúng một câu mô tả lại tình trạng khách bằng lời của mình trước khi xin số."]);
+  }
+
+  /* 2 · XỬ LÍ TỪ CHỐI */
+  var tcTxt = p.tu_choi ? p.tu_choi+" hội thoại khách nêu rào cản, cứu được <b>"+pc(p.tu_choi_cuu)+"</b>"
+                        : "chưa gặp ca từ chối rõ trong kỳ";
+  if(p.q6!==null&&p.q6!==undefined&&p.q6<1.3){
+    out.push(["bad","Quy trình xử lí từ chối",
+      "Q6 <b>"+n2(p.q6)+"/2</b> (đội "+n2(sTeamQ("q6"))+") · "+tcTxt,
+      "Xin một lần rồi bỏ, hoặc lặp đúng câu cũ ở lượt thứ hai."
+      +(p.q8b!==null&&p.q8b!==undefined?" Chỉ <b>"+pc(p.q8b)+"</b> hội thoại chưa ra số có từ 2 lượt "
+      +"xin trở lên.":""),
+      "Lượt xin thứ hai phải đổi <i>lý do</i>, không đổi giọng: thu nhỏ cam kết xuống một cuộc 1–2 phút "
+      +"đúng khung giờ khách chọn, và cho khách đường rút. Nếu vẫn không: hạ xuống xin Zalo, cam kết chỉ "
+      +"nhắn. Xem tab <b>Kịch bản</b>, nhóm <i>khách đã từ chối cho số</i>."]);
+  }else if(p.q6!==null&&p.q6!==undefined&&p.q6>=1.6){
+    out.push(["ok","Quy trình xử lí từ chối",
+      "Q6 <b>"+n2(p.q6)+"/2</b> — nhóm dẫn đầu đội · "+tcTxt,
+      "Không có lỗi nổi bật.",
+      "Câu xử lí từ chối của bạn đang là nguồn cho kịch bản chuẩn — xem tab Kịch bản."]);
+  }else{
+    out.push(["mid","Quy trình xử lí từ chối",
+      "Q6 "+(p.q6===null||p.q6===undefined?"chưa chấm":"<b>"+n2(p.q6)+"/2</b>")+" · "+tcTxt,
+      "Có thử lượt thứ hai nhưng chưa đổi được góc; phần lớn vẫn là biến thể của câu xin số đầu.",
+      "Dùng đúng một trong hai câu đã đo được ở tab Kịch bản thay vì tự diễn đạt lại."]);
+  }
+
+  /* 3 · QUY TRÌNH CSKH */
+  var bad3=[], num3=[];
+  num3.push("SLA toàn hội thoại <b>"+pc(p.q5)+"</b> (đội "+pc(TM.q5)+")");
+  num3.push("Q8 <b>"+(p.q8===null?"—":n2(p.q8))+"</b>");
+  if(p.q5!==null&&p.q5!==undefined&&p.q5<TM.q5-8)
+    bad3.push("Khách phải chờ ở <i>giữa</i> hội thoại: tin đầu của bạn đạt "+pc(p.q5_dau)
+      +" nhưng tính mọi lượt chờ chỉ còn "+pc(p.q5)+".");
+  if(p.q8a!==null&&p.q8a!==undefined&&p.q8a<55)
+    bad3.push("Chỉ "+pc(p.q8a)+" hội thoại chưa ra số được bạn chạm lại — phần lớn bị bỏ sau lượt đầu.");
+  if(p.treo>=5)
+    bad3.push(p.treo+" hội thoại khách nhắn cuối mà chưa ai trả lời đến hết kỳ.");
+  if(p.mot_cham!==null&&p.mot_cham>TM.mot_cham+6)
+    bad3.push(pc(p.mot_cham)+" hội thoại bạn chỉ gửi đúng một tin ("+p.mot_chamn+" ca), đội "
+      +pc(TM.mot_cham)+".");
+  if(bad3.length){
+    out.push(["bad","Quy trình chăm sóc khách", num3.join(" · "), bad3.join(" "),
+      "Đặt chuông cho chính mình ở mốc 3 phút trong khi đang giữ hội thoại. Hội thoại chưa ra số: chạm "
+      +"lại trong cửa sổ 24h ở giờ thứ 2 · 6 · 22 tính từ tin cuối của khách, và nội dung phải nối tiếp "
+      +"điều khách vừa nói, không phải banner khuyến mại."]);
+  }else{
+    out.push(["ok","Quy trình chăm sóc khách", num3.join(" · "),
+      "Không có lỗi nổi bật: SLA, bám đuổi và tỉ lệ một chạm đều quanh hoặc tốt hơn mức đội.",
+      "Giữ nguyên nhịp hiện tại."]);
+  }
+  return out;
+}
+
+/* ================= lát cắt đang chọn ================= */
+var CURK="all";
+var DAYS=AGG.init(ROWS, SLICES.ai);
+var FLT={d1:0, d2:DAYS.length-1, page:-1, kg:-1, nguon:-1};
+
+/* Mọi bảng trên trang đi qua S(). Trước đây nó đọc lát đã dựng sẵn trong
+   v2slices.json; nay tính thẳng từ bảng hội thoại nên lọc được mọi chiều.
+   Công thức ở tools/agg.js, đối chiếu với Python bằng tools/kiem-agg.js. */
+function nhanLat(k){
+  if(k.indexOf("dv:")===0){ var a=SLICES.dvOpts.filter(function(o){return "dv:"+o[0]===k;}); return a.length?a[0][1]:"Tất cả"; }
+  if(k.indexOf("mkt:")===0){ var b=SLICES.mktOpts.filter(function(o){return "mkt:"+o[0]===k;}); return b.length?b[0][1]:"Tất cả"; }
+  return "Tất cả";
+}
+function fKey(dim){ return dim+"|"+FLT.d1+"|"+FLT.d2+"|"+FLT.page+"|"+FLT.kg+"|"+FLT.nguon; }
+
+/* Mỗi bản xuất Caresoft một phạm vi page khác nhau. Gộp nhiều bản lại thì đường
+   diễn biến nhảy ở ngày đổi phạm vi — trông y như đội đổi. Nói thẳng ra, và
+   cho một nút lọc về page có mặt đủ mọi ngày để so cho công bằng. */
+function canhPhamVi(){
+  if(FLT.page>=0) return "";                 /* đã lọc một page → cùng thước rồi */
+  var v=AGG.phamVi({d1:FLT.d1,d2:FLT.d2});
+  if(!v.lech) return "";                     /* chênh dưới gấp đôi = dao động thường */
+  var TUx=AGG.tu();
+  var nut = v.chung.length===1
+    ? '<button class="pvbtn" id="pvFix" type="button">Lọc về “'+esc(TUx.page[v.chung[0]])+'”</button>'
+    : "";
+  return '<p class="note pvwarn">⚠️ <b>Phạm vi page đổi giữa các ngày</b> — '
+    + v.days.map(function(d,i){ return esc(d)+": "+v.so[i]+" page"; }).join(" · ")
+    + '. Số nhảy ở ngày đổi phạm vi là do <b>bản xuất rộng hơn</b>, không phải do đội đổi. '
+    + (v.chung.length ? "Có <b>"+v.chung.length+"</b> page xuất hiện đủ cả "+v.days.length+" ngày. " : "")
+    + nut + '</p>';
+}
+var _ca={};
+function latCua(dim){
+  var k=fKey(dim);
+  if(!_ca[k]) _ca[k]=AGG.slice({dim:dim,d1:FLT.d1,d2:FLT.d2,page:FLT.page,kg:FLT.kg,nguon:FLT.nguon}, nhanLat(dim));
+  return _ca[k];
+}
+function S(){ return latCua(CURK); }
+function SALL(){ return latCua("all"); }
+function DAYSEL(){ return DAYS.slice(FLT.d1, FLT.d2+1); }
+function locNgay(){ return FLT.d1!==0 || FLT.d2!==DAYS.length-1; }
+function T(){ return S().team; }
+function filtered(){ return CURK!=="all" || locNgay() || FLT.page>=0 || FLT.kg>=0 || FLT.nguon>=0; }
+function sNvById(id){
+  var a=S().nv; for(var i=0;i<a.length;i++) if(a[i].nv===id) return a[i]; return null;
+}
+function sTeamQ(q){
+  if(q==="q6"||q==="q7"){
+    var a=S().nv.filter(function(x){return x[q]!==null&&x[q]!==undefined;})
+      .map(function(x){return x[q];});
+    return a.length?a.reduce(function(s,x){return s+x;},0)/a.length:null;
+  }
+  return T()[q];
+}
+/* mũi tên so mục tiêu, như bản mẫu */
+function gArrow(v,goal,lowerBetter){
+  if(v===null||v===undefined) return "";
+  var ok = lowerBetter ? v<=goal : v>=goal;
+  return ' <span class="ar '+(ok?"up":"dn")+'">'+(ok?"▲":"▼")+'</span>';
+}
+function kpi(k,v,t,cls){
+  return '<div class="kpi"><div class="k">'+k+'</div>'
+    +'<div class="v'+(cls?" "+cls:"")+'">'+v+'</div><div class="t">'+t+'</div></div>';
+}
+
+/* ================= TAB 1 · Sức khoẻ team ================= */
+var SORT={k:"rank",dir:1};
+function tabTeam(){
+  return '<div class="card"><h2>Chỉ số toàn đội <span class="note" id="teamScope"></span></h2>'
+   +'<div class="grid" id="teamKpi"></div></div>'
+
+   +'<div class="card"><h2>Ma trận nhân viên × Q1–Q8</h2>'
+   +'<p class="note">Xếp theo hạng A → B → C, trong cùng hạng theo điểm tổng. Q1–Q5 và Q8 máy đếm '
+   +'theo phạm vi đang lọc; Q6–Q7 AI chấm cả kỳ. Bấm một dòng để mở thẻ điểm.</p>'
+   +'<div class="scroll"><table class="heat mx" id="mxTbl"></table></div>'
+   +'<p class="note" id="mxNote"></p></div>'
+
+   +'<div class="card"><h2>Năm lát cắt để tìm chỗ rơi <span class="prov code">code tính</span></h2>'
+   +'<div class="subtabs chips" id="slChips"></div>'
+   +'<div class="scroll"><table id="slTbl"></table></div>'
+   +'<p class="src" id="slNote"></p></div>'
+
+   +'<div class="card"><h2>Nhận xét nhanh</h2><div class="ins4" id="insBox"></div></div>'
+
+
+   +'<div class="card"><h2>Diễn biến theo ngày trong kỳ</h2>'
+   +canhPhamVi()
+   +'<p class="note">Mỗi dòng là một ngày khách nhắn đầu. Mũi tên so với ngày ngay trước đó. '
+   +'<b>Ngày cuối kỳ chưa đóng</b> — hội thoại còn đang chạy nên cột treo và một chạm của '+KYI.cuoi+' '
+   +'không so được với những ngày trước.</p>'
+   +'<div class="scroll"><table class="heat" id="trendTbl"></table></div></div>'
+
+   +'<div class="card"><h2>SLA theo ngày (Q5)</h2>'+canhPhamVi()
+   +'<p class="note" id="slaNote"></p>'
+   +'<div class="slagrid">'
+   +'<div><h3>Theo nhân viên</h3>'
+   +'<div class="scroll"><table class="sla" id="slaNv"></table></div></div>'
+   +'<div><h3>Theo dịch vụ</h3>'
+   +'<div class="scroll"><table class="sla" id="slaPg"></table></div></div></div>'
+   +'<p class="src">'+cauPage('không so được page với page; cột phải cắt theo dịch vụ thay thế.')+'</p></div>'
+
+   +'<div class="card"><h2>Vì sao mất số? <span class="note">AI đọc kỹ hội thoại khách không để '
+   +'số</span></h2><div id="qcTeam"></div></div>'
+
+   +'<div class="card"><h2>Mẫu tin dán chung đang chứa từ cấm <span class="note">việc của QL / '
+   +'Marketing — sửa 1 lần, hết lỗi cho cả đội</span></h2><div id="tmplBox"></div></div>'
+
+   +'<div class="grid">'
+   +'<div class="card"><h2>Trả lời tin đầu càng nhanh, khách càng ở lại</h2>'
+   +'<p class="note">Khách mới, bỏ lượt ngoài khung 08:15–21:30.</p>'
+   +'<h3>Khách chịu trò chuyện tiếp (≥ 2 tin)</h3><div class="bars2" id="respEng"></div>'
+   +'<h3>Khách để SĐT trong 48h</h3><div class="bars2" id="respRs"></div></div>'
+   +'<div class="card"><h2>Chuyển qua nhiều người</h2>'
+   +'<p class="note">Ra số 48h theo số nhân viên cùng trả lời một khách (tương quan, chưa chắc là '
+   +'nguyên nhân).</p><div class="bars2" id="handoff"></div>'
+   +'<h2 style="margin-top:14px">Câu hỏi giá</h2><p id="priceTxt"></p></div></div>'
+
+   +'';
+}
+function renderTeamKpi(){
+  var t=T();
+  el("teamScope").textContent="· "+(filtered()?S().label:"toàn Kangnam");
+  el("teamKpi").innerHTML=
+    kpi("Tổng hội thoại",t.tong_ht,
+        "<b>"+t.n+"</b> inbox mới · "+t.khach_cu+" khách cũ")
+   +kpi("Q1 · Tỉ lệ xin số",pc(t.q1)+gArrow(t.q1,32,false),
+        t.sdt+" SĐT thô / "+t.n+" inbox mới · mục tiêu ≥ 32%",
+        t.q1>=32?"g":"r")
+   +kpi("Q5 · SLA ≤ 5 phút",
+        (t.phut_tb===null?"—":String(t.phut_tb).replace(".",",")+"p")+" · "+pc(t.luot_pc)
+        +gArrow(t.luot_pc,80,false),
+        "phút TB · % lượt ≤ 5p · "+t.luot+" lượt · mục tiêu ≥ 80%",
+        t.luot_pc>=80?"g":"r")
+   +kpi("% tin nhắn 1 chạm",pc(t.mot_cham)+gArrow(t.mot_cham,40,true),
+        "khách chỉ nhắn ≤ 1 tin rồi im · mục tiêu ≤ 40%",
+        t.mot_cham<=40?"g":"r");
+}
+var RANKORD={A:0,B:1,C:2};
+function renderMatrix(){
+  var rows=S().nv.slice().sort(function(a,b){
+    if(SORT.k==="rank"){
+      if(RANKORD[a.hang]!==RANKORD[b.hang]) return RANKORD[a.hang]-RANKORD[b.hang];
+      return (b.diem||0)-(a.diem||0);
+    }
+    var x=a[SORT.k],y=b[SORT.k];
+    if(x===null||x===undefined) return 1; if(y===null||y===undefined) return -1;
+    if(typeof x==="string") return SORT.dir*x.localeCompare(y);
+    return SORT.dir*(x-y);
+  });
+  if(!rows.length){
+    el("mxTbl").innerHTML='';
+    el("mxNote").innerHTML='Lát cắt “'+esc(S().label)+'” không có nhân viên nào đạt tối thiểu '
+      +'20 hội thoại — không xếp hạng được. Chọn lát rộng hơn ở thanh lọc.';
+    return;
+  }
+  var h='<thead><tr><th data-k="rank">Hạng</th><th data-k="nv">Nhân viên</th>'
+   +'<th class="n" data-k="diem">Điểm</th><th class="n" data-k="n">Inbox mới</th>';
+  QID.forEach(function(q){h+='<th class="n" data-k="'+q+'">'+q.toUpperCase()+'</th>';});
+  h+='<th class="hide-m">Dịch vụ chính</th></tr></thead><tbody>';
+  rows.forEach(function(p){
+    h+='<tr class="t'+p.hang+' click" data-nv="'+p.nv+'">'
+     +'<td><span class="tier tier-'+p.hang+'">'+p.hang+'</span></td>'
+     +'<td><code>'+esc(p.nv)+'</code><span class="mxr">'+esc(p.mkt[0]?p.mkt[0][0]:"")+'</span></td>'
+     +'<td class="n"><b>'+(p.diem===null?"—":String(p.diem).replace(".",","))+'</b></td>'
+     +'<td class="n">'+p.n+'</td>';
+    QID.forEach(function(q){h+='<td class="q '+clsQ(q,p[q])+'">'+fmtQ(q,p[q])+'</td>';});
+    h+='<td class="hide-m">'+p.mix.map(function(m){return esc(m[0])+" "+m[1]+"%";}).join(" · ")
+     +'</td></tr>';
+  });
+  h+='<tr class="tm"><td>—</td><td>Trung bình đội</td><td class="n">100</td>'
+   +'<td class="n">'+T().n+'</td>';
+  QID.forEach(function(q){h+='<td class="q">'+fmtQ(q,sTeamQ(q))+'</td>';});
+  h+='<td class="hide-m">'+(filtered()?esc(S().label):"Mắt 26% · Béo/Hút mỡ 19% · Da 17%")
+   +'</td></tr></tbody>';
+  el("mxTbl").innerHTML=h;
+  el("mxNote").innerHTML='Điểm tổng = tỉ lệ so với trung bình đội <b>của lát cắt đang xem</b>, '
+   +'đội = 100. Trọng số Q1 30% · Q3 15% · Q5 20% · Q8 15% · Q6 10% · Q7 10%. '
+   +'<b>A ≥ 110 · B 92–109 · C &lt; 92.</b> Ô cỡ mẫu dưới 20 hội thoại để trống và bị loại khỏi điểm. '
+   +'Chỉ hiện người có ≥ 20 hội thoại trong lát cắt này. '
+   +'<span class="prov gap">chưa đủ dữ liệu</span> Chưa có TP-04 nên cột nhân viên còn là mã Caresoft.';
+}
+function renderIns(){
+  var t=T(), nv=S().nv, sl=S().sl, all=SALL().team;
+  function bx(cls,lab,body){
+    return '<div class="bx '+cls+'"><b>'+lab+'</b>'+body+'</div>';
+  }
+  function col(hd,a,b,c){
+    return '<div><b class="hd">'+hd+'</b>'
+      +bx("b-chung","Tình hình chung",a)
+      +bx("b-yeu","Điểm yếu nhất",b)
+      +bx("b-uu","Ưu tiên xử lý",c)+'</div>';
+  }
+  function low(arr,k){
+    var a=arr.filter(function(x){return x[k]!==null&&x[k]!==undefined&&x.n>=20;});
+    if(!a.length) return null;
+    a.sort(function(x,y){return x[k]-y[k];});
+    return a[0];
+  }
+  function big(arr){ return arr.slice().sort(function(a,b){return b.n-a.n;})[0]||null; }
+
+  /* ---------- NHÂN VIÊN ---------- */
+  var cA=nv.filter(function(x){return x.hang==="A";}).length,
+      cB=nv.filter(function(x){return x.hang==="B";}).length,
+      cC=nv.filter(function(x){return x.hang==="C";}).length;
+  var nhanh=nv.filter(function(x){return x.q5!==null&&x.q1!==null&&x.q5>=t.q5&&x.q1<t.q1-4;});
+  var a1,b1,c1;
+  if(!nv.length){
+    a1="Không có ai đủ 20 hội thoại trong lát cắt này."; b1="—"; c1="Chọn lát cắt rộng hơn.";
+  }else{
+    var loSla=low(nv,"q5"), loQ1=low(nv,"q1");
+    a1='<b>'+nv.length+'</b> người đủ mẫu — '+cA+' hạng A · '+cB+' hạng B · '+cC+' hạng C. '
+      +'Dẫn đầu <code>'+esc(nv[0].nv)+'</code> điểm '+String(nv[0].diem).replace(".",",")
+      +'. Q1 đội '+pc(t.q1)+', chưa ai chạm mục tiêu 32%.';
+    b1=(loSla?'<code>'+esc(loSla.nv)+'</code> SLA thấp nhất ('+pc(loSla.q5)+' · Q1 '+pc(loSla.q1)
+         +'). ':'')
+      +(loQ1&&loQ1!==loSla?'<code>'+esc(loQ1.nv)+'</code> ra số thấp nhất (Q1 '+pc(loQ1.q1)
+         +' · Q3 '+pc(loQ1.q3)+').':'');
+    var hand=S().handoff, h1=hand[0], h2=hand[1];
+    c1=nhanh.length
+      ? '<b>'+nhanh.length+' người trả lời nhanh mà không ra số</b> — SLA bằng hoặc hơn đội nhưng '
+        +'Q1 thấp hơn ít nhất 4 điểm. Kèm cặp theo kịch bản, không theo tốc độ.'
+      : 'Không ai rơi vào kiểu “nhanh mà không ra số”.';
+    if(h1&&h2&&h1.v!==null&&h2.v!==null)
+      c1+=' Chuyển qua nhiều người: 1 NV ra số 48h '+pc(h1.v)+', 2 NV còn '+pc(h2.v)
+        +' → giữ 1 người/khách.';
+  }
+
+  /* ---------- DỊCH VỤ ---------- */
+  var dv=sl.dv||[], a2,b2,c2;
+  if(!dv.length){ a2="Không có dữ liệu."; b2="—"; c2="—"; }
+  else{
+    var dBig=big(dv), dLo=low(dv,"q1"), dLo2=null;
+    var sorted=dv.filter(function(x){return x.q1!==null&&x.n>=20;})
+      .sort(function(x,y){return x.q1-y.q1;});
+    if(sorted.length>1) dLo2=sorted[1];
+    var datMuc=dv.filter(function(x){return x.q1!==null&&x.q1>=32;}).length;
+    a2='Ra số thấp ở mọi dịch vụ: Q1 đội <b>'+pc(t.q1)+'</b>, '
+      +(datMuc?datMuc+' mảng đạt mục tiêu 25%.':'<b>không mảng nào đạt mục tiêu 32%</b>.')
+      +' Nhiều inbox nhất: '+esc(dBig.label)+' ('+dBig.n+' · Q1 '+pc(dBig.q1)+').';
+    b2=(dLo?'<b>'+esc(dLo.label)+'</b> (Q1 '+pc(dLo.q1)+' · Q4 '+pc(dLo.q4)+')':'')
+      +(dLo2?' và <b>'+esc(dLo2.label)+'</b> (Q1 '+pc(dLo2.q1)+' · Q4 '+pc(dLo2.q4)+')':'')+'.';
+    var neGia=dv.filter(function(x){return x.q1!==null&&x.q5!==null&&x.n>=40&&x.q5>=t.q5
+      &&x.q1<t.q1;}).sort(function(x,y){return x.q1-y.q1;})[0];
+    c2=neGia
+      ? '<b>'+esc(neGia.label)+' né giá</b>: SLA '+pc(neGia.q5)+' cao hơn đội mà Q1 chỉ '
+        +pc(neGia.q1)+' trên '+neGia.n+' inbox. Trả lời nhanh nhưng không chốt được số — lỗi kịch '
+        +'bản, không phải lỗi tốc độ.'
+      : 'Ưu tiên mảng nhiều inbox mà Q1 dưới đội: '+esc(dBig.label)+'.';
+  }
+
+  /* ---------- PAGE ---------- */
+  var ng=sl.nguon||[], qc=null, tt=null, a3,b3,c3;
+  ng.forEach(function(r){ if(r.key==="QC") qc=r; if(r.key==="TRUC_TIEP") tt=r; });
+  a3='Một page gánh toàn bộ <b>'+t.tong_ht+'</b> hội thoại: SLA '
+    +(t.phut_tb===null?"—":String(t.phut_tb).replace(".",",")+" phút")+' · '+pc(t.luot_pc)
+    +' lượt ≤ 5p · '+pc(t.mot_cham)+' khách chỉ nhắn 1 tin rồi im.';
+  b3=tt
+    ? '<b>Nhắn thẳng page</b>: '+tt.n+' inbox, chỉ '+tt.sdt+' SĐT ('+pc(tt.q1)+'), '
+      +pc(tt.mot_cham)+' khách 1 chạm — cao nhất mọi nguồn.'
+    : 'Chưa tách được nguồn inbox.';
+  if(qc) b3+=' Từ quảng cáo: '+qc.n+' inbox, Q1 '+pc(qc.q1)+'.';
+  c3='Còn <b>'+t.treo+'</b> hội thoại khách nhắn cuối mà chưa ai trả lời. '
+    +cauPage('chưa so được page với page.');
+
+  /* ---------- THỊ TRƯỜNG ---------- */
+  var mk=sl.mkt||[], chua=null, xd=[], a4,b4,c4;
+  mk.forEach(function(r){ if(r.key==="CHUA_RO") chua=r; else xd.push(r); });
+  a4=chua
+    ? '<b>'+chua.n+'/'+t.n+'</b> inbox mới chưa rõ khu vực ('+pc(chua.n/t.n*100)+' · '
+      +pc(chua.mot_cham)+' khách 1 chạm) — nhân viên chưa hỏi khách ở tỉnh/thành nào ngay từ đầu.'
+    : 'Đã xác định được khu vực cho toàn bộ inbox của lát cắt này.';
+  if(xd.length){
+    var lo=xd.filter(function(x){return x.q1!==null&&x.n>=20;})
+      .sort(function(x,y){return x.q1-y.q1;})[0];
+    var hi=xd.filter(function(x){return x.q1!==null&&x.n>=20;})
+      .sort(function(x,y){return y.q1-x.q1;})[0];
+    b4=lo?'<b>'+esc(lo.label)+'</b> thấp nhất: Q1 '+pc(lo.q1)+' · Q4 '+pc(lo.q4)
+        +(hi&&hi!==lo?' ('+esc(hi.label)+' '+pc(hi.q1)+' · '+pc(hi.q4)+').':'.'):'Chưa đủ mẫu.';
+    var hot=xd.slice().sort(function(a,b){return (b.hot_chua/b.n)-(a.hot_chua/a.n);})[0];
+    c4=(chua?'Khách chưa rõ khu vực bị trả lời chậm nhất: '
+        +(chua.phut_tb===null?"—":String(chua.phut_tb).replace(".",",")+" phút")+' · '
+        +pc(chua.luot_pc)+' lượt ≤ 5p. ':'')
+      +(hot?'Tồn cao nhất <b>'+esc(hot.label)+'</b> — '+hot.hot_chua+' khách nóng chưa số trên '
+        +hot.n+' hội thoại.':'');
+  }else{ b4='Chưa đủ mẫu.'; c4='—'; }
+
+  el("insBox").innerHTML=col("Nhân viên",a1,b1,c1)+col("Dịch vụ",a2,b2,c2)
+    +col("Page",a3,b3,c3)+col("Thị trường",a4,b4,c4);
+}
+function arrow(cur,prev){
+  if(cur===null||cur===undefined||prev===null||prev===undefined) return "";
+  var d=cur-prev;
+  if(Math.abs(d)<0.5) return ' <span class="ar eq">=</span>';
+  return ' <span class="ar '+(d>0?"up":"dn")+'">'+(d>0?"▲":"▼")
+    +Math.abs(d).toFixed(1).replace(".",",")+'</span>';
+}
+function renderTrend(){
+  var rows=S().trend;
+  var h='<thead><tr><th>Ngày</th><th class="n">Inbox mới</th><th class="n">SĐT</th>'
+   +'<th class="n">Q1</th><th class="n">Q2</th><th class="n">Q3</th><th class="n">Q4</th>'
+   +'<th class="n">Q5</th><th class="n">Chạm lại</th><th class="n">Một chạm</th>'
+   +'<th class="n">Treo</th></tr></thead><tbody>';
+  rows.forEach(function(r,i){
+    var pv=i>0?rows[i-1]:null;
+    function c(k){return '<td class="q '+clsQ(k,r[k])+'">'+fmtQ(k,r[k])
+      +(pv?arrow(r[k],pv[k]):"")+'</td>';}
+    h+='<tr><td><b>'+esc(r.k)+'</b></td><td class="n">'+r.n+'</td><td class="n">'+r.sdt+'</td>'
+     +c("q1")+c("q2")+c("q3")+c("q4")+c("q5")
+     +'<td class="n">'+pc(r.q8a)+'</td><td class="n">'+pc(r.mot_cham)+'</td>'
+     +'<td class="n">'+r.treo+'</td></tr>';
+  });
+  el("trendTbl").innerHTML=h+'</tbody>';
+}
+function slaTable(id,rows,first){
+  var D=DAYSEL();
+  var h='<thead><tr><th>'+first+'</th><th class="n">Cả kỳ</th>';
+  D.forEach(function(d){h+='<th class="n">'+d+'</th>';});
+  h+='</tr></thead><tbody>';
+  function cell(c){
+    if(!c||c.v===null) return '<td class="c">—</td>';
+    var cl=c.v>=85?"g":(c.v>=68?"y":"r");
+    return '<td class="c"><b class="'+cl+'">'+pc(c.v)+'</b><span class="n">'+c.n+' ht</span></td>';
+  }
+  rows.forEach(function(r){
+    h+='<tr><td>'+(r.k.indexOf("NV-")===0?'<code>'+esc(r.k)+'</code>':esc(r.k))+'</td>'+cell(r.all);
+    D.forEach(function(d){h+=cell(r[d]);});
+    h+='</tr>';
+  });
+  var t=S().slaTeam;
+  h+='<tr class="tm"><td>'+esc(t.k)+'</td>'+cell(t.all);
+  D.forEach(function(d){h+=cell(t[d]);});
+  el(id).innerHTML=h+'</tr></tbody>';
+}
+function renderSla(){
+  var st=S().slaTeam;
+  var worst=null;
+  DAYSEL().forEach(function(d){
+    if(st[d]&&st[d].v!==null&&(worst===null||st[d].v<st[worst].v)) worst=d; });
+  el("slaNote").innerHTML='Tỉ lệ hội thoại giữ được <b>mọi lượt khách chờ dưới 5 phút</b>, tính trong '
+   +'khung 08:15–21:30. Xanh ≥ 85% · vàng 68–84% · đỏ &lt; 68%. Số nhỏ là cỡ mẫu.'
+   +(worst?' Tụt sâu nhất vào <b>'+worst+'</b> ('+pc(st[worst].v)+').':'');
+  slaTable("slaNv",S().slaNv,"Nhân viên");
+  slaTable("slaPg",S().slaDv,"Dịch vụ");
+}
+function renderQc(){
+  el("qcTeam").innerHTML=
+   '<div class="qcl"><div class="x"><b>1 · Trả lời câu hỏi giá bằng một câu xin số</b>'
+   +'907 hội thoại (45,9%) khách hỏi giá. Mẫu “Để được tư vấn kỹ hơn về chi phí và ưu đãi…” dùng ở '
+   +'118 hội thoại chỉ ra số 14,4%. Khách hỏi lại, nhân viên xin lại — hội thoại đứng tại chỗ.</div>'
+   +'<div class="o"><b>Thay bằng</b>Nêu một khoảng giá niêm yết thật kèm “giá chốt sau khám”, rồi mới '
+   +'xin số với lý do hội chẩn. Mẫu hội chẩn đo được 69,6% ra số trên 23 hội thoại.</div></div>'
+   +'<div class="qcl"><div class="x"><b>2 · Xin một lần rồi bỏ</b>'
+   +'Trung vị số lần xin ở hội thoại chưa ra số là <b>0</b>. Trong 140 hội thoại HOT chưa có số, '
+   +'60 ca chưa ai xin số lần nào. Nhưng 60 khách đã từ chối vẫn cứu được 31,7%.</div>'
+   +'<div class="o"><b>Thay bằng</b>Lượt xin thứ hai đổi <i>lý do</i>, không đổi giọng: thu nhỏ cam '
+   +'kết xuống một cuộc 1–2 phút đúng khung giờ khách chọn, và cho khách đường rút rõ ràng.</div></div>'
+   +'<div class="qcl"><div class="x"><b>3 · Không nghe điều khách vừa nói</b>'
+   +'Khách viết rõ “không tiện nghe máy, nhắn tin tư vấn chi phí giúp mình” — nhân viên vẫn hỏi “chị '
+   +'tiện nghe máy thời gian nào”. Có ca khách ghi “Vui lòng ko gọi” rồi treo 820 phút.</div>'
+   +'<div class="o"><b>Thay bằng</b>Làm đúng điều khách yêu cầu trước (nhắn khoảng giá qua inbox), rồi '
+   +'mới xin kênh thay thế: “chị để lại em số Zalo, trợ lý nhắn chị chứ không gọi ạ”.</div></div>'
+   +'<p class="src">Rút từ 135 hội thoại lấy mẫu phân tầng, đối chiếu với hiệu lực từng mẫu tin đo '
+   +'trên toàn bộ '+n0(V2.team.tong_ht)+' hội thoại. Khối này tính trên <b>toàn kỳ</b>, không đổi theo bộ lọc.</p>';
+}
+function renderTmpl(){
+  var rows=EX.tmpl, tot=rows.reduce(function(s,r){return s+r.n;},0);
+  var h='<p class="note">Kỳ này có <b>30 tin</b> trong <b>29 hội thoại</b> chứa từ tuyệt đối hoá. '
+   +'Phần lớn là <b>một mẫu tin dán chung</b>: sửa ở nguồn là hết lỗi cho cả đội, không cần trừ điểm '
+   +'ai.</p><div class="scroll" style="max-height:none"><table><thead><tr>'
+   +'<th class="n">Hội thoại</th><th class="n">Số NV dùng</th><th>Từ cấm</th><th>Mẫu tin</th>'
+   +'</tr></thead><tbody>';
+  rows.forEach(function(r){
+    h+='<tr><td class="n"><b>'+r.n+'</b></td><td class="n">'+r.nv+'</td>'
+     +'<td>'+r.w.map(function(w){return '<span class="tag t-N4">'+esc(w)+'</span>';}).join(" ")+'</td>'
+     +'<td>'+esc(r.full)+'</td></tr>';
+  });
+  el("tmplBox").innerHTML=h+'</tbody></table></div>'
+   +'<p class="src">Mẫu đứng đầu bảng một mình chiếm '+rows[0].n+'/'+tot+' hội thoại trong danh sách '
+   +'này và đang được '+rows[0].nv+' nhân viên dùng lại — việc của QL / Marketing, sửa câu gốc trong '
+   +'kho mẫu. Khối này tính trên <b>toàn kỳ</b>.</p>';
+}
+function bars2(id,rows){
+  var max=0; rows.forEach(function(r){ if((r.v||0)>max) max=r.v||0; });
+  max=Math.max(max,1);
+  el(id).innerHTML=rows.map(function(r){
+    return '<div class="row"><div>'+esc(r.k)+'</div>'
+      +'<div class="trk"><div class="fill" style="width:'+((r.v||0)/max*100).toFixed(1)
+      +'%"></div></div><div class="n">'+pc(r.v)+' <span class="note">'+r.n+'</span></div></div>';
+  }).join("");
+}
+function renderBars(){
+  bars2("respEng",S().respEng); bars2("respRs",S().respRs); bars2("handoff",S().handoff);
+  var g=EX.gia;
+  el("priceTxt").innerHTML='<b>'+g.n+'</b> hội thoại ('+pc(g.pc)+') có khách hỏi giá. Nhóm này ra số '
+   +'48h <b>'+pc(g.q4)+'</b> (mẫu '+g.q4n+') so với <b>'+pc(g.q4_khac)+'</b> ở nhóm không hỏi giá '
+   +'(mẫu '+g.q4_khacn+'). Hỏi giá <i>không</i> làm khách xấu đi nhiều — cái làm mất số là cách trả '
+   +'lời câu hỏi đó. <span class="note">Tính trên toàn kỳ.</span>';
+}
+var SLK="dv";
+var SLSET=[["dv","Dịch vụ"],["mkt","Thị trường"],["kg","Khung giờ"],["nguon","Nguồn inbox"],
+           ["ngay","Ngày"]];
+function renderSlice(){
+  el("slChips").innerHTML=SLSET.map(function(s){
+    return '<button class="chip" data-sl="'+s[0]+'" aria-pressed="'+(SLK===s[0])+'">'
+      +esc(s[1])+'</button>';}).join("");
+  var rows=S().sl[SLK]||[];
+  var cols=QID.filter(function(q){return q!=="q6"&&q!=="q7";});
+  var h='<thead><tr><th>'+esc((SLSET.filter(function(s){return s[0]===SLK;})[0]||["",""])[1])+'</th>'
+   +'<th class="n">Inbox mới</th><th class="n">SĐT</th>';
+  cols.forEach(function(q){h+='<th class="n">'+q.toUpperCase()+'</th>';});
+  h+='<th class="n">1 chạm</th><th class="n">HOT chưa số</th><th class="n">Treo</th>'
+   +'</tr></thead><tbody>';
+  rows.forEach(function(r){
+    h+='<tr><td>'+esc(r.label)+'</td><td class="n">'+r.n+'</td><td class="n">'+r.sdt+'</td>';
+    cols.forEach(function(q){h+='<td class="q '+clsQ(q,r[q])+'">'+fmtQ(q,r[q])+'</td>';});
+    h+='<td class="n">'+pc(r.mot_cham)+'</td><td class="n">'+r.hot_chua+'</td>'
+     +'<td class="n">'+r.treo+'</td></tr>';
+  });
+  el("slTbl").innerHTML=h+'</tbody>';
+  el("slNote").innerHTML='Cột “1 chạm” ở đây là <b>khách chỉ nhắn ≤ 1 tin rồi im</b> — chỉ số của '
+   +'chất lượng quảng cáo và của page, không phải của người trực.'
+   +(SLK==="mkt"?' <b>Đọc cột thị trường rất cẩn thận:</b> nhóm đã xác định được nơi ở có Q1 cao hơn '
+     +'hẳn không phải vì thị trường tốt hơn — khách chỉ nói nơi ở khi hội thoại đã đi sâu. 79% hội '
+     +'thoại chưa xác định được vì bản xuất không có trường thị trường.':'')
+   +(SLK==="ngay"?' Ngày '+KYI.cuoi+' chưa đóng nên cột treo và một chạm bị thổi lên.':'');
+}
+function renderTeam(){
+  renderTeamKpi(); renderMatrix(); renderIns(); renderTrend(); renderSla();
+  renderQc(); renderTmpl(); renderBars(); renderSlice();
+}
+
+/* ================= TAB 2 · Thẻ điểm nhân viên ================= */
+var TSEL="";
+function tabThe(){
+  return '<div class="card"><div class="bar"><label>Chọn mã nhân viên của bạn'
+   +'<select id="tNv"></select></label></div></div><div id="tBody"></div>';
+}
+function meter(c,val,teamVal,note){
+  if(val===null||val===undefined)
+    return '<div class="meter"><div class="top"><span>'+esc(c.n)+'</span><span>—</span></div>'
+      +'<div class="trk"></div><div class="sub2">'
+      +(note||"chưa đủ 20 hội thoại để công bố")+'</div></div>';
+  var max=c.u==="%"?100:2;
+  var w=Math.max(1,Math.min(100,val/max*100));
+  var col=val>=c.goal?"var(--ok)":(val>=c.goal*0.8?"#e0a32e":"var(--bad)");
+  var f=function(v){return c.u==="%"?pc(v):n2(v);};
+  return '<div class="meter"><div class="top"><span>'+esc(c.n)+'</span><b>'+f(val)+'</b></div>'
+   +'<div class="trk"><div class="fill" style="width:'+w.toFixed(1)+'%;background:'+col+'"></div>'
+   +'<div class="tgt" style="left:'+Math.min(100,c.goal/max*100).toFixed(1)+'%"></div>'
+   +'<div class="avg" style="left:'+Math.min(100,(teamVal||0)/max*100).toFixed(1)+'%"></div></div>'
+   +'<div class="sub2">Mục tiêu ≥ '+f(c.goal)+' · TB đội '+f(teamVal)+(note?' · '+note:'')
+   +'</div></div>';
+}
+function renderThe(){
+  var sel=el("tNv"); if(!sel) return;
+  var p=sNvById(sel.value);
+  if(!p){
+    el("tBody").innerHTML='<div class="card"><p class="note">Mã này không đủ 20 hội thoại trong lát '
+      +'cắt “'+esc(S().label)+'”. Chọn lát rộng hơn ở thanh lọc trên đầu trang.</p></div>';
+    return;
+  }
+  var t=T(), slaRow=null;
+  S().slaNv.forEach(function(r){ if(r.k===p.nv) slaRow=r; });
+  var h=(filtered()?'<div class="card"><p class="note"><b>Đang lọc: '+esc(S().label)+'.</b> '
+      +'Mọi số dưới đây chỉ tính '+p.n+' hội thoại của mã này trong lát cắt, kể cả hạng và điểm '
+      +'tổng. Q6–Q7 vẫn là điểm AI chấm cả kỳ.</p></div>':'')
+   +'<div class="grid" id="meHead">'
+   +kpi("Hạng trong lát cắt này",
+       '<span class="tier tier-'+p.hang+'" style="font-size:17px;padding:3px 12px">'+p.hang+'</span>',
+       "điểm tổng <b>"+String(p.diem).replace(".",",")+"</b> · đội = 100 · vị trí "
+       +(S().nv.indexOf(p)+1)+"/"+S().nv.length)
+   +kpi("Inbox mới bạn giữ chính",p.n,p.sdt+" khách ra số · "+p.hot_chua+" khách nóng chưa số")
+   +kpi("SLA tin đầu → toàn hội thoại",pc(p.q5_dau,0)+" <small>→</small> "+pc(p.q5,0),
+       "% lượt ≤ 5p "+pc(p.luot_pc)+" trên "+p.luot+" lượt · phút TB "
+       +(p.phut_tb===null?"—":String(p.phut_tb).replace(".",",")+"p"))
+   +kpi("Thị trường bạn nhận",p.mkt.map(function(m){return m[0]+" "+m[1]+"%";}).join(" · "),
+       "suy từ lời khách, độ phủ thấp — xem tab Cách tính")
+   +'</div><div class="grid">'
+   +'<div class="card"><h3>Ra số &amp; SLA <span class="prov code">máy đếm 100% hội thoại</span></h3>';
+  ["q1","q2","q3","q4","q5","q8"].forEach(function(q){
+    var note="";
+    if(q==="q1") note="mẫu "+p.n+" inbox mới";
+    if(q==="q2") note="mẫu "+p.q2n;
+    if(q==="q3") note="mẫu "+p.q3n;
+    if(q==="q4") note="mẫu "+p.q4n;
+    if(q==="q5") note="mẫu "+p.q5n+" · ngưỡng 2p "+pc(p.q5_2p);
+    if(q==="q8") note="chạm lại "+pc(p.q8a)+" · xin ≥2 lần "+pc(p.q8b)+" · không treo "+pc(p.q8c);
+    h+=meter(crit(q),p[q],t[q],note);
+  });
+  h+='</div><div class="card"><h3>Chất lượng tư vấn <span class="prov ai">AI chấm '
+   +(p.doc>=2?p.doc+" hội thoại của bạn · cả kỳ":"chưa đủ mẫu")+'</span></h3>';
+  ["q6","q7"].forEach(function(q){ h+=meter(crit(q),p.doc>=2?p[q]:null,sTeamQ(q),""); });
+  if(p.tu_choi) h+='<p class="note">Trong lát cắt này có <b>'+p.tu_choi+'</b> hội thoại khách nêu rào '
+   +'cản hoặc từ chối cho số; bạn cứu được <b>'+pc(p.tu_choi_cuu)+'</b>.</p>';
+  if(p.doc<2) h+='<p class="note">AI mới đọc '+p.doc+' hội thoại của mã này trong mẫu phân tầng 135 '
+   +'hội thoại, chưa đủ để chấm. Hai tiêu chí này không tính vào điểm tổng.</p>';
+  h+='</div></div>';
+  if(slaRow) h+='<div class="card"><h2>SLA của bạn theo ngày</h2>'
+   +'<div class="scroll"><table class="sla" id="meSla"></table></div></div>';
+  h+='<div class="card"><h2>Các lỗi thường gặp của bạn</h2>'
+   +'<p class="note">Rút từ chính số liệu của bạn trong lát cắt đang xem, so với trung bình đội. '
+   +'Ba nhóm: kịch bản · quy trình xử lí từ chối · quy trình chăm sóc khách.</p>'
+   +'<div class="loi3"><div class="lr lh"><div>Nhóm lỗi</div><div>Số của bạn</div>'
+   +'<div>Sai ở đâu</div><div>Sửa thế nào</div></div>';
+  loiCuaNV(p).forEach(function(e){
+    h+='<div class="lr"><div class="lt">'+esc(e[1])+'</div><div>'+e[2]+'</div>'
+     +'<div>'+e[3]+'</div><div>'+e[4]+'</div></div>';
+  });
+  h+='</div><p class="src">Vạch đậm trên thanh là mục tiêu, vạch mờ là trung bình đội. '
+   +'Q1–Q5 và Q8 máy đếm trên 100% hội thoại; Q6–Q7 là AI chấm trên mẫu nên là <b>điểm tạm</b>, '
+   +'quản lý chấm lại trước khi dùng để đánh giá.</p></div>';
+  el("tBody").innerHTML=h;
+  if(slaRow) slaTable("meSla",[slaRow],"Nhân viên");
+}
+
+var KICHBAN=[
+{t:"Khách mở đầu bằng câu hỏi giá",nhom:"Câu hỏi giá",n:1032,pc:"49,5% hội thoại · CR48 nhóm này 23,4%",
+ chao:"Dạ em chào chị. Để báo đúng mức cho trường hợp của mình, em hỏi nhanh 1–2 câu nhé ạ.",
+ nut:["Muốn làm vùng nào","Đã từng can thiệp chưa","Gửi em 1 ảnh"],
+ b:["Hỏi đúng 1–2 câu phân loại: vùng cần làm · đã từng can thiệp chưa · ảnh hoặc chiều cao–cân nặng. Không hỏi quá 2 câu trước khi trả lời giá.",
+    "<b>Nêu một khoảng giá niêm yết thật.</b> Đây là bước đang bị bỏ. Ghi rõ gồm những gì, và ghi “giá chốt sau khám”.",
+    "Xin số bằng lý do hội chẩn, không bằng lý do báo giá.",
+    "Khách hỏi giá lần thứ hai mà chưa nhận được con số nào → bắt buộc nêu khoảng giá ngay, không xin số tiếp."],
+ say:[["Dạ [dịch vụ] bên em từ [khoảng] trước ưu đãi, đã gồm [gói gồm những gì]. Con số đúng cho tình trạng của chị thì bác sĩ chốt sau khi xem ảnh ạ.",null,null],
+      ["Với tình trạng của mình em gửi hội chẩn Bác sĩ về phương pháp cũng như chi phí nhé ạ. Chị cho em xin Số Điện Thoại để em lưu thông tin, khi có kết quả trợ lý bác sỹ sẽ liên hệ tới chị ạ.","NV-236425444","69,6% ra số · 23 hội thoại"]],
+ sai:"Trả lời câu hỏi giá bằng một câu xin số. Mẫu đó đo được 14,4% ra số trên 118 hội thoại."},
+{t:"Khách đã gửi ảnh",nhom:"Nhịp tư vấn",n:null,pc:"nhịp thắng rõ nhất kỳ — mọi hội thoại ra số nhanh đều đi qua bước này",
+ chao:"Dạ em nhận được ảnh của chị rồi ạ.",
+ nut:["Đọc ảnh","Nêu phương pháp","Xin số hội chẩn"],
+ b:["<b>Mô tả lại tình trạng bằng lời của mình</b>, nêu đúng 2–3 chi tiết nhìn thấy. Đây là bước tạo niềm tin, không bỏ được.",
+    "Nối sang phương pháp phù hợp với đúng những chi tiết vừa nêu.",
+    "Xin số để nhận kết quả hội chẩn."],
+ say:[["Dạ chị, em đã xem hình vùng [vùng] của mình rồi ạ. Qua ảnh em thấy [chi tiết 1], [chi tiết 2], và [chi tiết 3] ạ.","NV-232258930",null],
+      ["Chị cho em xin SĐT kèm khu vực sinh sống, trợ lý bác sĩ kết nối tư vấn miễn phí cho mình kĩ hơn về công nghệ, chi phí và chương trình khuyến mãi nhé.",null,null]],
+ sai:"Nhận ảnh rồi chỉ đáp “em nhận được ảnh rồi ạ” — mất bước đắt giá nhất."},
+{t:"Khách nói không tiện nghe máy",nhom:"Rào cản kênh",n:null,pc:"rào cản làm hỏng nhiều hội thoại đã vào sâu nhất",
+ chao:"Dạ em hiểu ạ.",
+ nut:["Giải thích vì sao cần gọi","Hỏi khung giờ","Mở kênh Zalo"],
+ b:["Giải thích vì sao gọi nhanh hơn nhắn — đừng lặp lại câu xin số.",
+    "<b>Đổi câu hỏi từ “cho số không” sang “giờ nào”.</b> Khách chọn giờ chứ không chọn có/không.",
+    "Khách vẫn từ chối gọi: nhắn đúng thứ khách hỏi qua inbox, rồi xin số Zalo với cam kết chỉ nhắn."],
+ say:[["Dạ vì nhiều thông tin nhắn qua mặt chữ sẽ hơi dài dòng khó hiểu hết về dịch vụ nên bên em xin phép kết nối 2–3 phút trao đổi nhanh, bên em tư vấn đến 21h đó chị, chị tiện nghe máy vào giờ nào ạ?","NV-198842558",null],
+      ["Dạ em nhắn chị ngay đây ạ: [khoảng giá]. Nếu chị muốn bác sĩ xem ảnh và báo con số đúng cho riêng mình, chị để lại em số Zalo, trợ lý nhắn chị chứ không gọi ạ.",null,null]],
+ sai:"Khách đã viết rõ “không tiện nghe máy, nhắn tin giúp mình” mà vẫn hỏi “chị tiện nghe máy giờ nào”."},
+{t:"Khách ở nước ngoài / Việt kiều",nhom:"Rào cản kênh",n:153,pc:"121 hội thoại Quốc tế + 32 Việt kiều",
+ chao:"Dạ chị đang ở nước ngoài phải không ạ?",
+ nut:["Hỏi kênh nhắn","Xin số nước ngoài","Hỏi lịch về"],
+ b:["Hỏi kênh trước khi hỏi số.",
+    "Xin số nước ngoài, nói rõ là để nhắn chứ không gọi quốc tế.",
+    "Hỏi tháng dự định về, giữ lịch tạm, hẹn nhắc trước 1 tuần."],
+ say:[["Dạ mình có dùng Zalo, Viber, Line hay WhatsApp không ạ?","NV-232258930",null],
+      ["Dạ chị cho em xin thêm số điện thoại nước ngoài của mình nha, trợ lý bác sĩ sẽ nhắn chị bảng giá và ảnh khách có thể trạng giống chị, để chị xem sẵn trước khi về ạ.",null,null]],
+ sai:"Hỏi “khi nào về Việt Nam” rồi dừng — không lấy được gì."},
+{t:"Khách muốn đặt lịch",nhom:"Nhịp tư vấn",n:null,pc:"nhóm gần chốt nhất — dùng mẫu điền, đừng hỏi mở",
+ chao:"Dạ em đăng ký phiếu hẹn miễn phí với bác sĩ cho chị luôn ạ.",
+ nut:["Gửi mẫu điền","Xác nhận chi nhánh","Gửi mã QR"],
+ b:["<b>Gửi mẫu điền, không hỏi câu mở.</b> Mẫu dễ trả lời hơn và đổi lại bằng một thứ cụ thể.",
+    "Xác nhận chi nhánh gần nhất theo nơi khách ở.","Gửi mã thăm khám và nhắc mang CCCD."],
+ say:[["Chị vui lòng để lại thông tin theo mẫu sau, BV sẽ gửi chị mã QR thăm khám trực tiếp BS hoàn toàn miễn phí ạ:\n- Họ và tên:\n- SỐ ĐIỆN THOẠI:\n- Nơi chị sinh sống:",null,null],
+      ["Chị cho em xin Họ tên + Số điện thoại em đăng ký hồ sơ khám ưu tiên với Bác sĩ nha.",null,null]],
+ sai:"Hỏi “chị dự định hôm nào qua” trước khi lấy thông tin — khách trả lời xong là hội thoại hết đà."},
+{t:"Khách sợ biến chứng / hỏng",nhom:"An toàn & từ chối",n:29,pc:"29 hội thoại chứa câu tuyệt đối hoá — xem tab Cách tính",
+ chao:"Dạ em hiểu chị lo ạ.",
+ nut:["Thừa nhận rủi ro","Nêu cách hạn chế","Chuyển bác sĩ"],
+ b:["<b>Thừa nhận là có rủi ro.</b> Không nói “an toàn tuyệt đối”, “không đau”, “không biến chứng”.",
+    "Nêu cách bên mình hạn chế rủi ro bằng việc làm cụ thể, không bằng tính từ.",
+    "Chuyển sang bác sĩ: đây là câu hỏi chuyên môn, không phải câu hỏi bán hàng."],
+ say:[["Dạ em hiểu chị lo ạ. [Phương pháp] dùng [cơ chế] nên hạn chế được [rủi ro cụ thể], nhưng như mọi thủ thuật thì vẫn có rủi ro nhất định — bác sĩ sẽ khám và nói rõ với chị phần này trước khi làm. Chị cho em số điện thoại để bác sĩ gọi trao đổi kỹ ạ.",null,null]],
+ sai:"“Chị hoàn toàn yên tâm”, “an toàn tuyệt đối” — 30 tin trong kỳ, vừa sai luật quảng cáo y tế vừa làm khó bác sĩ khi khách lên viện."},
+{t:"Khách đã từ chối cho số",nhom:"Rào cản kênh",n:60,pc:"60 hội thoại · cứu được 31,7%",
+ chao:"Dạ em hiểu ạ.",
+ nut:["Thu nhỏ cam kết","Cho đường rút","Đổi kênh"],
+ b:["<b>Lượt xin thứ hai phải đổi lý do, không đổi giọng.</b>",
+    "Thu nhỏ cam kết: một cuộc 1–2 phút, đúng khung giờ khách chọn.",
+    "Cho khách đường rút rõ ràng — đây là chi tiết làm câu này thắng.",
+    "Vẫn không được: hạ xuống xin số Zalo, cam kết chỉ nhắn."],
+ say:[["Dạ em hiểu khi mình mới tìm hiểu thì việc để lại số có thể khiến mình ngại bị gọi nhiều hoặc tư vấn lâu. Em xin phép chỉ liên hệ một cuộc ngắn khoảng 1–2 phút, đúng khung giờ mình chọn. Sau cuộc gọi, nếu mình chưa có nhu cầu bên em sẽ không liên hệ thêm.","NV-236425444","Q6 1,9/2 — cao nhất đội"]],
+ sai:"Xin một lần rồi chuyển sang “chị dự định khi nào qua viện”."},
+{t:"Ca phải từ chối: chưa đủ tuổi, quá tuổi, chưa đủ thời gian hồi phục",nhom:"An toàn & từ chối",n:null,
+ pc:"từ chối đúng chuyên môn nhưng đang đóng hội thoại quá gọn",
+ chao:"Dạ em cảm ơn chị đã chia sẻ ạ.",
+ nut:["Nói rõ vì sao","Chỉ đúng tuyến","Xin số để nhắc lại"],
+ b:["Nói rõ vì sao không nhận — lý do an toàn, không phải lý do thủ tục.",
+    "<b>Chỉ đúng nơi nên đi</b> hoặc đúng nhóm dịch vụ thay thế làm được.",
+    "Xin số để lưu hồ sơ và nhắc lại khi đủ điều kiện — xin để giữ lịch, không phải để bán."],
+ say:[["Dạ, với [lý do] thì bên em chưa can thiệp được, em không muốn mình mất thời gian đi lại ạ. Mình có thể [đúng tuyến / nhóm thay thế] trước. Anh/chị để lại em số điện thoại, khi đủ điều kiện em nhắc lại và giữ suất khám miễn phí ạ.",null,null]],
+ sai:"“Dạ 70 tuổi BV không nhận nữa ạ” rồi im — khách hỏi tiếp cũng không được trả lời."},
+{t:"Khách cũ phản ánh kết quả xấu",nhom:"An toàn & từ chối",n:109,pc:"109 khách cũ nhắn lại trong kỳ",
+ chao:"Dạ em xin lỗi chị vì trải nghiệm vừa rồi ạ.",
+ nut:["Xin lỗi","Chuyển CSKH","Hẹn mốc"],
+ b:["<b>Dừng tư vấn bán hàng ngay.</b> Không hỏi thêm nhu cầu, không gửi khuyến mại.",
+    "Xin lỗi cụ thể vào đúng việc đã xảy ra.",
+    "Chuyển CSKH / QL chi nhánh và nói rõ <b>ai sẽ gọi, chậm nhất khi nào</b>.",
+    "Ghi nhận vào sổ khiếu nại trước khi rời hội thoại."],
+ say:[["Dạ chị, em đã chuyển trường hợp của chị lên bộ phận chăm sóc khách hàng. Chậm nhất [giờ] hôm nay anh/chị [tên] sẽ gọi chị để sắp lịch với bác sĩ, và bên em sẽ nói rõ hướng xử lý trước khi chị lên ạ.",null,null]],
+ sai:"Chỉ nói “chị sắp xếp qua tái khám nhé ạ” rồi để hội thoại trôi."}
+];
+
+/* ================= TAB 3 · Kịch bản theo nhân viên ================= */
+var KBSEL="";
+/* lời khuyên ngắn gắn với từng tiêu chí */
+var ADV={
+ q1:"Trả một mảnh giá trị thật (đọc ảnh · tính chỉ số · nêu khoảng giá) trước khi xin số.",
+ q2:"Xin số ngay trong 10 phút đầu — sau phút 60 tỉ lệ ra số rơi còn một phần ba.",
+ q3:"Chạm lại trong cùng ngày, nội dung nối tiếp điều khách vừa nói.",
+ q4:"Chuỗi 3 nhịp trong cửa sổ 24h của Meta: giờ thứ 2 · 6 · 22 tính từ tin cuối của khách.",
+ q5:"Đặt chuông 3 phút cho chính mình khi đang giữ hội thoại — SLA rơi ở giữa, không ở tin đầu.",
+ q6:"Lượt xin thứ hai đổi lý do, không đổi giọng: thu nhỏ cam kết và cho khách đường rút.",
+ q7:"Ba nhịp bắt buộc: hỏi phân loại → trao giá trị → xin số gắn lý do hội chẩn.",
+ q8:"Hội thoại chưa ra số phải được chạm lại; đừng để khách nhắn cuối rồi treo."
+};
+/* câu đã đọc được của từng mã — chỉ ghi khi thật sự có trong mẫu AI đọc */
+var CAUNV={
+ "NV-236425444":{good:["Dạ em hiểu khi mình mới tìm hiểu thì việc để lại số có thể khiến mình ngại bị gọi nhiều hoặc tư vấn lâu. Em xin phép chỉ liên hệ một cuộc ngắn khoảng 1–2 phút, đúng khung giờ mình chọn. Sau cuộc gọi, nếu mình chưa có nhu cầu bên em sẽ không liên hệ thêm.","Với tình trạng của mình em gửi hội chẩn Bác sĩ về phương pháp cũng như chi phí nhé ạ. Chị cho em xin Số Điện Thoại để em lưu thông tin, khi có kết quả trợ lý bác sỹ sẽ liên hệ tới chị ạ."],bad:[]},
+ "NV-232258930":{good:["Dạ mình có dùng Zalo/Viber/Line/Whatsapp không ạ? Em xin phép kết nối trợ lý bác sĩ với chị qua đó để tiện tư vấn trước khi mình về nước chị nha.","Hiện tại với chi phí cắt mí bên em giá gốc 10tr đang ưu đãi còn 8tr. Phí sửa lại 3tr đang giảm 40% còn 1tr8. Tổng chi phí cắt sửa lại là 9tr8 chị nhé."],bad:["Khách hỏi “tiêm botox có ảnh hưởng gì không” → trả lời “Dạ không chị nhé”. Phủ định rủi ro là sai luật quảng cáo y tế."]},
+ "NV-198843202":{good:["Dạ chị, em đã xem hình ảnh vùng mắt của mình rồi ạ. Qua ảnh em thấy hai bên mí dưới của chị có phần hơi phồng, vùng dưới mắt xuất hiện một số nếp nhăn và rãnh lệ nhẹ.","Dạ em hiểu chị ạ. Nếu chỉ nhìn qua thì mình sẽ thấy cắt mí là một tiểu phẫu khá đơn giản, tuy nhiên vùng mắt có cấu trúc rất tinh tế nên đòi hỏi bác sĩ phải thực hiện tỉ mỉ."],bad:["“Bên em chưa có khách nào là chưa giảm” — hứa kết quả tuyệt đối, bỏ ngay."]},
+ "NV-198842558":{good:["Dạ vì nhiều thông tin nhắn qua mặt chữ sẽ hơi dài dòng khó hiểu hết về dịch vụ nên bên em xin phép kết nối 2–3 phút trao đổi nhanh, bên em tư vấn đến 21h đó chị, chị tiện nghe máy vào giờ nào ạ?"],bad:[]},
+ "NV-258612608":{good:["Dạ em hiểu anh ở xa nên ngại đi lại ạ. Bên em tư vấn kỹ online trước, anh chỉ cần lên 1 chuyến là xong thăm khám và làm luôn trong ngày, không phải đi lại nhiều lần đâu ạ.","Em báo vội một con số thì dễ lệch với thực tế, vì còn phụ thuộc nền mũi hiện tại. Bác sĩ phải xem kỹ mới chốt được ạ."],bad:[]},
+ "NV-269001161":{good:["Dạ chị ơi, qua hình ảnh chị gửi, em thấy khuôn mặt mình có nền má khá đầy đặn, tuy nhiên rãnh cười, dưới mắt và thái dương chưa được cân đối về độ đầy."],bad:["Khách nói “không tiện cho số giờ” ba lần, vẫn tiếp tục xin số thay vì mở kênh thay thế."]},
+ "NV-254668856":{good:["Dạ em tính sơ bộ với chiều cao 1m50 và cân nặng 65kg, 37 tuổi thì BMI của chị khoảng 28,9. Lộ trình tham khảo khoảng 15–20 buổi, con số chính xác bác sĩ chốt sau khi đo InBody ạ."],bad:["Khách hỏi chi phí 5 lần mới báo giá; báo xong lại không xin số lần nào nữa."]},
+ "NV-205107209":{good:[],bad:["Khách hỏi giá → “Kangnam đang có chi phí ưu đãi săn SALE” rồi xin số. Không có con số nào được đưa ra."]},
+ "NV-202194914":{good:[],bad:["Lặp nguyên văn một mẫu xin số ở cả ba lượt; mẫu đó đo được 14,4% ra số trên 118 hội thoại."]},
+ "NV-240896987":{good:[],bad:["Khách nói “sợ tác dụng phụ” → “chị hoàn toàn yên tâm, không lo chất liệu lạ vào cơ thể”."]},
+ "NV-238736928":{good:["Dạ chị ơi, em xem hình thấy vùng hai bên gò má của mình đang xuất hiện những mảng sắc tố nâu không đều, kèm các đốm nâu nhỏ, da hơi xỉn màu."],bad:["Hai hội thoại HOT bị bỏ dở rồi thay bằng tin mẫu khuyến mại Tuần Vàng."]},
+ "NV-264113743":{good:[],bad:["Mở hội thoại bằng câu xin số trần trước khi hỏi bất cứ điều gì về tình trạng khách."]},
+ "NV-226199192":{good:["Dạ mình có dùng Zalo Viber Line hay WhatsApp không ạ? Dạ chị cho em xin thêm số điện thoại nước ngoài của mình nha."],bad:["9 tin chứa từ tuyệt đối hoá — nhiều nhất đội."]},
+ "NV-198842634":{good:[],bad:["Khách hỏi “sao không tư vấn luôn đây cho lẹ” → vẫn vòng về câu xin số."]},
+ "NV-262546406":{good:[],bad:[]}
+};
+function kbBest(k){
+  var a=S().nv.filter(function(x){return x[k]!==null&&x[k]!==undefined&&x.n>=20;});
+  if(!a.length) return null;
+  a.sort(function(x,y){return y[k]-x[k];});
+  return a[0];
+}
+function tabKB(){
+  return '<div class="card"><h2>Kịch bản theo nhân viên</h2>'
+   +'<div class="bar"><label>Nhân viên<select id="kbNv"></select></label>'
+   +'<span class="note" id="kbSum"></span></div>'
+   +'<p class="note" id="kbNote"></p></div><div id="kbList"></div>';
+}
+function kbList(items,cls){
+  var li=items.filter(Boolean).map(function(x){
+    return Array.isArray(x) ? '<li><b>'+esc(x[0])+':</b> '+x[1]+'</li>' : '<li>'+x+'</li>';
+  });
+  if(!li.length) li=['<li class="note">—</li>'];
+  return '<ul'+(cls?' class="'+cls+'"':'')+'>'+li.join("")+'</ul>';
+}
+function kbSec(cls,title,inner){
+  return '<div class="kbsec '+cls+'"><h3>'+esc(title)+'</h3>'+inner+'</div>';
+}
+function kbChung(){
+  var by={};
+  KICHBAN.forEach(function(k){ (by[k.nhom||"Chung"]=by[k.nhom||"Chung"]||[]).push(k); });
+  var h='';
+  Object.keys(by).forEach(function(g){
+    h+='<div class="lb">'+esc(g)+' ('+by[g].length+')</div>';
+    by[g].forEach(function(k){
+      var src=k.say.filter(function(s){return s[1];}).map(function(s){return s[1];});
+      h+='<details><summary>'+esc(k.t)
+       +(k.n?' <span class="note">· '+k.n+' hội thoại</span>':'')
+       +(src.length?' <span class="srcA">top A · '+esc(src[0])+'</span>':'')
+       +'</summary>'
+       +'<p class="note" style="margin:6px 0">'+esc(k.pc)+'</p>'
+       +'<ol class="steps">'+k.b.map(function(b){return '<li>'+b+'</li>';}).join("")+'</ol>'
+       +k.say.map(function(s){
+          return '<div class="hint" style="margin:6px 0">'+esc(s[0]).replace(/\n/g,"<br>")
+           +'<div style="margin-top:6px">'
+           +(s[1]?'<span class="srcA">'+esc(s[1])+(s[2]?' · '+esc(s[2]):'')+'</span> ':'')
+           +'<button class="copy" data-copy="'+esc(s[0])+'">Sao chép</button></div></div>';
+         }).join("")
+       +'<div class="qcl"><div class="x"><b>Đang làm sai</b>'+esc(k.sai)+'</div>'
+       +'<div class="o"><b>Thay bằng</b>'+esc(k.say[k.say.length-1][0])+'</div></div>'
+       +'</details>';
+    });
+  });
+  return h;
+}
+function renderKB(){
+  var sel=el("kbNv"); if(!sel) return;
+  var nv=S().nv;
+  sel.innerHTML='<option value="">— Tổng quát cả đội —</option>'
+    +nv.map(function(p){return '<option value="'+p.nv+'">'+p.hang+' · '+p.nv+'</option>';}).join("");
+  if(KBSEL&&!nv.filter(function(x){return x.nv===KBSEL;}).length) KBSEL="";
+  sel.value=KBSEL;
+  el("kbNote").textContent="Kịch bản mẫu đúc từ hội thoại ra số của nhân viên hạng A, bám nhịp chuẩn "
+   +"ba bước. Ô [khoảng] / [ưu đãi] / [khung giờ] = QL điền theo bảng giá và lịch hiện hành. "
+   +"Đề xuất — chờ QL duyệt.";
+  var t=T(), grid='';
+  if(!KBSEL){
+    var cA=nv.filter(function(x){return x.hang==="A";}).length,
+        cB=nv.filter(function(x){return x.hang==="B";}).length,
+        cC=nv.filter(function(x){return x.hang==="C";}).length;
+    el("kbSum").textContent=nv.length+" nhân viên · "+cA+" hạng A · "+cB+" hạng B · "+cC+" hạng C";
+    var strong=[],weak=[],bai=[];
+    QID.forEach(function(k){
+      var b=kbBest(k), c=crit(k);
+      if(b&&t[k]!==null&&t[k]!==undefined&&b[k]>t[k])
+        strong.push([c.n,"tốt nhất "+b.nv+" "+fmtQ(k,b[k])+" (đội "+fmtQ(k,sTeamQ(k))+")"]);
+    });
+    QID.forEach(function(k){
+      var c=crit(k), v=sTeamQ(k);
+      if(v!==null&&v!==undefined&&v<c.goal)
+        weak.push([c.n,"đội "+fmtQ(k,v)+" · mục tiêu ≥ "+(c.u==="%"?pc(c.goal):n2(c.goal))]);
+    });
+    weak.sort(function(a,b){return 0;});
+    bai.push(["Mất số vì","trả lời câu hỏi giá bằng một câu xin số — 907 hội thoại hỏi giá, mẫu "
+      +"xin số trần chỉ ra số 14,4%"]);
+    bai.push(["Mất số vì","xin một lần rồi bỏ — trung vị số lần xin ở hội thoại chưa ra số là 0"]);
+    bai.push(["Mất số vì","không nghe điều khách vừa nói — khách xin nhắn tin, nhân viên vẫn đòi gọi"]);
+    QID.forEach(function(k){
+      var c=crit(k), v=sTeamQ(k);
+      if(v===null||v===undefined||v>=c.goal) return;
+      var b=kbBest(k);
+      if(b) bai.push(["Học từ "+b.nv,c.n+" "+fmtQ(k,b[k])+" — "+ADV[k]]);
+    });
+    grid=kbSec("s1","Điểm mạnh của đội",kbList(strong.slice(0,6)))
+      +kbSec("s2","Điểm yếu chung",kbList(weak))
+      +kbSec("s3","Bài học",kbList(bai.slice(0,7)))
+      +kbSec("s4","Kịch bản chung ("+KICHBAN.length+")",kbChung());
+  }else{
+    var p=null; nv.forEach(function(x){ if(x.nv===KBSEL) p=x; });
+    if(!p){
+      el("kbSum").textContent="Mã này không đủ 20 hội thoại trong lát cắt đang chọn.";
+      el("kbList").innerHTML='<div class="card"><p class="note">Chọn lát cắt rộng hơn ở thanh lọc, '
+        +'hoặc quay về Tổng quát cả đội.</p></div>';
+      return;
+    }
+    el("kbSum").innerHTML='<span class="tier tier-'+p.hang+'">'+p.hang+'</span> <code>'
+      +esc(p.nv)+'</code> · điểm <b>'+String(p.diem).replace(".",",")+'</b> · '+p.n+' inbox mới';
+    var cau=CAUNV[p.nv]||{good:[],bad:[]};
+    var st=[],wk=[],ls=[];
+    QID.forEach(function(k){
+      var c=crit(k), v=p[k], tv=sTeamQ(k);
+      if(v===null||v===undefined||tv===null||tv===undefined) return;
+      if(v>tv) st.push([c.n,fmtQ(k,v)+" (đội "+fmtQ(k,tv)+")"]);
+    });
+    cau.good.forEach(function(q){
+      st.push(["Câu hay",'“'+esc(q)+'” <button class="copy" data-copy="'+esc(q)
+        +'">Sao chép</button>']); });
+    var wkKeys=[];
+    QID.forEach(function(k){
+      var c=crit(k), v=p[k];
+      if(v===null||v===undefined||v>=c.goal) return;
+      wkKeys.push(k);
+      wk.push([c.n,fmtQ(k,v)+" (đội "+fmtQ(k,sTeamQ(k))+", mục tiêu ≥ "
+        +(c.u==="%"?pc(c.goal):n2(c.goal))+")"]);
+    });
+    loiCuaNV(p).forEach(function(e){ if(e[0]!=="ok") wk.push([e[1],e[3]]); });
+    wkKeys.slice(0,4).forEach(function(k){
+      var b=kbBest(k);
+      ls.push(b&&b.nv!==p.nv ? ["Học từ "+b.nv+" ("+crit(k).n+" "+fmtQ(k,b[k])+")",ADV[k]]
+                             : [crit(k).n,ADV[k]]);
+    });
+    cau.bad.forEach(function(q){ ls.push(["Sửa câu",esc(q)]); });
+    if(p.hang==="A") ls.unshift(["Chia sẻ cho đội",
+      "Câu của bạn đang là nguồn cho kịch bản chuẩn — xem khối Kịch bản chung bên dưới."]);
+    grid=kbSec("s1","Điểm mạnh",kbList(st.slice(0,7)))
+      +kbSec("s2","Điểm yếu",kbList(wk.slice(0,7)))
+      +kbSec("s3","Bài học",kbList(ls.slice(0,7)))
+      +kbSec("s4","Kịch bản chung ("+KICHBAN.length+")",kbChung());
+  }
+  el("kbList").innerHTML='<div class="kb4">'+grid+'</div>';
+}
+
+/* ================= TAB 4 · Việc cần làm ================= */
+var VSEL="nv";
+function tabViec(){
+  return '<div class="card"><h2>Phân việc</h2>'
+   +'<p class="note">Bốn góc nhìn của cùng một kỳ: ai cần sửa gì · page nào cần kiểm thông tin · '
+   +'dịch vụ nào cần tối ưu · thị trường nào cần kịch bản riêng.</p>'
+   +'<div class="subtabs chips" id="vChips"></div><div id="vBody"></div></div>';
+}
+var VSET=[["nv","Theo nhân viên"],["page","Theo page"],["dv","Theo dịch vụ"],["mkt","Theo thị trường"]];
+function viecNV(){
+  var T=V2.team;
+  var h='<div class="scroll"><table><thead><tr><th>Nhân viên</th><th>Hạng</th>'
+   +'<th>Việc cần xử lí</th><th class="n hide-m">Đo lại bằng</th></tr></thead><tbody>';
+  V2.nv.forEach(function(p){
+    var viec=[], do_=[];
+    if(p.q1<T.q1-4){viec.push("Q1 "+pc(p.q1)+" dưới đội "+pc(T.q1)+" — sửa nhịp kịch bản");do_.push("Q1");}
+    if(p.q5!==null&&p.q5<T.q5-8){viec.push("SLA giữa hội thoại "+pc(p.q5)+" — đặt chuông 3 phút");
+      do_.push("Q5");}
+    if(p.q8a!==null&&p.q8a<55){viec.push("Chỉ "+pc(p.q8a)+" hội thoại chưa số được chạm lại");
+      do_.push("Q8");}
+    if(p.treo>=5){viec.push(p.treo+" hội thoại treo chưa ai trả lời");do_.push("Treo");}
+    if(p.q6!==null&&p.q6<1.0){viec.push("Xử lí từ chối "+n2(p.q6)+"/2 — học câu của NV-236425444");
+      do_.push("Q6");}
+    if(p.hot_chua>=10){viec.push(p.hot_chua+" khách nóng chưa có số, cứu trước 10:00");do_.push("Q2");}
+    if(!viec.length) viec.push("Không có việc gấp. Nhận vai mentor cho nhóm C.");
+    h+='<tr class="t'+p.hang+'"><td><code>'+esc(p.nv)+'</code><span class="mxr">'+p.n
+     +' inbox mới</span></td><td><span class="tier tier-'+p.hang+'">'+p.hang+'</span></td>'
+     +'<td><ul class="pvul" style="color:inherit">'
+     +viec.map(function(v){return '<li>'+esc(v)+'</li>';}).join("")+'</ul></td>'
+     +'<td class="n hide-m">'+do_.map(function(d){return '<span class="pill">'+d+'</span>';}).join("")
+     +'</td></tr>';
+  });
+  return h+'</tbody></table></div>';
+}
+function viecPage(){
+  var n=V2.nguon;
+  var h='<div class="scroll"><table><thead><tr><th>Nguồn inbox</th><th class="n">Inbox mới</th>'
+   +'<th class="n">Q1</th><th class="n">1 chạm</th><th>Việc cho page / Performance</th>'
+   +'</tr></thead><tbody>';
+  var note={QC:"Nguồn chính của page. Kiểm bộ mẫu quảng cáo cắt mí — nhóm này kéo nhiều inbox nhất "
+      +"nhưng cũng là nơi câu hỏi giá dồn vào. Cần bật trường chi phí để tính CP/SĐT.",
+    TRUC_TIEP:"Tỉ lệ một chạm cao nhất: khách hỏi một câu rồi im. Kiểm lại phần giới thiệu và tin "
+      +"tự động chào của page — khách không nhận được lý do để nói tiếp.",
+    COMMENT:"Cỡ mẫu quá nhỏ để kết luận. Kiểm xem luồng trả lời bình luận có đang chuyển đúng vào "
+      +"inbox không."};
+  n.forEach(function(r){
+    h+='<tr><td>'+esc(r.label)+'</td><td class="n">'+r.n+'</td>'
+     +'<td class="q '+clsQ("q1",r.q1)+'">'+pc(r.q1)+'</td><td class="n">'+pc(r.mot_cham)+'</td>'
+     +'<td>'+esc(note[r.key]||"")+'</td></tr>';
+  });
+  h+='</tbody></table></div>'
+   +'<p class="src">'+cauPage('chưa so được page với page. Bảng này tạm cắt theo nguồn inbox.')+'</p>';
+  return h;
+}
+function viecDV(){
+  var T=V2.team;
+  var h='<div class="scroll"><table><thead><tr><th>Dịch vụ</th><th class="n">Inbox mới</th>'
+   +'<th class="n">Q1</th><th class="n">Q5</th><th class="n">Q8</th><th>Việc tối ưu</th>'
+   +'</tr></thead><tbody>';
+  var note={MAT:"Động cơ chính của page (524 inbox, Q1 cao nhất). Giữ nguyên, dùng làm chuẩn so "
+      +"cho các mảng khác.",
+    HAM_MAT:"<b>Ưu tiên 1.</b> SLA cao nhất bảng mà Q1 thấp nhất — trả lời nhanh nhưng không chốt "
+      +"được số. Lỗi kịch bản, không phải lỗi tốc độ. Chuẩn hoá bước xin 2 ảnh (chính diện + nghiêng) "
+      +"rồi gửi hội chẩn.",
+    BODY:"<b>Ưu tiên 2.</b> 368 inbox, nhiều thứ hai, mà Q1 chỉ 17,4%. Khách hỏi giá liệu trình rất "
+      +"nhiều — cần bảng khoảng giá theo số buổi để nhân viên nêu được con số.",
+    DA_TRE_HOA:"Gom 16 trong 30 tin tuyệt đối hoá của cả kỳ dù chỉ chiếm 17% inbox. Rà lại câu trả "
+      +"lời cho nhóm khách sợ tác dụng phụ.",
+    MUI:"Q1 khá, Q5 trung bình. Theo dõi tiếp.",
+    NGUC:"Đơn giá cao, cỡ mẫu nhỏ (125). Ưu tiên giao cho nhóm A.",
+    KHAC:"Cỡ mẫu 45, chưa kết luận được.",
+    KHONG_XAC_DINH:"206 hội thoại chưa gắn được dịch vụ — Q1 và Q5 đều thấp nhất bảng. Phần lớn là "
+      +"hội thoại chết yểu. Cần bổ sung từ khoá phân loại dịch vụ."};
+  V2.dv.forEach(function(r){
+    h+='<tr><td>'+esc(r.label)+'</td><td class="n">'+r.n+'</td>'
+     +'<td class="q '+clsQ("q1",r.q1)+'">'+pc(r.q1)+'</td>'
+     +'<td class="q '+clsQ("q5",r.q5)+'">'+pc(r.q5)+'</td>'
+     +'<td class="q '+clsQ("q8",r.q8)+'">'+fmtQ("q8",r.q8)+'</td>'
+     +'<td>'+(note[r.key]||"")+'</td></tr>';
+  });
+  return h+'</tbody></table></div>';
+}
+function viecMKT(){
+  var h='<div class="scroll"><table><thead><tr><th>Thị trường</th><th class="n">Inbox mới</th>'
+   +'<th class="n">Q1</th><th class="n">HOT chưa số</th><th>Việc</th></tr></thead><tbody>';
+  var note={HA_NOI:"Gần bệnh viện Hà Nội nhất. Ưu tiên chốt lịch khám trực tiếp thay vì tư vấn dài.",
+    HO_CHI_MINH:"Có cơ sở tại chỗ. Cùng hướng như Hà Nội.",
+    TINH_KHAC:"Rào cản chính là đường xa, không phải giá. Dùng kịch bản <i>chỉ phải đi một chuyến</i>: "
+      +"tư vấn kỹ online trước, lên là khám và làm luôn trong ngày.",
+    VIET_KIEU:"8 khách nóng chưa số trên 32 hội thoại — tỉ lệ tồn cao nhất bảng. Bắt buộc xin số nước "
+      +"ngoài + mở Zalo, và giữ lịch theo tháng dự định về.",
+    QUOC_TE:"Cùng kịch bản Việt kiều. Hỏi kênh nhắn trước khi hỏi số.",
+    CHUA_RO:"79% hội thoại. Không phải một thị trường — là phần chưa xác định được. Bản xuất Caresoft "
+      +"không có trường thị trường nên phần này suy từ lời khách."};
+  V2.mkt.forEach(function(r){
+    h+='<tr><td>'+esc(r.label)+'</td><td class="n">'+r.n+'</td>'
+     +'<td class="q '+clsQ("q1",r.q1)+'">'+pc(r.q1)+'</td><td class="n">'+r.hot_chua+'</td>'
+     +'<td>'+(note[r.key]||"")+'</td></tr>';
+  });
+  return h+'</tbody></table></div>'
+   +'<p class="src"><b>Cảnh báo đọc số:</b> Q1 của nhóm đã xác định được thị trường (42–62%) cao hơn '
+   +'nhóm chưa xác định (14,9%) <i>không</i> phải vì thị trường đó tốt hơn — khách chỉ nói nơi ở khi hội '
+   +'thoại đã đi sâu. Dùng cột này để chia kịch bản, không dùng để so hiệu quả.</p>';
+}
+function renderViec(){
+  el("vChips").innerHTML=VSET.map(function(s){
+    return '<button class="chip" data-v="'+s[0]+'" aria-pressed="'+(VSEL===s[0])+'">'
+      +esc(s[1])+'</button>';}).join("");
+  el("vBody").innerHTML = VSEL==="nv"?viecNV() : VSEL==="page"?viecPage()
+    : VSEL==="dv"?viecDV() : viecMKT();
+}
+
+
+/* ================= TAB 5 · Kiến nghị QC/QA ================= */
+var DB=null, ME=null, CANEDIT=false, KN=[], KNNOTE="";
+function tabKN(){
+  var dvs=["Tất cả"].concat(V2.dv.map(function(d){return d.label;}));
+  var mks=["Tất cả"].concat(V2.mkt.map(function(d){return d.label;}));
+  var vd=["— Chọn —","Khách hỏi giá rồi im","Chờ quá lâu / SLA giữa hội thoại",
+          "Xin số nhiều mà không ra số","Tin mẫu đại trà phủ hội thoại",
+          "Câu tuyệt đối hoá / từ cấm","Khách cũ phản ánh kết quả",
+          "Có số nhưng Sale không gọi được","Khác"];
+  function sel(id,arr){return '<select id="'+id+'">'
+    +arr.map(function(x){return '<option>'+esc(x)+'</option>';}).join("")+'</select>';}
+  return '<div class="card"><h2>Quản lý kiến nghị kiểm tra (QC/QA) trực page</h2>'
+   +'<p class="note">Chọn đúng phạm vi để lần chạy sau lọc hội thoại theo ý bạn: một dịch vụ, một nhân '
+   +'viên, một thị trường, một khung giờ, hoặc kết hợp. Hệ thống lọc hội thoại kỳ gần nhất theo phạm vi, '
+   +'đo Q1–Q5 và Q8, cho AI đọc kỹ tới 30 hội thoại, rồi trả kết quả ngay dưới kiến nghị. '
+   +'<b>Không ghi SĐT, tên hay link của khách</b>; nhân viên ghi bằng mã NV.</p>'
+   +'<div class="kn-f bar">'
+   +'<label>Dịch vụ'+sel("knDv",dvs)+'</label>'
+   +'<label>Nhân viên'+sel("knNv",["Tất cả"].concat(V2.nv.map(function(p){return p.nv;})))+'</label>'
+   +'<label>Thị trường'+sel("knMk",mks)+'</label>'
+   +'<label>Khung giờ'+sel("knKg",["Tất cả"].concat(V2.kg.map(function(d){return d.label;})))+'</label>'
+   +'<label>Vấn đề nghi ngờ *'+sel("knVd",vd)+'</label>'
+   +'<label>Mức gấp'+sel("knGap",["Trong tuần","Trong ngày","Gấp","Kỳ sau cũng được"])+'</label>'
+   +'</div>'
+   +'<label class="full">Mô tả cụ thể *<textarea id="knNeed" rows="3" maxlength="500" '
+   +'placeholder="Vd: mảng Hàm mặt kỳ này SLA tốt mà Q1 thấp nhất bảng; khách Việt kiều tồn nhiều HOT '
+   +'chưa số…"></textarea></label>'
+   +'<label class="full">Mã hội thoại ví dụ (nếu có, cách nhau bằng dấu phẩy)'
+   +'<input id="knHt" maxlength="300" placeholder="HT-6b582a79b6ac, HT-f1406ea93e2f"></label>'
+   +'<div class="xl-act"><button class="btn pri" id="knSend" type="button">Gửi kiến nghị</button>'
+   +'<span class="note" id="knMsg"></span></div></div>'
+   +'<div class="card"><div class="bar"><label>Trạng thái<select id="knFst">'
+   +'<option value="">Tất cả</option><option>Mới</option><option>Đã có kết quả</option>'
+   +'<option>Không làm được</option></select></label></div><div id="knList"></div></div>';
+}
+function renderKN(){
+  var box=el("knList"); if(!box) return;
+  var btn=el("knSend");
+  if(!DB){
+    box.innerHTML='<p class="note">'+(KNNOTE||"Chưa kết nối được nơi lưu kiến nghị.")+'</p>';
+    if(btn) btn.disabled=true; return;
+  }
+  if(!CANEDIT){
+    box.innerHTML='<p class="note">Chỉ quản lý (quyền Editor) gửi và xem được mục này.</p>';
+    if(btn) btn.disabled=true; return;
+  }
+  if(btn) btn.disabled=false;
+  var f=el("knFst")?el("knFst").value:"";
+  var list=KN.filter(function(k){return !f||(k.tt||"Mới")===f;});
+  box.innerHTML = list.length ? list.map(function(k){
+    return '<div class="knr"><div class="xl-top"><b>'+esc(k.vd||"")+'</b>'
+      +'<span class="pill">'+esc(k.gap||"")+'</span>'
+      +'<span class="pill">'+esc(k.dv||"")+'</span>'
+      +'<span class="pill">'+esc(k.nv||"")+'</span>'
+      +'<span class="pill">'+esc(k.mk||"")+'</span>'
+      +'<span class="st st-'+((k.tt==="Đã có kết quả")?"ok":(k.tt==="Không làm được"?"back":"chua"))
+      +'">'+esc(k.tt||"Mới")+'</span></div>'
+      +'<div class="res">'+esc(k.need||"")+(k.ht?"\\n\\nMã ví dụ: "+esc(k.ht):"")+'</div></div>';
+  }).join("") : '<p class="note">Chưa có kiến nghị.</p>';
+}
+function sendKN(){
+  var vd=el("knVd").value, need=el("knNeed").value.trim();
+  if(vd.indexOf("Chọn")>=0||!need){
+    el("knMsg").textContent="Cần chọn vấn đề nghi ngờ và viết mô tả cụ thể."; return; }
+  if(!DB){ el("knMsg").textContent="Chưa kết nối được nơi lưu."; return; }
+  var body={dv:el("knDv").value,nv:el("knNv").value,mk:el("knMk").value,kg:el("knKg").value,
+            vd:vd,gap:el("knGap").value,need:need,ht:el("knHt").value.trim(),
+            tt:"Mới",at:new Date().toISOString()};
+  if(ME) body.by=ME;
+  DB.collection("kiennghi").doc().set(body).then(function(){
+    el("knMsg").textContent="Đã gửi. Lần chạy sau sẽ lọc hội thoại theo phạm vi này.";
+    el("knNeed").value=""; el("knHt").value="";
+  },function(){ el("knMsg").textContent=
+    "Không gửi được — tài khoản này không có quyền Editor trên trang."; });
+}
+function bootDB(){
+  if(!(window.claude&&window.claude.use)){
+    KNNOTE="Trang đang mở ở chế độ chỉ đọc nên chưa gửi được kiến nghị."; return; }
+  var timer=setTimeout(function(){
+    if(!DB){ KNNOTE="Chưa kết nối được nơi lưu kiến nghị; các tab khác vẫn dùng bình thường.";
+      renderKN(); } },10000);
+  Promise.all([window.claude.use("db"),window.claude.use("user")]).then(function(r){
+    DB=r[0]; var u=r[1]; clearTimeout(timer);
+    if(!DB){ KNNOTE="Trang đang mở ở chế độ chỉ đọc nên chưa gửi được kiến nghị."; renderKN(); return; }
+    if(u){ try{ CANEDIT=!!u.canEdit(); }catch(e){}
+           try{ u.id().then(function(x){ME=x;},function(){}); }catch(e){} }
+    DB.collection("kiennghi").onSnapshot(function(snap){
+      KN=snap.docs.map(function(d){return d.data()||{};}); renderKN();
+    },function(){ KNNOTE="Không đọc được kiến nghị đã lưu."; renderKN(); });
+    renderKN();
+  },function(){ clearTimeout(timer);
+    KNNOTE="Trang đang mở ở chế độ chỉ đọc nên chưa gửi được kiến nghị."; renderKN(); });
+}
+
+/* ================= TAB 6 · Cách tính & luật ================= */
+function tabLuat(){
+  var T=V2.team;
+  var rows=CRIT.map(function(c,i){
+    return '<tr><td><b>Q'+(i+1)+'</b></td><td>'+esc(c.n)+'</td>'
+      +'<td class="n">≥ '+(c.u==="%"?pc(c.goal):n2(c.goal))+'</td>'
+      +'<td class="n">'+fmtQ(c.id,teamQ(c.id))+'</td>'
+      +'<td><span class="prov '+(c.who==="Máy"?"code":"ai")+'">'+c.who+'</span> '+esc(c.d)+'</td></tr>';
+  }).join("");
+  return '<div class="card"><h2>8 tiêu chí chấm trực page</h2>'
+   +'<div class="scroll" style="max-height:none"><table id="qDef"><thead><tr><th>Mã</th>'
+   +'<th>Tiêu chí</th><th class="n">Mục tiêu</th><th class="n">Đội kỳ này</th><th>Đo bằng</th>'
+   +'</tr></thead><tbody>'+rows+'</tbody></table></div>'
+   +'<p class="src">Q1–Q5 và Q8 máy đếm theo phạm vi lọc; Q6–Q7 AI chấm toàn kỳ trên mẫu hội thoại đã '
+   +'đọc của từng người. Mục tiêu đang ở trạng thái <b>demo chưa ai chốt</b>.</p></div>'
+
+   +'<div class="grid">'
+   +'<div class="card"><h2>Cách tính</h2><ul class="steps" id="howList">'
+   +'<li><b>Inbox mới</b> = hội thoại có khách nhắn trong kỳ, <b>trừ khách cũ</b>. Khách cũ nhận diện '
+   +'bằng lời trong chính hội thoại: đã làm dịch vụ bên Kangnam, tái khám, bảo hành, nhắc lần phẫu '
+   +'thuật trước. Kỳ này '+n0(V2.team.khach_cu)+'/'+n0(V2.team.tong_ht)+'. Khách cũ bấm vào quảng cáo mới vẫn là khách cũ.</li>'
+   +'<li><b>Q1 = SĐT thô ÷ inbox mới phát sinh trong kỳ.</b> Mẫu số không chờ đủ giờ nên Q1 đọc được '
+   +'ngay trong ngày.</li>'
+   +'<li><b>Q2 / Q3 / Q4</b> chỉ tính inbox đã đủ 6h / 24h / 48h kể từ tin đầu của khách. Chưa đủ giờ '
+   +'là “đang chạy”, không vào mẫu số. Kỳ 3 ngày nên Q4 chỉ có '+T.q4n+' inbox.</li>'
+   +'<li><b>SLA</b> tính trong khung <b>08:15–21:30</b>, chỉ tính lượt chờ <i>bắt đầu</i> trong khung. '
+   +'Hai loại: <b>SLA lần đầu</b> (chỉ tin đầu, '+pc(T.q5_dau)+') và <b>SLA toàn bộ</b> (mọi lượt khách '
+   +'chờ, '+pc(T.q5)+'). Q5 dùng loại thứ hai. Ngưỡng 2 phút: '+pc(T.q5_2p)+'.</li>'
+   +'<li><b>Q8</b> = trung bình ba tỉ lệ trên hội thoại chưa ra số: được chạm lại · có từ 2 lượt xin số '
+   +'· không bị treo.</li>'
+   +'<li><b>Điểm tổng</b> = tỉ lệ so với trung bình đội, đội = 100. Trọng số Q1 30% · Q3 15% · Q5 20% · '
+   +'Q8 15% · Q6 10% · Q7 10%. Tiêu chí thiếu mẫu bị loại và trọng số chia lại. '
+   +'A ≥ 110 · B 92–109 · C &lt; 92.</li>'
+   +'<li><b>Thị trường</b>: Hà Nội · Hồ Chí Minh · Các tỉnh khác · Việt kiều · Quốc tế · Chưa xác định. '
+   +'Suy từ lời khách vì bản xuất không có trường này — độ phủ 21%.</li>'
+   +'<li><b>Mẫu nhỏ</b>: ô dưới 20 hội thoại để trống và bị loại khỏi điểm tổng.</li></ul></div>'
+
+   +'<div class="card"><h2>Không được nói trong chat</h2>'
+   +'<p>an toàn tuyệt đối · tuyệt đối an toàn · hoàn toàn yên tâm · không đau · không biến chứng · '
+   +'không để lại sẹo · vĩnh viễn · trọn đời · 100% · độc quyền · số 1 · tốt nhất · chắc chắn khỏi · '
+   +'cam kết kết quả · “chưa có khách nào không giảm”.</p>'
+   +'<p class="note">Thay bằng: “bác sĩ khám rồi mới nói được phương án với trường hợp của mình ạ” · '
+   +'“mỗi phương pháp đều có rủi ro nhất định, bên em hạn chế bằng [việc làm cụ thể]” · “chính sách bảo '
+   +'hành có điều kiện — em gửi điều kiện cụ thể”. Danh sách chờ duyệt pháp lý.</p>'
+   +'<p class="src">Kỳ này đếm được <b>30 tin</b> trong <b>29 hội thoại</b>, nặng nhất ở mảng '
+   +'Da / Trẻ hoá: 16/30 tin. Xem từng mã nhân viên ở tab Thẻ điểm.</p>'
+
+   +'<h2 style="margin-top:12px">Gặp ngay</h2><ul class="steps">'
+   +'<li><b>Tín hiệu an toàn</b> (đau nhức dữ dội, sưng lan rộng, sốt, chảy máu không cầm, chảy mủ, '
+   +'tê kéo dài, lộ sụn / lệch sóng sau nâng mũi, thâm hoặc hoại tử vùng vừa can thiệp…) → '
+   +'<b>chuyển bác sĩ, không tư vấn bán</b>. Ví dụ trong kỳ: <code>HT-89f629cac00f</code> (mũi nâng 40 '
+   +'ngày bị lệch, lồi sụn), <code>HT-5e9d4ee7580c</code> (thâm nách sau cắt tuyến mồ hôi).</li>'
+   +'<li><b>N4</b> (khiếu nại, nghi biến chứng, đòi hoàn tiền, doạ đăng mạng) → <b>báo QL cơ sở trong '
+   +'30 phút</b>. Ví dụ: <code>HT-83545d86e45c</code> (hỏng mí 2 lần, đã lên viện 2 lần), '
+   +'<code>HT-64a386fb95f7</code> (đòi cam kết thành văn). '
+   +'<b>Lưu ý:</b> bộ từ khoá N4 hiện đếm 0 ca cả kỳ vì chỉ bắt “khiếu nại”, “biến chứng”, “đăng mạng” '
+   +'— ba ca trên không dùng từ nào trong đó. Cần mở rộng sang “đã làm bên em rồi”, “lên 2 lần rồi”, '
+   +'“đang ở cửa”, “bị hỏng”, “không dám”, và thêm luật cờ đỏ khi hội thoại đã có SĐT mà treo quá 60 '
+   +'phút.</li>'
+   +'<li><b>Dưới 18 tuổi</b> → tư vấn và hẹn lịch qua phụ huynh, nói rõ mốc tuổi được làm, xin số để '
+   +'nhắc lại khi đủ tuổi. Ví dụ: <code>HT-30c0f1250fd8</code> (bé 13), <code>HT-f9432f6bfc27</code> '
+   +'(bé 11), <code>HT-833ce3d05413</code> (bé 6 đã mổ hở hàm ếch — chuyển lại chuyên khoa đã mổ).</li>'
+   +'<li><b>Quá tuổi hoặc chống chỉ định</b> → từ chối có đường ra: nói rõ lý do an toàn, chỉ nhóm dịch '
+   +'vụ không xâm lấn làm được, rồi mới xin số. Ví dụ: <code>HT-f426bc7bb886</code> (khách 70 tuổi bị '
+   +'đáp gọn “BV không nhận nữa ạ” rồi bỏ).</li></ul></div></div>'
+
+   +'<div class="card"><h2>Những gì bảng này chưa làm được</h2><div class="grid">'
+   +'<div><h3>Thiếu dữ liệu đầu vào</h3><ul class="steps">'
+   +'<li><b>TP-04</b> — chưa có bản đồ mã nhân viên sang tên và nhóm.</li>'
+   +'<li><b>Bảng phân ca</b> — SLA dùng khung cố định 08:15–21:30 cho mọi người, chưa theo ca thật.</li>'
+   +'<li><b>Trường thị trường và page</b> — bản xuất không có; thị trường suy từ lời khách (phủ 21%), '
+   +'page chỉ có một nên chưa so được page với page.</li>'
+   +'<li><b>Chi phí quảng cáo</b> — chưa tính được CP/SĐT.</li>'
+   +'<li><b>Lịch sử 30 ngày</b> — nhận diện khách cũ dựa vào lời nói trong chính hội thoại, nên 109 ca '
+   +'là <b>sàn</b>, con số thật cao hơn.</li></ul></div>'
+   +'<div><h3>Giới hạn phương pháp</h3><ul class="steps">'
+   +'<li>Kỳ 3 ngày: Q4 chỉ có '+T.q4n+' inbox đủ 48h, Q3 có '+T.q3n+'. Chưa có cột so cùng kỳ.</li>'
+   +'<li>Q6–Q7 chấm trên 2–10 hội thoại mỗi người; hai mã chưa đủ mẫu nên để trống và bị loại khỏi '
+   +'điểm tổng.</li>'
+   +'<li>Hạng A/B/C tính <b>tương đối so với đội</b>, không phải so chuẩn ngành. Đội tốt lên thì ngưỡng '
+   +'tự nâng theo.</li>'
+   +'<li>Mọi so sánh dạng “nhóm A cao hơn nhóm B” là quan sát, không phải nhân quả.</li></ul></div>'
+   +'</div></div>';
+}
+
+/* ================= thanh lọc toàn cục ================= */
+function fillFilters(){
+  el("fKy").innerHTML='<option>'+KYI.nhan+' · '+n0(V2.team.tong_ht)+' hội thoại</option>';
+  el("fKy").disabled=true;
+  el("fKy").title="Mới có một kỳ dữ liệu — nạp thêm bản xuất là chọn được kỳ khác";
+  /* Số bên mỗi lựa chọn là inbox mới CÒN LẠI sau các bộ lọc khác đang bật,
+     nên người chọn biết trước mình sắp xem bao nhiêu hội thoại. */
+  function dem(them){
+    var o={dim:CURK,d1:FLT.d1,d2:FLT.d2,page:FLT.page,kg:FLT.kg,nguon:FLT.nguon};
+    for(var k in them) o[k]=them[k];
+    return AGG.loc(o).moi.length;
+  }
+  var TU=AGG.tu();
+
+  el("fD1").innerHTML=DAYS.map(function(d,i){
+    return '<option value="'+i+'"'+(i===FLT.d1?" selected":"")+'>'+esc(d)+'</option>';}).join("");
+  el("fD2").innerHTML=DAYS.map(function(d,i){
+    return '<option value="'+i+'"'+(i===FLT.d2?" selected":"")+'>'+esc(d)+'</option>';}).join("");
+  el("fD1").disabled=el("fD2").disabled=DAYS.length<2;
+  if(DAYS.length<2){ el("fD1").title=el("fD2").title="Kỳ chỉ có một ngày"; }
+
+  function oLoc(id, nhan, ten, cot, dsach, ghiChu){
+    var cur=FLT[ten];
+    var h='<option value="-1">'+nhan+'</option>';
+    dsach.forEach(function(v){
+      var i=cot.indexOf(v);
+      if(i<0) return;
+      var o={}; o[ten]=i;
+      var n=dem(o);
+      if(!n) return;
+      h+='<option value="'+i+'"'+(cur===i?" selected":"")+'>'+esc(v)+' · '+n
+        +(ghiChu?ghiChu(i):"")+'</option>';
+    });
+    el(id).innerHTML=h;
+    el(id).disabled=false;
+  }
+  var PV=AGG.phamVi({d1:FLT.d1,d2:FLT.d2});
+  oLoc("fPage","Tất cả page ("+(KYI.npage||1)+")","page",TU.page,TU.page,function(i){
+    var n=PV.phu[i]||0;
+    return n<PV.days.length ? " · "+n+"/"+PV.days.length+" ngày" : "";
+  });
+  oLoc("fKg","Tất cả khung giờ","kg",TU.kg,TU.kg.slice().sort());
+  oLoc("fNguon","Tất cả nguồn","nguon",TU.nguon,TU.nguon);
+
+  var dv='<option value="all">Tất cả dịch vụ</option>';
+  SLICES.dvOpts.forEach(function(o){
+    var k="dv:"+o[0], n=dem({dim:k});
+    dv+='<option value="'+k+'"'+(n>=40?"":" disabled")+'>'+esc(o[1])
+      +(n>=40?" · "+n:" · "+n+" ht, dưới 40")+'</option>';
+  });
+  el("fDv").innerHTML=dv;
+  var mk='<option value="all">Tất cả thị trường</option>';
+  SLICES.mktOpts.forEach(function(o){
+    var k="mkt:"+o[0], n=dem({dim:k});
+    mk+='<option value="'+k+'"'+(n>=40?"":" disabled")+'>'+esc(o[1])
+      +(n>=40?" · "+n:" · "+n+" ht, dưới 40")+'</option>';
+  });
+  el("fMkt").innerHTML=mk;
+  syncFilters();
+}
+function syncFilters(){
+  el("fDv").value = CURK.indexOf("dv:")===0 ? CURK : "all";
+  el("fMkt").value = CURK.indexOf("mkt:")===0 ? CURK : "all";
+  var TUx=AGG.tu(), t=T(), tab=TABS[CUR].id;
+  var ds=[];
+  if(locNgay()||DAYS.length>1) ds.push(DAYSEL().length===1?DAYSEL()[0]:DAYSEL()[0]+"–"+DAYSEL()[DAYSEL().length-1]);
+  if(FLT.page>=0) ds.push("page "+TUx.page[FLT.page]);
+  if(FLT.kg>=0) ds.push(TUx.kg[FLT.kg].replace("-","–")+"h");
+  if(FLT.nguon>=0) ds.push(TUx.nguon[FLT.nguon]);
+  if(CURK!=="all") ds.push(nhanLat(CURK));
+  var base='Đang xem: <b>'+(ds.length?esc(ds.join(" · ")):"toàn Kangnam")+'</b> · '+t.n
+    +' inbox mới · '+t.sdt+' SĐT';
+  if(tab==="team"||tab==="the"){
+    el("scope").innerHTML=base
+      +(filtered()?' · lọc một chiều: chọn dịch vụ sẽ bỏ thị trường và ngược lại':'');
+  }else{
+    el("scope").innerHTML=base+' — <b>bộ lọc chỉ áp cho tab Sức khoẻ team và Thẻ điểm nhân viên</b>; '
+      +'tab này luôn tính trên toàn kỳ.';
+  }
+}
+
+/* ================= điều hướng ================= */
+var TABS=[
+ {id:"team",t:"Sức khoẻ team",s:"Toàn đội · ma trận A/B/C",build:tabTeam,after:renderTeam},
+ {id:"the",t:"Thẻ điểm nhân viên",s:"Từng nhân viên",build:tabThe,after:function(){
+    var sel=el("tNv");
+    sel.innerHTML=S().nv.map(function(p){
+      return '<option value="'+p.nv+'">'+p.hang+' · '+p.nv+' · '+p.n+' inbox</option>';}).join("");
+    if(TSEL&&S().nv.filter(function(p){return p.nv===TSEL;}).length) sel.value=TSEL;
+    TSEL=sel.value; renderThe();}},
+ {id:"kb",t:"Kịch bản",s:"Theo nhân viên",build:tabKB,after:renderKB},
+ {id:"viec",t:"Việc cần làm",s:"NV · page · dịch vụ · thị trường",build:tabViec,after:renderViec},
+ {id:"kn",t:"Kiến nghị QC/QA",s:"Quản lý gửi",build:tabKN,after:renderKN},
+ {id:"luat",t:"Cách tính & luật",s:"Đọc 1 lần",build:tabLuat,after:function(){}}
+];
+var CUR=0;
+function paintTabs(){
+  el("tabs").innerHTML=TABS.map(function(t,i){
+    return '<button class="tab" role="tab" data-i="'+i+'" aria-selected="'+(i===CUR)+'">'
+      +'<b>'+esc(t.t)+'</b><span>'+esc(t.s)+'</span></button>';}).join("");
+}
+function show(i){
+  CUR=i; paintTabs();
+  var t=TABS[i];
+  el("panels").innerHTML='<div class="pg on">'+t.build()+'</div>';
+  if(t.after) t.after();
+  syncFilters();
+  try{ history.replaceState(null,"","#"+t.id); }catch(e){}
+}
+
+document.addEventListener("click",function(e){
+  var tgt=e.target;
+  var th=tgt.closest?tgt.closest("th[data-k]"):null;
+  if(th){ var k=th.dataset.k;
+    if(SORT.k===k) SORT.dir=-SORT.dir; else { SORT.k=k; SORT.dir=(k==="nv"||k==="rank")?1:-1; }
+    renderMatrix(); return; }
+  var tr=tgt.closest?tgt.closest("tr.click"):null;
+  if(tr&&tr.dataset.nv){ TSEL=tr.dataset.nv; show(1); return; }
+  var b=tgt.closest?tgt.closest("button"):null; if(!b) return;
+  if(b.classList.contains("tab")&&b.dataset.i!==undefined){ show(+b.dataset.i); return; }
+  if(b.dataset.copy!==undefined){ copyText(b.dataset.copy); return; }
+  if(b.dataset.sl!==undefined){ SLK=b.dataset.sl; renderSlice(); return; }
+  if(b.dataset.kb!==undefined){ KBSEL=+b.dataset.kb; renderKB(); return; }
+  if(b.dataset.v!==undefined){ VSEL=b.dataset.v; renderViec(); return; }
+  if(b.id==="knSend"){ sendKN(); return; }
+  if(b.id==="pvFix"){
+    var v=AGG.phamVi({d1:FLT.d1,d2:FLT.d2});
+    if(v.chung.length===1){ FLT.page=v.chung[0]; fillFilters(); show(CUR); }
+    return;
+  }
+  if(b.id==="fReset"){
+    CURK="all"; FLT={d1:0,d2:DAYS.length-1,page:-1,kg:-1,nguon:-1};
+    fillFilters(); show(CUR); return;
+  }
+});
+document.addEventListener("change",function(e){
+  var id=e.target.id;
+  if(id==="tNv"){ TSEL=e.target.value; renderThe(); return; }
+  if(id==="knFst"){ renderKN(); return; }
+  if(id==="kbNv"){ KBSEL=e.target.value; renderKB(); return; }
+  if(id==="fDv"||id==="fMkt"){
+    CURK=e.target.value;                 /* chọn một chiều: chiều kia tự về Tất cả */
+    fillFilters(); show(CUR); return;
+  }
+  if(id==="fD1"||id==="fD2"){
+    FLT.d1=+el("fD1").value; FLT.d2=+el("fD2").value;
+    if(FLT.d1>FLT.d2){ if(id==="fD1") FLT.d2=FLT.d1; else FLT.d1=FLT.d2; }
+    fillFilters(); show(CUR); return;
+  }
+  if(id==="fPage"||id==="fKg"||id==="fNguon"){
+    FLT[{fPage:"page",fKg:"kg",fNguon:"nguon"}[id]]=+e.target.value;
+    fillFilters(); show(CUR); return;
+  }
+});
+
+(function(){
+  el("sub").innerHTML='Khách nhắn đầu <b>'+KYI.nhan+'</b> · '+n0(V2.team.tong_ht)+' hội thoại · '
+   +'<b>'+n0(V2.team.n)+' inbox mới</b> (đã trừ '+n0(V2.team.khach_cu)+' khách cũ) · '
+   +'SLA khung <b>08:15–21:30</b> · '+V2.nv.length+' nhân viên · '+(KYI.npage||1)+' page';
+  el("foot").innerHTML='<b>Nguồn và cách tính.</b> Số liệu tính bằng script trên bản xuất hội thoại '
+   +'Caresoft — '+n0(V2.team.tong_ht)+' hội thoại hợp lệ, '+n0(V2.team.n)+' inbox mới sau khi trừ '
+   +n0(V2.team.khach_cu)+' khách cũ. SLA, khách cũ và thị trường tính lại '
+   +'trực tiếp từ file hội thoại; mỗi lát cắt dịch vụ / thị trường được tính riêng chứ không chia tỉ '
+   +'lệ từ số tổng. Điểm Q6–Q7 do AI đọc 135 hội thoại lấy mẫu phân tầng. Tên khách và số điện thoại '
+   +'đã được che trước khi xử lý. Kangnam · kỳ '+KYI.nhan+' · số do agent tự chấm, QL chấm lại.';
+  fillFilters();
+  var hash=(location.hash||"").replace("#","");
+  var idx=0; TABS.forEach(function(t,i){ if(t.id===hash) idx=i; });
+  show(idx);
+  bootDB();
+})();
+</script>
+
+</body></html>

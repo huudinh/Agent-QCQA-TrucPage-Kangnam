@@ -4,11 +4,13 @@ Mỗi lát có: KPI đội, ma trận nhân viên, diễn biến theo ngày, SLA
 tương quan FRT, số nhân viên/hội thoại, câu hỏi giá."""
 import json, os, csv, collections, statistics as st
 
-BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/'
-SP = BASE + 'out/03-11_05-11-2026'
+import ky as _ky
+
+BASE = _ky.BASE
+KY, SP = _ky.chon_ky()
 ROWS = [r for r in json.load(open(SP + '/v2rows.json', encoding='utf-8')) if not r['cu']]
 ALLROWS = json.load(open(SP + '/v2rows.json', encoding='utf-8'))
-DAYS = ['03/11', '04/11', '05/11']
+DAYS = _ky.sap_ngay(r['ngay'] for r in ALLROWS)
 DVL = [('MAT', 'Mắt'), ('MUI', 'Mũi'), ('NGUC', 'Ngực'), ('HAM_MAT', 'Hàm mặt'),
        ('BODY', 'Body / Hút mỡ'), ('DA_TRE_HOA', 'Da / Trẻ hoá'), ('KHAC', 'Khác'),
        ('KHONG_XAC_DINH', 'Chưa xếp được')]
@@ -16,11 +18,8 @@ MKL = [('HA_NOI', 'Hà Nội'), ('HO_CHI_MINH', 'Hồ Chí Minh'), ('TINH_KHAC',
        ('VIET_KIEU', 'Việt kiều'), ('QUOC_TE', 'Quốc tế'), ('CHUA_RO', 'Chưa xác định')]
 SHORT = dict(DVL); SHORT.update({'KHONG_XAC_DINH': 'Chưa rõ', 'BODY': 'Béo/Hút mỡ',
                                  'DA_TRE_HOA': 'Da'})
-AI = {"NV-236425444": (1.9, 1.7, 7), "NV-254668856": (1.0, 1.5, 7), "NV-238736928": (0.9, 1.0, 6),
-      "NV-232258930": (1.6, 1.8, 10), "NV-264113743": (1.2, 1.3, 6), "NV-198843202": (1.4, 1.8, 8),
-      "NV-205107209": (0.8, 0.9, 5), "NV-258612608": (1.6, 1.7, 3), "NV-202194914": (0.7, 1.0, 3),
-      "NV-226199192": (1.3, 1.4, 2), "NV-240896987": (0.9, 1.3, 2), "NV-262546406": (1.1, 1.5, 2),
-      "NV-269001161": (1.2, 1.7, 3), "NV-198842634": (0.9, 1.1, 2), "NV-198842558": (1.8, 1.6, 2)}
+import diem_ai as _ai
+AI = _ai.AI
 SONV = {}
 for r in csv.DictReader(open(SP + '/ht.csv', encoding='utf-8-sig')):
     try:
@@ -198,7 +197,7 @@ for key, lab in MKL:
     if len(sub) >= 40:
         OUT['mkt:' + key] = build(sub, allsub, lab)
 
-json.dump({'slices': OUT, 'days': DAYS,
+json.dump({'slices': OUT, 'days': DAYS, 'ai': AI,
            'dvOpts': [[k, l] for k, l in DVL], 'mktOpts': [[k, l] for k, l in MKL]},
           open(SP + '/v2slices.json', 'w', encoding='utf-8'), ensure_ascii=False)
 print('số lát cắt:', len(OUT))

@@ -1,0 +1,968 @@
+<title>Chốt Số Trực Page</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Lora:ital,wght@1,600&display=swap">
+<style>
+/* ---------- token: dùng chung hệ với tools/got-ngu-canh.html ---------- */
+:root{
+  --ground:#EADDD8; --surface:#FFFFFF; --surface-2:#F7EBE6;
+  --ink:#1F0E17; --ink-2:#4D2E39; --ink-3:#7A5560;
+  --line:#D6BDB8; --line-2:#E6D2CD;
+  --primary:#8A1F33; --primary-ink:#6B1526; --primary-wash:#F7E4E4; --on-primary:#FFFFFF;
+  --gold:#86560D; --gold-soft:#A9761A; --gold-wash:#F9ECD2; --on-gold:#FFFFFF;
+  --band:#3A1425; --band-ink:#FBEEF1; --band-accent:#EDBD6B;
+  --ok:#4F5E22; --ok-bg:#EFF3E0;
+  --warn:#86560D; --warn-bg:#F9ECD2;
+  --stop:#8A1F33; --stop-bg:#F7E4E4;
+  --f:'Be Vietnam Pro',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
+  --f2:'Lora',Georgia,'Times New Roman',serif;
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --r:10px; --r-lg:14px;
+  --sh:0 1px 2px rgba(58,20,37,.10),0 2px 6px rgba(58,20,37,.05);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#0E0609; --surface:#352228; --surface-2:#412A32;
+    --ink:#FBEFEC; --ink-2:#E8D2CF; --ink-3:#BDA2A7;
+    --line:#603D46; --line-2:#4B3038;
+    --primary:#F09AA1; --primary-ink:#F7B9BD; --primary-wash:#43242B; --on-primary:#20101A;
+    --gold:#EEC074; --gold-soft:#D09A46; --gold-wash:#3B2A17; --on-gold:#20101A;
+    --band:#2B1020; --band-ink:#FBEEF1; --band-accent:#EDBD6B;
+    --ok:#B3C975; --ok-bg:#1F2A12;
+    --warn:#EEC074; --warn-bg:#3B2A17;
+    --stop:#F09AA1; --stop-bg:#43242B;
+    --sh:0 1px 2px rgba(0,0,0,.45),0 3px 10px rgba(0,0,0,.30);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0E0609; --surface:#352228; --surface-2:#412A32;
+  --ink:#FBEFEC; --ink-2:#E8D2CF; --ink-3:#BDA2A7;
+  --line:#603D46; --line-2:#4B3038;
+  --primary:#F09AA1; --primary-ink:#F7B9BD; --primary-wash:#43242B; --on-primary:#20101A;
+  --gold:#EEC074; --gold-soft:#D09A46; --gold-wash:#3B2A17; --on-gold:#20101A;
+  --band:#2B1020; --band-ink:#FBEEF1; --band-accent:#EDBD6B;
+  --ok:#B3C975; --ok-bg:#1F2A12;
+  --warn:#EEC074; --warn-bg:#3B2A17;
+  --stop:#F09AA1; --stop-bg:#43242B;
+  --sh:0 1px 2px rgba(0,0,0,.45),0 3px 10px rgba(0,0,0,.30);
+}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--f);font-size:15px;line-height:1.6;-webkit-text-size-adjust:100%}
+.wrap{max-width:1240px;margin:0 auto;padding-inline:16px}
+h1,h2,h3{margin:0;text-wrap:balance;line-height:1.25}
+code,kbd,.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+a{color:var(--primary-ink)}
+
+/* ---------- thanh trên: đồng hồ ngưỡng dừng ---------- */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
+.bar-in{max-width:1240px;margin:0 auto;padding-inline:16px;padding-block:10px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.brand{display:flex;align-items:baseline;gap:9px;margin-right:auto}
+.brand b{font-size:17px;font-weight:800;letter-spacing:-.01em}
+.brand span{font-family:var(--f2);font-size:13px;color:var(--ink-3)}
+.gauge{flex:1 1 340px;min-width:260px}
+.gauge-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:12px;color:var(--ink-3)}
+.gauge-top .big{font-family:var(--mono);font-size:19px;font-weight:700;color:var(--ink);letter-spacing:-.02em}
+.track{height:9px;border-radius:99px;background:var(--surface-2);border:1px solid var(--line-2);margin-top:5px;overflow:hidden;position:relative}
+.track i{position:absolute;inset:0 auto 0 0;display:block;border-radius:99px;transition:width .28s ease,background .28s}
+.st-ok i{background:var(--ok)} .st-warn i{background:var(--gold)} .st-stop i{background:var(--stop)}
+.verdict{font-size:12px;font-weight:600;margin-top:4px}
+.st-ok .verdict{color:var(--ok)} .st-warn .verdict{color:var(--warn)} .st-stop .verdict{color:var(--stop)}
+
+/* ---------- điều khiển ---------- */
+button,select,input{font-family:inherit;font-size:14px;color:var(--ink)}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:var(--r);padding:8px 14px;cursor:pointer;font-weight:600;display:inline-flex;align-items:center;gap:7px}
+.btn:hover{border-color:var(--primary);color:var(--primary-ink)}
+.btn:focus-visible,input:focus-visible,summary:focus-visible,.drop:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.btn.pri{background:var(--primary);border-color:var(--primary);color:var(--on-primary)}
+.btn.pri:hover{background:var(--primary-ink);color:var(--on-primary)}
+.btn.sm{padding:5px 10px;font-size:13px;font-weight:500}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.btn[disabled]:hover{border-color:var(--line);color:var(--ink)}
+.icobtn{border:1px solid var(--line);background:var(--surface);border-radius:var(--r);width:34px;height:34px;cursor:pointer;font-size:15px;line-height:1}
+
+/* ---------- bố cục ---------- */
+.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:16px;align-items:start;padding-block:16px}
+@media (max-width:980px){.grid{grid-template-columns:minmax(0,1fr)}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh)}
+.panel>header{padding:13px 16px;border-bottom:1px solid var(--line-2);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.panel>header h2{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-2);margin-right:auto}
+.panel>.body{padding:16px}
+.stack{display:flex;flex-direction:column;gap:16px}
+.hint{font-size:12.5px;color:var(--ink-3);margin:0}
+
+/* ---------- vùng nạp file ---------- */
+.drop{border:1.5px dashed var(--line);border-radius:var(--r);padding:18px;text-align:center;background:var(--surface-2);cursor:pointer}
+.drop.hot{border-color:var(--primary);background:var(--primary-wash)}
+.drop b{display:block;font-size:14.5px}
+.tag{font-family:var(--mono);font-size:11.5px;padding:2px 7px;border-radius:99px;background:var(--surface-2);border:1px solid var(--line-2);color:var(--ink-2);white-space:nowrap}
+.tag.live{background:var(--ok-bg);border-color:var(--ok);color:var(--ok)}
+.tag.demo{background:var(--gold-wash);border-color:var(--gold-soft);color:var(--gold)}
+
+/* ---------- ba ô bộ số ---------- */
+.slots{display:flex;flex-direction:column;gap:7px;margin-top:13px}
+.slot{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 9px;align-items:center;
+  border:1px solid var(--line-2);border-radius:var(--r);padding:8px 11px;background:var(--surface)}
+.slot.on{border-color:var(--ok);background:var(--ok-bg)}
+.slot .mk{font-family:var(--mono);font-weight:700;font-size:13px;color:var(--ink-3)}
+.slot.on .mk{color:var(--ok)}
+.slot .nm{font-size:13.5px;font-weight:600;min-width:0;overflow-wrap:anywhere}
+.slot .sz{font-family:var(--mono);font-size:11.5px;color:var(--ink-3);white-space:nowrap}
+.slot .wh{grid-column:2/-1;font-size:12px;color:var(--ink-3)}
+
+/* ---------- danh sách kiểm ---------- */
+.dx{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:9px}
+.dx li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:9px;font-size:13.5px;padding:9px 11px;border-radius:var(--r);border:1px solid var(--line-2);background:var(--surface-2)}
+.dx li.chan{border-color:var(--stop);background:var(--stop-bg)}
+.dx li.canh{border-color:var(--gold-soft);background:var(--warn-bg)}
+.dx li.dat{border-color:var(--ok);background:var(--ok-bg)}
+.dx b{font-weight:700}
+.dx em{font-style:normal;color:var(--ink-2);display:block;font-size:12.5px;margin-top:2px}
+.dx .mk{font-weight:800;font-family:var(--mono)}
+.dx li.chan .mk{color:var(--stop)} .dx li.canh .mk{color:var(--warn)} .dx li.dat .mk{color:var(--ok)}
+.dx code{font-size:11.5px;overflow-wrap:anywhere}
+
+/* ---------- ô chỉ số xem trước ---------- */
+.tiles{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(100%,152px),1fr))}
+.tile{border:1px solid var(--line-2);border-radius:var(--r);padding:10px 12px;background:var(--surface-2)}
+.tile .k{font-size:12px;color:var(--ink-3);line-height:1.35}
+.tile .v{font-family:var(--mono);font-size:20px;font-weight:700;letter-spacing:-.02em;margin-top:3px;font-variant-numeric:tabular-nums}
+.tile .t{font-size:11.5px;color:var(--ink-3);margin-top:1px}
+.ar{font-family:var(--f);font-weight:700;font-size:12.5px;margin-left:5px}
+.ar.up{color:var(--ok)} .ar.dn{color:var(--stop)} .ar.eq{color:var(--ink-3)}
+.tile.miss .v{color:var(--stop)}
+.tile.bad{border-color:var(--stop);background:var(--stop-bg)}
+.tile.bad .v{color:var(--stop)}
+
+.hangs{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.hang{display:flex;align-items:baseline;gap:6px;border:1px solid var(--line-2);border-radius:99px;padding:4px 12px;font-size:13px;background:var(--surface-2)}
+.hang b{font-family:var(--mono);font-size:15px}
+.hang.A{border-color:var(--ok);color:var(--ok)}
+.hang.B{border-color:var(--gold-soft);color:var(--warn)}
+.hang.C{border-color:var(--stop);color:var(--stop)}
+
+/* ---------- bảng ---------- */
+.tblwrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13px;min-width:560px}
+th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--line-2);vertical-align:middle}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3);font-weight:700;white-space:nowrap}
+td.n,th.n{text-align:right;font-family:var(--mono);white-space:nowrap;font-variant-numeric:tabular-nums}
+tr:last-child td{border-bottom:0}
+td .d{font-family:var(--f);font-size:11.5px;font-weight:700;margin-left:5px}
+td .d.up{color:var(--ok)} td .d.dn{color:var(--stop)}
+.chip{font-size:11px;font-weight:700;padding:1px 7px;border-radius:5px;white-space:nowrap;border:1px solid;font-family:var(--f)}
+.h-A{color:var(--ok);border-color:var(--ok);background:var(--ok-bg)}
+.h-B{color:var(--warn);border-color:var(--gold-soft);background:var(--warn-bg)}
+.h-C{color:var(--stop);border-color:var(--stop);background:var(--stop-bg)}
+.h-new{color:var(--ink-2);border-color:var(--line);background:var(--surface-2)}
+
+/* ---------- xuất ---------- */
+.exp{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+.cmd{font-family:var(--mono);font-size:11.5px;background:var(--surface-2);border:1px solid var(--line-2);border-radius:8px;padding:9px 11px;margin:11px 0 0;white-space:pre-wrap;overflow-wrap:anywhere;color:var(--ink-2)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:90;background:var(--band);color:var(--band-ink);padding:9px 16px;border-radius:99px;font-size:13.5px;font-weight:600;box-shadow:var(--sh);max-width:min(92vw,520px)}
+footer{padding-block:22px 30px;font-size:12.5px;color:var(--ink-3);text-align:center;max-width:70ch;margin-inline:auto}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="bar">
+  <div class="bar-in">
+    <div class="brand"><b>Chốt Số Trực Page</b><span>kiểm trước khi đăng</span></div>
+    <div class="gauge st-warn" id="gauge">
+      <div class="gauge-top">
+        <div><span class="big" id="gChan">0</span> ngưỡng dừng · <span class="big" id="gCanh">0</span> cảnh báo</div>
+        <div><span class="num" id="gKy">—</span></div>
+      </div>
+      <div class="track"><i id="gFill" style="width:0"></i></div>
+      <div class="verdict" id="gVerdict">Chưa nạp gì</div>
+    </div>
+    <button class="icobtn" id="themeBtn" type="button" title="Đổi sáng/tối" aria-label="Đổi sáng/tối">◐</button>
+  </div>
+</div>
+
+<div class="wrap">
+<div class="grid">
+
+  <div class="stack">
+    <section class="panel">
+      <header><h2>1 · Nạp</h2><span class="tag demo" id="srcTag">dữ liệu mẫu</span></header>
+      <div class="body">
+        <div class="drop" id="dropMoi" tabindex="0" role="button" aria-label="Chọn file để kiểm">
+          <b>Kéo file vào đây hoặc bấm để chọn</b>
+          <p class="hint" style="margin:5px 0 0">
+            <b>File hội thoại gốc</b> <code>.txt</code> / <code>.md</code> — soát trước khi tính ·
+            hoặc <b>bộ số</b> <code>v2.json</code> + <code>v2extra.json</code> + <code>v2slices.json</code>,
+            hoặc <code>v2.js</code> đã gói</p>
+        </div>
+        <input type="file" id="fileMoi" accept=".txt,.md,.json,.js" multiple hidden>
+        <div class="slots" id="slots"></div>
+        <p class="hint" style="margin-top:11px">File không rời khỏi máy bạn — mọi thao tác chạy trong trình duyệt.</p>
+      </div>
+    </section>
+
+    <section class="panel" id="panelCu">
+      <header><h2>2 · Bản đang chạy</h2><span class="tag" id="cuTag">chưa nạp</span></header>
+      <div class="body">
+        <div class="drop" id="dropCu" tabindex="0" role="button" aria-label="Chọn bản đang chạy">
+          <b>Kéo <code>tools/data/v2.js</code> của kỳ trước vào đây</b>
+          <p class="hint" style="margin:5px 0 0">Không bắt buộc. Nạp vào thì mọi chỉ số và mọi nhân viên có thêm cột lệch so với bản đang chạy.</p>
+        </div>
+        <input type="file" id="fileCu" accept=".json,.js,.txt" multiple hidden>
+      </div>
+    </section>
+
+    <section class="panel">
+      <header><h2 id="xuatTen">4 · Xuất</h2></header>
+      <div class="body">
+        <div class="exp" id="expSo">
+          <button class="btn pri" id="cpBtn" type="button">Copy nội dung v2.js</button>
+          <button class="btn" id="dlBtn" type="button">Tải file</button>
+        </div>
+        <p class="hint" style="margin-top:11px" id="expNote">—</p>
+        <p class="hint" style="margin-top:9px" id="cmdLabel">Dán vào <code>tools/data/v2.js</code>, rồi đưa câu dưới cho Claude Code:</p>
+        <p class="cmd" id="cmd">publish tools/truc-page.html lên https://claude.ai/artifact/NjRqQFQ1XYZwLNcrg8k1JD, kèm files = {"data/v2.js": "tools/data/v2.js", "data/rows.js": "tools/data/rows.js"}</p>
+        <div class="exp" style="margin-top:9px">
+          <button class="btn sm" id="cpCmdBtn" type="button">Copy lệnh</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="stack">
+    <section class="panel">
+      <header><h2>3 · Ngưỡng dừng</h2><span class="hint">đỏ là chặn · vàng là đọc rồi mới đi tiếp</span></header>
+      <div class="body"><ul class="dx" id="dx"></ul></div>
+    </section>
+
+    <section class="panel">
+      <header><h2 id="pvTen">Chỉ số sẽ lên trang</h2><span class="hint" id="pvNote">—</span></header>
+      <div class="body">
+        <div class="tiles" id="tiles"></div>
+        <div class="hangs" id="hangs"></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <header><h2 id="tblTen">Nhân viên</h2><span class="hint" id="nvNote">—</span></header>
+      <div class="body" style="padding:0 0 4px">
+        <div class="tblwrap"><table>
+          <thead id="tblHead"></thead>
+          <tbody id="nvRows"></tbody>
+        </table></div>
+      </div>
+    </section>
+  </div>
+
+</div>
+<footer>Hai chế độ. Kéo <b>file hội thoại gốc</b> vào thì tool soát định dạng và dữ liệu cá nhân rồi
+trả về lệnh tính — số vẫn do <code>tp.py</code> và các script v2 tính, một lần duy nhất. Kéo <b>bộ
+số</b> vào thì tool soát kết quả và gói <code>data/v2.js</code>. Bước publish luôn là một lệnh của
+Claude Code: một trang artifact không có quyền ghi lên artifact khác.</footer>
+</div>
+
+<script>
+'use strict';
+
+/* ====================== tiện ích ====================== */
+const $ = s => document.querySelector(s);
+const fmt = n => (n === null || n === undefined || isNaN(n)) ? '—' : Math.round(n).toLocaleString('vi-VN');
+const f1  = n => (n === null || n === undefined || isNaN(n)) ? '—' : Number(n).toLocaleString('vi-VN', {minimumFractionDigits:1, maximumFractionDigits:1});
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const kb  = n => n > 1048576 ? (n/1048576).toFixed(2) + ' MB' : Math.round(n/1024) + ' KB';
+
+function toast(msg){
+  const el = document.createElement('div');
+  el.className = 'toast'; el.textContent = msg;
+  document.body.appendChild(el); setTimeout(() => el.remove(), 3400);
+}
+
+/* ====================== 8 tiêu chí — khớp CRIT của trang ====================== */
+const CRIT = [
+  {id:'q1', n:'Tỉ lệ xin số',       goal:32, u:'%'},
+  {id:'q2', n:'Ra số trong 6h',     goal:24, u:'%'},
+  {id:'q3', n:'Ra số trong 24h',    goal:32, u:'%'},
+  {id:'q4', n:'Ra số trong 48h',    goal:37, u:'%'},
+  {id:'q5', n:'SLA ≤ 5 phút',       goal:85, u:'%'},
+  {id:'q8', n:'Tuân thủ quy trình', goal:80, u:'%'}
+];
+
+/* Khoá bắt buộc của từng bộ — thiếu một khoá là trang sẽ trắng một khối. */
+const SPEC = {
+  V2:     {file:'v2.json',       keys:['team','nv','dv','mkt','kg','nguon','ngay']},
+  EX:     {file:'v2extra.json',  keys:['slaNv','slaDv','slaTeam','trend','respEng','respRs','handoff','tmpl','gia','days']},
+  SLICES: {file:'v2slices.json', keys:['slices','days']}
+};
+const BO = ['V2','EX','SLICES'];
+const ART = 'https://claude.ai/artifact/NjRqQFQ1XYZwLNcrg8k1JD';
+
+/* che: 'so' = bộ số đã tính · 'tho' = file hội thoại gốc */
+const S = {che:'so', moi:{V2:null,EX:null,SLICES:null}, cu:{V2:null,EX:null,SLICES:null},
+           tho:null, demo:true, out:'', chan:0, canh:0};
+
+/* ====================== đọc file hội thoại gốc ====================== */
+/* Định dạng bản xuất: "## <số>. HT-<mã>" mở mỗi hội thoại, rồi từng dòng
+   "[dd/mm HH:MM:SS] **VAI:** nội dung". Khớp lỏng phần VAI để bắt được cả
+   trường hợp tên thật lọt vào chỗ đáng lẽ là mã NV. */
+const RE_CHIA = /\n## \d+\. (HT-[0-9a-f]+)\n/;
+const RE_DONG = /^\[(\d\d)\/(\d\d) (\d\d):(\d\d):(\d\d)\] \*\*(.+?):\*\*\s?([\s\S]*)$/;
+const RE_SDT  = /(?:\+84|\b0)\d{8,9}\b/;
+const RE_MAIL = /[\w.+-]+@[\w-]+\.[a-z]{2,}/i;
+
+function laTho(text){ return RE_CHIA.test(text.slice(0, 200000)); }
+
+function docTho(text, name){
+  const phan = text.split(new RegExp(RE_CHIA.source, 'g'));
+  const T = {name:name, size:new Blob([text]).size, ht:0, tin:0, tinKh:0, tinNv:0,
+             dong:0, noiTiep:0, rac:[], ngay:{}, nv:{}, vaiLa:{}, khongKh:0, khongTin:0,
+             ro:[], vaiXau:[], che:0};
+
+  /* Rò rỉ phải quét TOÀN BỘ văn bản, không chỉ phần tin đã khớp khuôn: 14% dòng
+     là dòng tiếp của tin nhiều dòng và v2calc.py bỏ qua chúng, nên một số thật
+     nằm ở dòng tiếp sẽ không ai thấy. Nhãn che dạng [SĐT ẩn] · [tên NV] được
+     bỏ trước khi quét; ngoặc có chữ số thì giữ, vì [0987…] mới là cái phải bắt. */
+  T.che = (text.match(/\[[^\]\n\d]{0,24}ẩn\]/g) || []).length;
+  const sach = text.replace(/\[[^\]\n\d]{0,24}\]/g, '').replace(/NV-\d+/g, '').replace(/HT-[0-9a-f]+/g, '');
+  let mm;
+  const reS = new RegExp(RE_SDT.source, 'g'), reM = new RegExp(RE_MAIL.source, 'gi');
+  while(T.ro.length < 5 && (mm = reS.exec(sach)) !== null)
+    T.ro.push({m:mm[0], s:sach.slice(Math.max(0, mm.index - 40), mm.index + 40)});
+  while(T.ro.length < 5 && (mm = reM.exec(sach)) !== null)
+    T.ro.push({m:mm[0], s:sach.slice(Math.max(0, mm.index - 40), mm.index + 40)});
+  for(let i = 1; i < phan.length; i += 2){
+    T.ht++;
+    const than = phan[i + 1] || '';
+    let coKh = false, nTin = 0;
+    than.split('\n').forEach(ln0 => {
+      const ln = ln0.trim();
+      if(!ln) return;
+      T.dong++;
+      const m = RE_DONG.exec(ln);
+      if(!m){
+        // dòng tiếp của một tin nhiều dòng — tp.py nối vào tin, v2calc.py bỏ
+        T.noiTiep++;
+        if(T.rac.length < 3) T.rac.push(ln.slice(0, 90));
+        return;
+      }
+      const d = m[1] + '/' + m[2], vai0 = m[6];
+      T.tin++; nTin++;
+      const ng = T.ngay[d] || (T.ngay[d] = {ht:new Set(), kh:0, nv:0, nv_set:new Set()});
+      ng.ht.add(phan[i]);
+
+      let vai = 'KHAC';
+      if(/^KH$/.test(vai0)) vai = 'KH';
+      else if(/^BOT$/.test(vai0)) vai = 'BOT';
+      else if(/^HT$/.test(vai0)) vai = 'HT';
+      else if(/^QC$/.test(vai0)) vai = 'QC';
+      else if(/^NV\b/.test(vai0)){
+        vai = 'NV';
+        const c = /^NV \((NV-\d+)\)/.exec(vai0);
+        if(c){ T.nv[c[1]] = (T.nv[c[1]] || 0) + 1; ng.nv_set.add(c[1]); }
+        else if(T.vaiXau.length < 5) T.vaiXau.push(vai0.slice(0, 60));
+      }
+      T.vaiLa[vai] = (T.vaiLa[vai] || 0) + 1;
+      if(vai === 'KH'){ T.tinKh++; ng.kh++; coKh = true; }
+      if(vai === 'NV'){ T.tinNv++; ng.nv++; }
+
+    });
+    if(!coKh) T.khongKh++;
+    if(!nTin) T.khongTin++;
+  }
+  T.days = Object.keys(T.ngay).sort((a, b) => {
+    const [da, ma] = a.split('/'), [db, mb] = b.split('/');
+    return (ma - mb) || (da - db);
+  });
+  return T;
+}
+
+/* ====================== đọc bộ số ====================== */
+function phanLoai(o){
+  if(o && o.slices && typeof o.slices === 'object' && !Array.isArray(o.slices)) return 'SLICES';
+  if(o && Array.isArray(o.slaNv)) return 'EX';
+  if(o && o.team && Array.isArray(o.nv)) return 'V2';
+  return null;
+}
+
+/* Giữ nguyên VĂN BẢN gốc của từng bộ thay vì serialize lại: 19.0 mà Python ghi ra
+   sẽ thành 19 nếu đi qua JSON.parse rồi JSON.stringify. Tool này không được phép
+   làm số đổi hình, kể cả khi giá trị tương đương. */
+function napSo(text, name, dich){
+  const kho = S[dich];
+  let found = [];
+  text.split('\n').forEach(ln => {
+    const m = /^\s*var\s+(V2|EX|SLICES)\s*=\s*(.+);\s*$/.exec(ln);
+    if(!m) return;
+    try{
+      const obj = JSON.parse(m[2]);
+      kho[m[1]] = {raw:m[2], obj:obj, name:name, size:new Blob([m[2]]).size};
+      found.push(m[1]);
+    }catch(e){ /* dòng không phải JSON hợp lệ — bỏ qua */ }
+  });
+  if(found.length) return found;
+
+  let obj;
+  try{ obj = JSON.parse(text); }
+  catch(e){ throw new Error(name + ': không đọc được JSON — ' + e.message.slice(0,90)); }
+  const k = phanLoai(obj);
+  if(!k) throw new Error(name + ': không khớp bộ nào. Cần .txt/.md hội thoại, v2.json, v2extra.json, v2slices.json hoặc v2.js.');
+  const raw = text.trim();
+  kho[k] = {raw:raw, obj:obj, name:name, size:new Blob([raw]).size};
+  return [k];
+}
+
+function napFiles(list, dich){
+  const files = Array.from(list || []);
+  if(!files.length) return;
+  let ok = [], loi = [], left = files.length;
+  files.forEach(f => {
+    const r = new FileReader();
+    r.onload = () => {
+      const text = String(r.result);
+      try{
+        if(dich === 'moi' && laTho(text)){
+          S.tho = docTho(text, f.name);
+          S.che = 'tho'; S.demo = false;
+          ok.push('file gốc ' + f.name);
+        }else{
+          if(S.demo && dich === 'moi'){ S.moi = {V2:null,EX:null,SLICES:null}; S.demo = false; }
+          if(dich === 'moi'){ S.che = 'so'; S.tho = null; }
+          ok = ok.concat(napSo(text, f.name, dich));
+        }
+      }catch(e){ loi.push(e.message); }
+      if(--left === 0) xong();
+    };
+    r.onerror = () => { loi.push(f.name + ': không đọc được file'); if(--left === 0) xong(); };
+    r.readAsText(f);
+  });
+  function xong(){
+    render();
+    if(loi.length) toast(loi[0]);
+    else if(ok.length) toast('Đã nạp ' + ok.join(' · ') + (dich === 'cu' ? ' (bản đang chạy)' : ''));
+  }
+}
+
+/* ====================== quét bộ số ====================== */
+function quetChuoi(obj, fn){
+  const st = [obj];
+  while(st.length){
+    const n = st.pop();
+    if(typeof n === 'string'){ fn(n); continue; }
+    if(!n || typeof n !== 'object') continue;
+    if(Array.isArray(n)){ for(let i = 0; i < n.length; i++) st.push(n[i]); continue; }
+    for(const k in n){ fn(k); st.push(n[k]); }
+  }
+}
+function quetRieng(){
+  const hit = [];
+  BO.forEach(k => {
+    const b = S.moi[k]; if(!b) return;
+    quetChuoi(b.obj, s => {
+      if(hit.length >= 5) return;
+      const t = s.replace(/NV-\d+/g, '').replace(/\[SĐT ẩn\]/g, '');
+      const m = RE_SDT.exec(t) || RE_MAIL.exec(t);
+      if(m) hit.push({bo:k, m:m[0], s:s.slice(0, 110)});
+    });
+  });
+  return hit;
+}
+function quetMaNv(){
+  const bad = new Set(), ok = /^NV-\d+$/;
+  const V2 = S.moi.V2, EX = S.moi.EX, SL = S.moi.SLICES;
+  if(V2) (V2.obj.nv || []).forEach(r => { if(!ok.test(String(r.nv))) bad.add(String(r.nv)); });
+  if(EX) (EX.obj.slaNv || []).forEach(r => { if(!ok.test(String(r.k))) bad.add(String(r.k)); });
+  if(SL) Object.keys(SL.obj.slices || {}).forEach(key => {
+    ((SL.obj.slices[key] || {}).nv || []).forEach(r => { if(!ok.test(String(r.nv))) bad.add(String(r.nv)); });
+  });
+  return Array.from(bad).slice(0, 6);
+}
+function kyCua(bo){
+  if(!bo) return null;
+  if(Array.isArray(bo.obj.days)) return bo.obj.days.join(' · ');
+  if(Array.isArray(bo.obj.ngay)) return bo.obj.ngay.map(d => d.key).join(' · ');
+  return null;
+}
+
+/* ====================== ngưỡng dừng · file gốc ====================== */
+function kiemTho(){
+  const C = [], T = S.tho;
+  const add = (mp, head, body) => C.push({mp:mp, head:head, body:body});
+
+  if(!T.ht){
+    add('chan', 'Không đọc được hội thoại nào',
+      'Mỗi hội thoại phải mở bằng một dòng <code>## &lt;số&gt;. HT-&lt;mã&gt;</code>. File này không có dòng nào như vậy — gần như luôn là xuất sai định dạng từ Caresoft.');
+    return (S.chan = 1, S.canh = 0, C);
+  }
+  add('dat', 'Đọc được ' + fmt(T.ht) + ' hội thoại', fmt(T.tin) + ' tin nhắn · ' + T.days.length + ' ngày · ' + kb(T.size) + '.');
+
+  if(T.ro.length)
+    add('chan', 'Lọt dữ liệu cá nhân chưa che: ' + T.ro.length + ' chỗ' + (T.ro.length >= 5 ? '+' : ''),
+      T.ro.map(h => '<code>' + esc(h.m) + '</code>').join(' · ') +
+      '. Bản xuất đúng phải thay số bằng <code>[SĐT ẩn]</code>. ⛔ Repo này public — lọt một lần là không sửa được.');
+  else
+    add('dat', 'Số điện thoại đã được che', 'Quét toàn bộ văn bản: không có số thật hay email. Thấy ' + fmt(T.che) + ' nhãn che.');
+
+  if(T.vaiXau.length)
+    add('chan', 'Vai nhân viên không có mã: ' + T.vaiXau.length + ' kiểu',
+      '<code>' + T.vaiXau.map(esc).join('</code> · <code>') + '</code> — phải là <code>**NV (NV-&lt;số&gt;)...:**</code>. Sai dạng thường là tên thật nhân viên lọt vào bản xuất.');
+  else
+    add('dat', Object.keys(T.nv).length + ' mã nhân viên, đều đúng dạng',
+      'Mọi vai NV đều mang mã <code>NV-&lt;số&gt;</code>. Bảng xếp hạng sẽ ít người hơn con số này: ' +
+      'nó chỉ tính người được gán là <b>nhân viên chính</b> của hội thoại, không tính người chỉ chạm vào vài tin.');
+
+  if(T.khongTin)
+    add('chan', fmt(T.khongTin) + ' hội thoại không đọc được tin nào',
+      'Thân hội thoại có chữ nhưng không dòng nào đúng khuôn <code>[dd/mm HH:MM:SS] **VAI:**</code>. Những hội thoại này mất trắng khi tính.');
+
+  const tlTiep = T.dong ? T.noiTiep / T.dong * 100 : 0;
+  if(tlTiep > 5)
+    add('canh', f1(tlTiep) + '% dòng là dòng tiếp của tin nhiều dòng',
+      fmt(T.noiTiep) + '/' + fmt(T.dong) + ' dòng. <code>tp.py</code> nối chúng vào tin, nhưng ' +
+      '<code>v2calc.py</code> bỏ qua — nên Q1–Q8 chỉ đọc <b>dòng đầu</b> của mỗi tin. ' +
+      'Câu xin số hay câu từ chối nằm ở dòng thứ hai sẽ không được tính.');
+  else
+    add('dat', 'Hầu hết tin chỉ một dòng', fmt(T.noiTiep) + ' dòng tiếp trên ' + fmt(T.dong) + ' dòng.');
+
+  if(T.khongKh)
+    add('canh', fmt(T.khongKh) + ' hội thoại không có tin nào của khách',
+      'Chiếm ' + f1(T.khongKh / T.ht * 100) + '%. Những hội thoại này không vào mẫu số Q1–Q4 vì không có mốc "tin đầu của khách".');
+  else
+    add('dat', 'Mọi hội thoại đều có tin khách', 'Đủ mốc để tính Q1–Q4.');
+
+  if(T.days.length < 2)
+    add('canh', 'Kỳ chỉ có ' + T.days.length + ' ngày',
+      'Q4 cần 48 giờ quan sát nên sẽ trống hoàn toàn; Q3 cần 24 giờ cũng gần như trống.');
+  else if(T.days.length < 3)
+    add('canh', 'Kỳ ' + T.days.length + ' ngày — Q4 sẽ mỏng',
+      'Chỉ hội thoại của ngày đầu đủ 48 giờ, nên mẫu số Q4 rất nhỏ.');
+  else
+    add('dat', 'Kỳ ' + T.days.length + ' ngày: ' + T.days.join(' · '), 'Đủ để Q2–Q4 có mẫu số.');
+
+  const nhieu = Object.entries(T.nv).filter(([, v]) => v < 10);
+  if(nhieu.length)
+    add('canh', nhieu.length + ' nhân viên dưới 10 tin trong kỳ',
+      nhieu.slice(0, 4).map(([k, v]) => '<code>' + esc(k) + '</code> ' + v).join(' · ') +
+      '. Chỉ số của họ sẽ nhảy rất mạnh vì mẫu quá nhỏ — đọc hạng của họ một cách dè dặt.');
+
+  if(T.size > 20971520)
+    add('canh', 'File nặng ' + kb(T.size), 'Bước <code>tp.py tinh</code> sẽ chạy lâu. Không ảnh hưởng kết quả.');
+
+  S.chan = C.filter(c => c.mp === 'chan').length;
+  S.canh = C.filter(c => c.mp === 'canh').length;
+  return C;
+}
+
+/* ====================== ngưỡng dừng · bộ số ====================== */
+function kiemSo(){
+  const C = [], M = S.moi;
+  const add = (mp, head, body) => C.push({mp:mp, head:head, body:body});
+
+  const thieu = BO.filter(k => !M[k]);
+  if(thieu.length)
+    add('chan', 'Thiếu ' + thieu.length + ' bộ số: ' + thieu.map(k => SPEC[k].file).join(' · '),
+      'Trang cần cả ba. Chạy <code>python tools/bao-cao.py "du-lieu/&lt;file&gt;.txt"</code> rồi nạp <code>tools/data/v2.js</code>.');
+  else
+    add('dat', 'Đủ cả ba bộ số', 'V2 ' + kb(M.V2.size) + ' · EX ' + kb(M.EX.size) + ' · SLICES ' + kb(M.SLICES.size) + '.');
+
+  const kThieu = [];
+  BO.forEach(k => {
+    if(!M[k]) return;
+    SPEC[k].keys.forEach(key => { if(M[k].obj[key] === undefined) kThieu.push(k + '.' + key); });
+  });
+  if(kThieu.length)
+    add('chan', 'Sai cấu trúc: thiếu ' + kThieu.length + ' khoá',
+      'Thiếu <code>' + kThieu.slice(0,8).map(esc).join('</code> · <code>') + '</code>. Mỗi khoá thiếu là một khối trên trang sẽ trắng.');
+  else if(!thieu.length)
+    add('dat', 'Cấu trúc đủ khoá', 'Cả ' + (SPEC.V2.keys.length + SPEC.EX.keys.length + SPEC.SLICES.keys.length) + ' khoá bắt buộc đều có mặt.');
+
+  const bad = quetMaNv();
+  if(bad.length)
+    add('chan', 'Mã nhân viên sai dạng: ' + bad.length + ' mã',
+      '<code>' + bad.map(esc).join('</code> · <code>') + '</code> — mã phải là <code>NV-&lt;số&gt;</code>. Sai dạng thường là tên thật lọt từ <code>master-nv.json</code>, và artifact chia sẻ theo link.');
+  else if(M.V2)
+    add('dat', 'Mã nhân viên đều ẩn danh', 'Mọi mã đúng dạng <code>NV-&lt;số&gt;</code>, không có tên thật.');
+
+  const rieng = quetRieng();
+  if(rieng.length)
+    add('chan', 'Lọt dữ liệu cá nhân: ' + rieng.length + ' chỗ',
+      rieng.map(h => '<code>' + esc(h.m) + '</code> trong ' + h.bo).join(' · ') + '. Số điện thoại và email không được lên trang — về lọc ở script sinh số.');
+  else if(!thieu.length)
+    add('dat', 'Không thấy số điện thoại hay email', 'Đã quét mọi chuỗi trong cả ba bộ.');
+
+  const ks = BO.map(k => kyCua(M[k])).filter(Boolean);
+  const kUniq = Array.from(new Set(ks));
+  if(kUniq.length > 1)
+    add('canh', 'Kỳ không khớp giữa các bộ',
+      kUniq.map(x => '<code>' + esc(x) + '</code>').join(' ≠ ') + '. Gần như luôn là trộn file của hai kỳ khác nhau.');
+  else if(kUniq.length === 1)
+    add('dat', 'Cùng một kỳ: ' + esc(kUniq[0]), 'Cả ba bộ nói về đúng những ngày này.');
+
+  if(M.V2){
+    const t = M.V2.obj.team || {}, nv = M.V2.obj.nv || [];
+    const sum = nv.reduce((a, r) => a + (r.n || 0), 0);
+    if(t.n !== sum)
+      add('canh', 'Tổng inbox lệch ' + fmt(Math.abs((t.n || 0) - sum)),
+        'Đội ghi <b>' + fmt(t.n) + '</b> nhưng cộng ' + nv.length + ' nhân viên được <b>' + fmt(sum) + '</b>. Thường do hội thoại không gán được nhân viên nào.');
+    else
+      add('dat', 'Tổng inbox khớp: ' + fmt(t.n), 'Cộng ' + nv.length + ' nhân viên ra đúng số đội.');
+  }
+
+  if(M.V2 && M.SLICES){
+    const all = ((M.SLICES.obj.slices || {}).all || {}).team;
+    const tn = (M.V2.obj.team || {}).n;
+    if(!all) add('canh', 'Lát “Tất cả” không có trong v2slices.json', 'Thanh lọc toàn cục sẽ không có gì để hiện khi chọn Tất cả.');
+    else if(all.n !== tn)
+      add('canh', 'Lát “Tất cả” lệch ' + fmt(Math.abs(all.n - tn)) + ' so với v2.json',
+        'v2.json ghi <b>' + fmt(tn) + '</b>, lát Tất cả ghi <b>' + fmt(all.n) + '</b>. Hai tab cùng chủ đề sẽ nói hai số khác nhau.');
+    else add('dat', 'Lát “Tất cả” khớp v2.json', 'Cùng ' + fmt(tn) + ' inbox mới.');
+  }
+
+  if(M.V2 && M.EX && M.SLICES){
+    const a = (M.V2.obj.nv || []).length;
+    const b = (M.EX.obj.slaNv || []).length;
+    const c = (((M.SLICES.obj.slices || {}).all || {}).nv || []).length;
+    if(!(a === b && b === c))
+      add('canh', 'Số nhân viên lệch giữa ba bộ: ' + a + ' · ' + b + ' · ' + c,
+        'v2.json ' + a + ' người · v2extra.json ' + b + ' · lát Tất cả ' + c + '. Ma trận và bảng SLA sẽ thiếu người.');
+    else add('dat', 'Cùng ' + a + ' nhân viên ở cả ba bộ', 'Ma trận, SLA và xếp hạng sẽ phủ đủ người.');
+  }
+
+  if(M.EX){
+    const t = M.EX.obj.tmpl || [];
+    if(t.length)
+      add('canh', t.length + ' mẫu tin dán chung sẽ hiện nguyên văn',
+        'Trang in đủ câu nhân viên đã gửi khách, kèm từ cấm được tô. Đọc lại nếu có câu nào nhắc tên người thật.');
+  }
+
+  const tong = BO.reduce((a, k) => a + (M[k] ? M[k].size : 0), 0);
+  if(tong > 4194304)
+    add('canh', 'Bộ số nặng ' + kb(tong), 'Giới hạn mỗi file phụ là 16 MB nên vẫn đăng được, nhưng trang sẽ mở chậm trên 3G.');
+
+  S.chan = C.filter(c => c.mp === 'chan').length;
+  S.canh = C.filter(c => c.mp === 'canh').length;
+  return C;
+}
+
+/* ====================== dựng file ra ====================== */
+function dungFile(){
+  if(BO.some(k => !S.moi[k])) return '';
+  return BO.map(k => 'var ' + k + ' = ' + S.moi[k].raw + ';\n').join('');
+}
+
+/* ====================== vẽ ====================== */
+function render(){ S.che === 'tho' ? veTho() : veSo(); }
+
+function dongHo(checks){
+  const g = $('#gauge');
+  g.className = 'gauge ' + (S.chan ? 'st-stop' : S.canh ? 'st-warn' : 'st-ok');
+  $('#gChan').textContent = S.chan;
+  $('#gCanh').textContent = S.canh;
+  const dat = checks.filter(c => c.mp === 'dat').length;
+  $('#gFill').style.width = (checks.length ? dat / checks.length * 100 : 0) + '%';
+  $('#dx').innerHTML = checks.map(c =>
+    '<li class="' + c.mp + '"><span class="mk">' + (c.mp === 'dat' ? '✓' : c.mp === 'chan' ? '!' : '·') +
+    '</span><div><b>' + c.head + '</b><em>' + c.body + '</em></div></li>'
+  ).join('') || '<li class="canh"><span class="mk">·</span><div><b>Chưa có gì để kiểm</b></div></li>';
+}
+
+/* ---------- chế độ file gốc ---------- */
+function veTho(){
+  const T = S.tho;
+  const checks = kiemTho();
+  dongHo(checks);
+
+  $('#gKy').textContent = T.days.length ? T.days.join(' · ') : '—';
+  $('#gVerdict').textContent = S.chan
+    ? 'Chưa nên tính: ' + S.chan + ' ngưỡng dừng trên file gốc'
+    : S.canh ? 'Tính được, nhưng đọc ' + S.canh + ' cảnh báo trước đã'
+    : 'File gốc sạch — chạy lệnh ở bước 4';
+
+  const st = $('#srcTag');
+  st.className = 'tag live';
+  st.textContent = 'file gốc';
+  $('#panelCu').hidden = true;
+
+  $('#slots').innerHTML = '<div class="slot on"><span class="mk">✓</span>' +
+    '<span class="nm">' + esc(T.name) + '</span><span class="sz">' + kb(T.size) + '</span>' +
+    '<span class="wh">' + fmt(T.ht) + ' hội thoại · ' + fmt(T.tin) + ' tin nhắn</span></div>';
+
+  // ô thông tin file
+  $('#pvTen').textContent = 'File gốc có gì';
+  $('#pvNote').textContent = 'số thật chỉ có sau khi chạy lệnh ở bước 4';
+  const ti = [
+    {k:'Hội thoại', v:fmt(T.ht), t:T.days.length + ' ngày'},
+    {k:'Tin nhắn', v:fmt(T.tin), t:fmt(T.dong) + ' dòng đọc được'},
+    {k:'Tin của khách', v:fmt(T.tinKh), t:f1(T.tin ? T.tinKh / T.tin * 100 : 0) + '% lưu lượng'},
+    {k:'Tin của nhân viên', v:fmt(T.tinNv), t:Object.keys(T.nv).length + ' người trực'},
+    {k:'Dòng tiếp bị v2calc bỏ', v:fmt(T.noiTiep), t:f1(T.dong ? T.noiTiep / T.dong * 100 : 0) + '% tổng dòng', bad:T.noiTiep / Math.max(1, T.dong) > 0.05},
+    {k:'Không có tin khách', v:fmt(T.khongKh), t:'hội thoại ngoài mẫu số Q1–Q4', bad:T.khongKh > 0},
+    {k:'Dữ liệu cá nhân lọt', v:T.ro.length ? fmt(T.ro.length) + '+' : '0', t:T.ro.length ? 'phải lọc trước khi tính' : 'đã che hết', bad:T.ro.length > 0}
+  ];
+  $('#tiles').innerHTML = ti.map(t =>
+    '<div class="tile' + (t.bad ? ' bad' : '') + '"><div class="k">' + esc(t.k) + '</div>' +
+    '<div class="v">' + t.v + '</div><div class="t">' + esc(t.t) + '</div></div>').join('');
+  const vai = Object.entries(T.vaiLa).sort((a, b) => b[1] - a[1]);
+  $('#hangs').innerHTML = vai.map(([k, v]) => '<span class="hang">' + esc(k) + ' <b>' + fmt(v) + '</b></span>').join('');
+
+  // bảng theo ngày
+  $('#tblTen').textContent = 'Theo ngày';
+  $('#nvNote').textContent = T.days.length + ' ngày trong file';
+  $('#tblHead').innerHTML = '<tr><th>Ngày</th><th class="n">Hội thoại</th><th class="n">Tin khách</th>' +
+    '<th class="n">Tin NV</th><th class="n">NV trực</th></tr>';
+  $('#nvRows').innerHTML = T.days.map(d => {
+    const g = T.ngay[d];
+    return '<tr><td><code>' + esc(d) + '</code></td><td class="n">' + fmt(g.ht.size) + '</td>' +
+      '<td class="n">' + fmt(g.kh) + '</td><td class="n">' + fmt(g.nv) + '</td>' +
+      '<td class="n">' + fmt(g.nv_set.size) + '</td></tr>';
+  }).join('') || '<tr><td colspan="5" class="hint" style="padding:14px">Không đọc được ngày nào.</td></tr>';
+
+  // bước 4 · lệnh tính
+  $('#xuatTen').textContent = '4 · Lệnh tính';
+  $('#expSo').hidden = true;
+  $('#cpBtn').disabled = true; $('#dlBtn').disabled = true;
+  $('#expNote').innerHTML = S.chan
+    ? '<b style="color:var(--stop)">Đừng chạy vội:</b> còn ' + S.chan + ' ngưỡng dừng. Lọc lại bản xuất trước, vì sai ở đây thì mọi bảng sau đều sai.'
+    : 'Đặt file vào <code>du-lieu/</code> rồi chạy lệnh dưới. Một lệnh làm cả chuỗi: ' +
+      '<code>tp.py tinh</code> → <code>v2calc</code> → <code>v2agg</code> → <code>v2extra</code> → ' +
+      '<code>v2slices</code> → <code>v2bundle</code>, ra <code>tools/data/v2.js</code>.';
+  $('#cmdLabel').innerHTML = 'Chạy trong thư mục gốc của repo:';
+  $('#cmd').textContent = 'python tools/bao-cao.py "du-lieu/' + T.name + '"';
+}
+
+/* ---------- chế độ bộ số ---------- */
+function veSo(){
+  const M = S.moi, CU = S.cu;
+  const checks = kiemSo();
+  S.out = dungFile();
+  const sanSang = S.chan === 0 && !!S.out;
+  dongHo(checks);
+
+  $('#gKy').textContent = kyCua(M.V2) || kyCua(M.SLICES) || '—';
+  $('#gVerdict').textContent = S.demo
+    ? 'Đang xem dữ liệu mẫu — nạp file gốc hoặc bộ số thật để kiểm'
+    : S.chan ? 'Chưa đăng được: ' + S.chan + ' ngưỡng dừng phải xử lí trước'
+    : S.canh ? 'Đăng được, nhưng đọc ' + S.canh + ' cảnh báo bên dưới trước đã'
+    : 'Sạch cả ' + checks.length + ' ngưỡng — đăng được';
+
+  const st = $('#srcTag');
+  st.className = 'tag ' + (S.demo ? 'demo' : 'live');
+  st.textContent = S.demo ? 'dữ liệu mẫu' : 'bộ số của bạn';
+  $('#panelCu').hidden = false;
+  const ct = $('#cuTag');
+  const coCu = BO.every(k => CU[k]);
+  ct.className = 'tag ' + (coCu ? 'live' : '');
+  ct.textContent = coCu ? 'đã nạp · ' + (kyCua(CU.V2) || 'kỳ trước') : 'chưa nạp';
+
+  $('#slots').innerHTML = BO.map(k => {
+    const b = M[k];
+    return '<div class="slot' + (b ? ' on' : '') + '">' +
+      '<span class="mk">' + (b ? '✓' : '○') + '</span>' +
+      '<span class="nm">' + esc(b ? b.name : SPEC[k].file) + '</span>' +
+      '<span class="sz">' + (b ? kb(b.size) : 'chưa có') + '</span>' +
+      '<span class="wh">' + k + (b ? '' : ' — chưa nạp') + '</span></div>';
+  }).join('');
+
+  const T = M.V2 ? (M.V2.obj.team || {}) : null;
+  const TC = coCu && CU.V2 ? (CU.V2.obj.team || {}) : null;
+  const delta = (a, b, nho) => {
+    if(b === null || b === undefined || a === null || a === undefined || isNaN(a) || isNaN(b)) return '';
+    const d = a - b;
+    if(Math.abs(d) < 0.05) return '<span class="ar eq">=</span>';
+    const tot = nho ? d < 0 : d > 0;
+    return '<span class="ar ' + (tot ? 'up' : 'dn') + '">' + (d > 0 ? '▲' : '▼') + f1(Math.abs(d)) + '</span>';
+  };
+
+  $('#pvTen').textContent = 'Chỉ số sẽ lên trang';
+  if(!T){
+    $('#tiles').innerHTML = '<p class="hint">Nạp <code>v2.json</code> hoặc <code>v2.js</code> để xem trước chỉ số.</p>';
+    $('#hangs').innerHTML = '';
+    $('#pvNote').textContent = '—';
+  }else{
+    const tiles = [];
+    tiles.push({k:'Inbox mới', v:fmt(T.n), t:'tổng ' + fmt(T.tong_ht) + ' hội thoại · trừ ' + fmt(T.khach_cu) + ' khách cũ', d:TC ? delta(T.n, TC.n) : ''});
+    tiles.push({k:'Lấy được SĐT', v:fmt(T.sdt), t:'số thô trong kỳ', d:TC ? delta(T.sdt, TC.sdt) : ''});
+    CRIT.forEach(c => {
+      const v = T[c.id];
+      tiles.push({
+        k:c.n, v:(v === null || v === undefined) ? '—' : f1(v) + c.u,
+        t:'mục tiêu ' + c.goal + c.u + ((v === null || v === undefined) ? '' : (v >= c.goal ? ' · đạt' : ' · thiếu ' + f1(c.goal - v))),
+        d:TC ? delta(v, TC[c.id]) : '', miss:(v === null || v === undefined)
+      });
+    });
+    tiles.push({k:'Treo không trả lời', v:fmt(T.treo), t:'hội thoại', d:TC ? delta(T.treo, TC.treo, true) : ''});
+    tiles.push({k:'Khách từ chối', v:fmt(T.tu_choi), t:'cứu lại ' + f1(T.tu_choi_cuu) + '%', d:TC ? delta(T.tu_choi, TC.tu_choi, true) : ''});
+    $('#tiles').innerHTML = tiles.map(t =>
+      '<div class="tile' + (t.miss ? ' miss' : '') + '"><div class="k">' + esc(t.k) + '</div>' +
+      '<div class="v">' + t.v + (t.d || '') + '</div><div class="t">' + esc(t.t) + '</div></div>'
+    ).join('');
+
+    const nv = M.V2.obj.nv || [];
+    const dem = {A:0, B:0, C:0};
+    nv.forEach(r => { if(dem[r.hang] !== undefined) dem[r.hang]++; });
+    $('#hangs').innerHTML = ['A','B','C'].map(h =>
+      '<span class="hang ' + h + '">hạng ' + h + ' <b>' + dem[h] + '</b> người</span>'
+    ).join('') + '<span class="hang">tổng <b>' + nv.length + '</b></span>';
+    $('#pvNote').textContent = TC ? 'mũi tên = lệch so với bản đang chạy' : 'nạp bản đang chạy ở bước 2 để thấy cột lệch';
+  }
+
+  $('#tblTen').textContent = 'Nhân viên';
+  $('#tblHead').innerHTML = '<tr><th>Mã</th><th class="n">Inbox</th><th class="n">Q1</th>' +
+    '<th class="n">Q5</th><th class="n">Điểm</th><th>Hạng</th></tr>';
+  if(!M.V2){
+    $('#nvRows').innerHTML = '<tr><td colspan="6" class="hint" style="padding:14px">Chưa có bộ số.</td></tr>';
+    $('#nvNote').textContent = '—';
+  }else{
+    const nv = (M.V2.obj.nv || []).slice().sort((a, b) => (b.diem || 0) - (a.diem || 0));
+    const cuMap = {};
+    if(TC) (CU.V2.obj.nv || []).forEach(r => { cuMap[r.nv] = r; });
+    const d2 = (a, b, nho) => {
+      if(!TC || b === undefined || b === null || a === null || a === undefined) return '';
+      const d = a - b;
+      if(Math.abs(d) < 0.05) return '';
+      const tot = nho ? d < 0 : d > 0;
+      return '<span class="d ' + (tot ? 'up' : 'dn') + '">' + (d > 0 ? '+' : '−') + f1(Math.abs(d)) + '</span>';
+    };
+    $('#nvRows').innerHTML = nv.map(r => {
+      const o = cuMap[r.nv], moi = TC && !o;
+      return '<tr><td><code>' + esc(r.nv) + '</code></td>' +
+        '<td class="n">' + fmt(r.n) + (o ? d2(r.n, o.n) : '') + '</td>' +
+        '<td class="n">' + f1(r.q1) + (o ? d2(r.q1, o.q1) : '') + '</td>' +
+        '<td class="n">' + f1(r.q5) + (o ? d2(r.q5, o.q5) : '') + '</td>' +
+        '<td class="n">' + f1(r.diem) + (o ? d2(r.diem, o.diem) : '') + '</td>' +
+        '<td><span class="chip h-' + (moi ? 'new' : esc(r.hang || 'new')) + '">' +
+          (moi ? 'mới' : esc(r.hang || '—')) + (o && o.hang !== r.hang ? ' ← ' + esc(o.hang) : '') + '</span></td></tr>';
+    }).join('');
+    const biMat = TC ? (CU.V2.obj.nv || []).filter(r => !nv.some(x => x.nv === r.nv)) : [];
+    $('#nvNote').textContent = nv.length + ' người' +
+      (TC ? ' · ' + nv.filter(r => !cuMap[r.nv]).length + ' mới · ' + biMat.length + ' rời bảng' : ' · xếp theo điểm');
+  }
+
+  $('#xuatTen').textContent = '4 · Xuất';
+  $('#expSo').hidden = false;
+  $('#cpBtn').disabled = !sanSang;
+  $('#dlBtn').disabled = !sanSang;
+  $('#expNote').innerHTML = !S.out
+    ? 'Chưa đủ ba bộ số để gói file.'
+    : S.chan
+      ? '<b style="color:var(--stop)">Khoá xuất:</b> còn ' + S.chan + ' ngưỡng dừng. Sửa ở script sinh số rồi nạp lại.'
+      : 'Sẽ xuất <b>v2.js</b> · ' + kb(new Blob([S.out]).size) + ' · ' + BO.map(k => k + ' ' + kb(S.moi[k].size)).join(' · ') +
+        '. Giữ nguyên văn bản JSON gốc nên có thể lớn hơn file mà <code>v2bundle.py</code> sinh ra — số thì y nguyên.';
+  $('#cmdLabel').innerHTML = 'Dán vào <code>tools/data/v2.js</code>, rồi đưa câu dưới cho Claude Code:';
+  $('#cmd').textContent = 'publish tools/truc-page.html lên ' + ART + ', kèm files = {"data/v2.js": "tools/data/v2.js", "data/rows.js": "tools/data/rows.js"}';
+}
+
+/* ====================== xuất file ====================== */
+let _dl;
+async function downloads(){
+  if(_dl !== undefined) return _dl;
+  try{ _dl = (window.claude && window.claude.use) ? await window.claude.use('downloads') : null; }
+  catch(e){ _dl = null; }
+  return _dl;
+}
+async function luu(){
+  if(!S.out) return;
+  const dl = await downloads();
+  if(dl){
+    // .js nằm ngoài danh sách đuôi được phép, nên lưu dạng .txt rồi đổi tên
+    try{
+      await dl.save({filename:'v2.js.txt', data:new Blob([S.out])});
+      toast('Đã lưu v2.js.txt — đổi tên thành v2.js rồi đặt vào tools/data/');
+    }catch(e){
+      if(e && e.code === 'declined') return;
+      toast('Không lưu được (' + ((e && e.code) || 'lỗi') + '). Dùng nút Copy nội dung.');
+    }
+    return;
+  }
+  const a = document.createElement('a');
+  const url = URL.createObjectURL(new Blob([S.out], {type:'text/plain;charset=utf-8'}));
+  a.href = url; a.download = 'v2.js'; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 4000);
+  toast('Đang tải v2.js');
+}
+async function copy(text, nhan){
+  try{ await navigator.clipboard.writeText(text); toast(nhan); return; }
+  catch(e){ /* sandbox chặn clipboard — rơi xuống cách cũ */ }
+  const ta = document.createElement('textarea');
+  ta.value = text; ta.style.position = 'fixed'; ta.style.left = '-9999px';
+  document.body.appendChild(ta); ta.select();
+  try{ document.execCommand('copy'); toast(nhan); }
+  catch(_){ toast('Trình duyệt chặn clipboard — dùng nút Tải file'); }
+  ta.remove();
+}
+
+/* ====================== dữ liệu mẫu ====================== */
+/* Số bịa, mã NV-9000xx: để trang mở ra đã thấy mọi khối hoạt động. */
+function mau(){
+  const mkNv = (code, n, q1, q5, diem, hang) => ({
+    nv:code, n:n, q1:q1, q2:q1 - 3, q3:q1 + 2, q4:q1 + 5, q5:q5, q5_2p:q5 - 20, q5_dau:q5 + 5,
+    q8:66, q8a:88, q8b:15, q8c:92, sdt:Math.round(n * q1 / 100), mot_cham:9, treo:2, tu_choi:1,
+    tu_choi_cuu:50, hot_chua:3, warm_chua:9, q6:1.2, q7:1.3, doc:3, diem:diem, hang:hang, phu:100,
+    mix:[['Mắt',30],['Da',20],['Mũi',14]], mkt:[['Chưa xác định',72],['Các tỉnh khác',12]]
+  });
+  const nv = [mkNv('NV-900001',120,28,80,112,'A'), mkNv('NV-900002',96,22,74,104,'B'),
+              mkNv('NV-900003',88,18,66,92,'C'),  mkNv('NV-900004',60,15,58,81,'C')];
+  const n = nv.reduce((a, r) => a + r.n, 0);
+  const sdt = nv.reduce((a, r) => a + r.sdt, 0);
+  const team = {n:n, tong_ht:n + 12, khach_cu:12, sdt:sdt, q1:21.5, q2:18.5, q3:23.5, q4:26.5,
+    q5:72.4, q5_2p:49.0, q5_dau:79.5, q8:64.8, q8a:86, q8b:15, q8c:92, mot_cham:10.2,
+    treo:9, tu_choi:4, tu_choi_cuu:50.0, hot_chua:18, warm_chua:92};
+  const days = ['01/01','02/01'];
+  const lat = (label, r) => ({label:label, team:Object.assign({}, team, r || {}), nv:nv});
+  const V2 = {team:team, nv:nv,
+    dv:[{key:'MAT',label:'Mắt',n:120,q1:24,q5:76}, {key:'MUI',label:'Mũi',n:80,q1:19,q5:70}],
+    mkt:[{key:'HA_NOI',label:'Hà Nội',n:40,q1:48,q5:78}, {key:'CHUA_RO',label:'Chưa xác định',n:260,q1:15,q5:71}],
+    kg:[{key:'09-12',label:'09–12h',n:120,q1:23,q5:72}, {key:'18-22',label:'18–22h',n:140,q1:19,q5:68}],
+    nguon:[{key:'QC',label:'Từ quảng cáo',n:320,q1:22,q5:73}],
+    ngay:days.map((d, i) => ({key:d, label:d + ' · mẫu', n:Math.round(n / days.length), q1:21 + i, q5:72 + i}))};
+  const EX = {
+    slaNv:nv.map(r => ({k:r.nv, all:{v:r.q5, n:r.n}})),
+    slaDv:[{k:'Mắt', all:{v:76, n:120}}],
+    slaTeam:{k:'Toàn đội', all:{v:team.q5, n:n}},
+    trend:days.map((d, i) => ({k:d, n:Math.round(n / days.length), q1:21 + i, q5:72 + i})),
+    respEng:[{k:'< 1 phút', v:75, n:200}, {k:'> 30 phút', v:48, n:40}],
+    respRs:[{k:'< 1 phút', v:35, n:70}, {k:'> 30 phút', v:7, n:12}],
+    handoff:[{k:'1 người', v:24, n:80, ht:300}, {k:'2 người', v:23, n:40, ht:140}],
+    tmpl:[{n:3, nv:1, w:['an toàn tuyệt đối'], full:'Câu mẫu minh hoạ: dịch vụ này an toàn tuyệt đối ạ.'}],
+    gia:{n:180, pc:45.0, q1:21.0, q4:23.0, q4n:60, q4_khac:27.0, q4_khacn:120},
+    days:days};
+  const SLICES = {slices:{all:lat('Tất cả'), MAT:lat('Mắt', {n:120})}, days:days};
+  S.moi = {
+    V2:{raw:JSON.stringify(V2), obj:V2, name:'mau-v2.json', size:new Blob([JSON.stringify(V2)]).size},
+    EX:{raw:JSON.stringify(EX), obj:EX, name:'mau-v2extra.json', size:new Blob([JSON.stringify(EX)]).size},
+    SLICES:{raw:JSON.stringify(SLICES), obj:SLICES, name:'mau-v2slices.json', size:new Blob([JSON.stringify(SLICES)]).size}
+  };
+  S.che = 'so'; S.demo = true;
+}
+
+/* ====================== nối dây ====================== */
+function keoTha(zone, input, dich){
+  const z = $(zone), i = $(input);
+  z.addEventListener('click', () => i.click());
+  z.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); i.click(); } });
+  i.addEventListener('change', () => { napFiles(i.files, dich); i.value = ''; });
+  ['dragenter','dragover'].forEach(ev => z.addEventListener(ev, e => { e.preventDefault(); z.classList.add('hot'); }));
+  ['dragleave','drop'].forEach(ev => z.addEventListener(ev, e => { e.preventDefault(); z.classList.remove('hot'); }));
+  z.addEventListener('drop', e => { if(e.dataTransfer && e.dataTransfer.files) napFiles(e.dataTransfer.files, dich); });
+}
+
+(function boot(){
+  const KEY = 'chotso-theme';
+  let th = null;
+  try{ th = localStorage.getItem(KEY); }catch(e){}
+  if(th) document.documentElement.setAttribute('data-theme', th);
+  $('#themeBtn').addEventListener('click', () => {
+    const cur = document.documentElement.getAttribute('data-theme');
+    const next = cur === 'dark' ? 'light' : cur === 'light' ? null : 'dark';
+    if(next) document.documentElement.setAttribute('data-theme', next);
+    else document.documentElement.removeAttribute('data-theme');
+    try{ next ? localStorage.setItem(KEY, next) : localStorage.removeItem(KEY); }catch(e){}
+    toast(next === 'dark' ? 'Nền tối' : next === 'light' ? 'Nền sáng' : 'Theo hệ thống');
+  });
+
+  keoTha('#dropMoi', '#fileMoi', 'moi');
+  keoTha('#dropCu', '#fileCu', 'cu');
+  $('#cpBtn').addEventListener('click', () => copy(S.out, 'Đã copy ' + kb(new Blob([S.out]).size) + ' — dán vào tools/data/v2.js'));
+  $('#dlBtn').addEventListener('click', luu);
+  $('#cpCmdBtn').addEventListener('click', () => copy($('#cmd').textContent, 'Đã copy lệnh'));
+
+  mau();
+  render();
+})();
+</script>

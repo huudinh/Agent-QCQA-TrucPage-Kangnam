@@ -1,0 +1,950 @@
+<title>Gọt Ngữ Cảnh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Lora:ital,wght@1,600&display=swap">
+<style>
+/* ---------- token: dùng chung hệ với tools/huong-dan.html ---------- */
+:root{
+  --ground:#EADDD8; --surface:#FFFFFF; --surface-2:#F7EBE6;
+  --ink:#1F0E17; --ink-2:#4D2E39; --ink-3:#7A5560;
+  --line:#D6BDB8; --line-2:#E6D2CD;
+  --primary:#8A1F33; --primary-ink:#6B1526; --primary-wash:#F7E4E4; --on-primary:#FFFFFF;
+  --gold:#86560D; --gold-soft:#A9761A; --gold-wash:#F9ECD2; --on-gold:#FFFFFF;
+  --band:#3A1425; --band-ink:#FBEEF1; --band-accent:#EDBD6B;
+  --ok:#4F5E22; --ok-bg:#EFF3E0;
+  --warn:#86560D; --warn-bg:#F9ECD2;
+  --stop:#8A1F33; --stop-bg:#F7E4E4;
+  --f:'Be Vietnam Pro',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
+  --f2:'Lora',Georgia,'Times New Roman',serif;
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --r:10px; --r-lg:14px;
+  --sh:0 1px 2px rgba(58,20,37,.10),0 2px 6px rgba(58,20,37,.05);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#0E0609; --surface:#352228; --surface-2:#412A32;
+    --ink:#FBEFEC; --ink-2:#E8D2CF; --ink-3:#BDA2A7;
+    --line:#603D46; --line-2:#4B3038;
+    --primary:#F09AA1; --primary-ink:#F7B9BD; --primary-wash:#43242B; --on-primary:#20101A;
+    --gold:#EEC074; --gold-soft:#D09A46; --gold-wash:#3B2A17; --on-gold:#20101A;
+    --band:#2B1020; --band-ink:#FBEEF1; --band-accent:#EDBD6B;
+    --ok:#B3C975; --ok-bg:#1F2A12;
+    --warn:#EEC074; --warn-bg:#3B2A17;
+    --stop:#F09AA1; --stop-bg:#43242B;
+    --sh:0 1px 2px rgba(0,0,0,.45),0 3px 10px rgba(0,0,0,.30);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0E0609; --surface:#352228; --surface-2:#412A32;
+  --ink:#FBEFEC; --ink-2:#E8D2CF; --ink-3:#BDA2A7;
+  --line:#603D46; --line-2:#4B3038;
+  --primary:#F09AA1; --primary-ink:#F7B9BD; --primary-wash:#43242B; --on-primary:#20101A;
+  --gold:#EEC074; --gold-soft:#D09A46; --gold-wash:#3B2A17; --on-gold:#20101A;
+  --band:#2B1020; --band-ink:#FBEEF1; --band-accent:#EDBD6B;
+  --ok:#B3C975; --ok-bg:#1F2A12;
+  --warn:#EEC074; --warn-bg:#3B2A17;
+  --stop:#F09AA1; --stop-bg:#43242B;
+  --sh:0 1px 2px rgba(0,0,0,.45),0 3px 10px rgba(0,0,0,.30);
+}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--f);font-size:15px;line-height:1.6;-webkit-text-size-adjust:100%}
+.wrap{max-width:1200px;margin:0 auto;padding-inline:16px}
+h1,h2,h3{margin:0;text-wrap:balance;line-height:1.25}
+code,kbd,.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+a{color:var(--primary-ink)}
+
+/* ---------- top bar: đồng hồ ngân sách luôn nhìn thấy ---------- */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
+.bar-in{max-width:1200px;margin:0 auto;padding-inline:16px;padding-block:10px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.brand{display:flex;align-items:baseline;gap:9px;margin-right:auto}
+.brand b{font-size:17px;font-weight:800;letter-spacing:-.01em}
+.brand span{font-family:var(--f2);font-size:13px;color:var(--ink-3)}
+.gauge{flex:1 1 320px;min-width:260px}
+.gauge-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:12px;color:var(--ink-3)}
+.gauge-top .big{font-family:var(--mono);font-size:19px;font-weight:700;color:var(--ink);letter-spacing:-.02em}
+.gauge-top .arrow{color:var(--ink-3);font-size:14px;padding-inline:2px}
+.track{height:9px;border-radius:99px;background:var(--surface-2);border:1px solid var(--line-2);margin-top:5px;overflow:hidden;position:relative}
+.track i{position:absolute;inset:0 auto 0 0;display:block;border-radius:99px;transition:width .28s ease,background .28s}
+.st-ok i{background:var(--ok)} .st-warn i{background:var(--gold)} .st-stop i{background:var(--stop)}
+.ghost{position:absolute;top:0;bottom:0;width:2px;background:var(--ink-3);opacity:.55}
+.verdict{font-size:12px;font-weight:600;margin-top:4px}
+.st-ok .verdict{color:var(--ok)} .st-warn .verdict{color:var(--warn)} .st-stop .verdict{color:var(--stop)}
+
+/* ---------- controls ---------- */
+button,select,input[type=number],input[type=text]{font-family:inherit;font-size:14px;color:var(--ink)}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:var(--r);padding:8px 14px;cursor:pointer;font-weight:600;display:inline-flex;align-items:center;gap:7px}
+.btn:hover{border-color:var(--primary);color:var(--primary-ink)}
+.btn:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.btn.pri{background:var(--primary);border-color:var(--primary);color:var(--on-primary)}
+.btn.pri:hover{background:var(--primary-ink);color:var(--on-primary)}
+.btn.sm{padding:5px 10px;font-size:13px;font-weight:500}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.icobtn{border:1px solid var(--line);background:var(--surface);border-radius:var(--r);width:34px;height:34px;cursor:pointer;font-size:15px;line-height:1}
+input[type=number],input[type=text],select{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:5px 8px}
+input[type=number]{width:92px;font-family:var(--mono);text-align:right}
+input[type=checkbox]{accent-color:var(--primary);width:16px;height:16px}
+
+/* ---------- layout ---------- */
+.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:16px;align-items:start;padding-block:16px}
+@media (max-width:920px){.grid{grid-template-columns:minmax(0,1fr)}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh)}
+.panel>header{padding:13px 16px;border-bottom:1px solid var(--line-2);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.panel>header h2{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-2);margin-right:auto}
+.panel>.body{padding:16px}
+.stack{display:flex;flex-direction:column;gap:16px}
+.hint{font-size:12.5px;color:var(--ink-3);margin:0}
+
+/* ---------- vùng nạp file ---------- */
+.drop{border:1.5px dashed var(--line);border-radius:var(--r);padding:18px;text-align:center;background:var(--surface-2);cursor:pointer}
+.drop.hot{border-color:var(--primary);background:var(--primary-wash)}
+.drop b{display:block;font-size:14.5px}
+.src{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px;margin-top:12px;color:var(--ink-2)}
+.tag{font-family:var(--mono);font-size:11.5px;padding:2px 7px;border-radius:99px;background:var(--surface-2);border:1px solid var(--line-2);color:var(--ink-2);white-space:nowrap}
+.tag.live{background:var(--ok-bg);border-color:var(--ok);color:var(--ok)}
+.tag.demo{background:var(--gold-wash);border-color:var(--gold-soft);color:var(--gold)}
+
+/* ---------- danh sách luật ---------- */
+.rule{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 10px;padding:11px 0;border-bottom:1px solid var(--line-2)}
+.rule:last-child{border-bottom:0;padding-bottom:0}
+.rule>input{margin-top:4px}
+.rule label{font-weight:600;font-size:14px;cursor:pointer;display:block}
+.rule p{grid-column:2;margin:1px 0 0;font-size:12.5px;color:var(--ink-3)}
+.rule .opts{grid-column:2;display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12.5px;color:var(--ink-2);margin-top:7px}
+.save{grid-column:2;justify-self:start;font-family:var(--mono);font-size:11.5px;font-weight:700;padding:1px 7px;border-radius:99px;margin-top:6px;background:var(--ok-bg);color:var(--ok);border:1px solid var(--ok)}
+.save.zero{background:var(--surface-2);color:var(--ink-3);border-color:var(--line-2)}
+.warnline{grid-column:2;font-size:12px;color:var(--warn);background:var(--warn-bg);border:1px solid var(--gold-soft);border-radius:8px;padding:6px 9px;margin-top:7px}
+
+/* ---------- biểu đồ thành phần ---------- */
+.cats{display:flex;flex-direction:column;gap:11px;margin:0}
+.cat{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:3px 10px}
+.cat dt{font-size:13px;font-weight:600;display:flex;align-items:center;gap:7px;min-width:0}
+.cat dd{margin:0;font-family:var(--mono);font-size:12.5px;color:var(--ink-2);white-space:nowrap}
+.cat dd s{color:var(--ink-3);text-decoration-thickness:1px}
+.cbar{grid-column:1/-1;height:7px;border-radius:99px;background:var(--surface-2);position:relative;overflow:hidden}
+.cbar u,.cbar b{position:absolute;top:0;bottom:0;left:0;border-radius:99px}
+.cbar u{opacity:.3}
+.swatch{width:9px;height:9px;border-radius:3px;flex:none}
+
+/* ---------- bảng nặng nhất ---------- */
+.tblwrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13px;min-width:520px}
+th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--line-2);vertical-align:top}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3);font-weight:700;white-space:nowrap}
+td.n,th.n{text-align:right;font-family:var(--mono);white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.chip{font-size:11px;font-weight:700;padding:1px 6px;border-radius:5px;white-space:nowrap;border:1px solid}
+.act-keep{color:var(--ink-3);border-color:var(--line-2);background:var(--surface-2)}
+.act-trim{color:var(--warn);border-color:var(--gold-soft);background:var(--warn-bg)}
+.act-drop{color:var(--stop);border-color:var(--stop);background:var(--stop-bg)}
+details.peek summary{cursor:pointer;font-size:12.5px;color:var(--ink-2);list-style:none}
+details.peek summary::-webkit-details-marker{display:none}
+details.peek summary::before{content:'▸ ';color:var(--ink-3)}
+details.peek[open] summary::before{content:'▾ '}
+details.peek pre{font-family:var(--mono);font-size:11.5px;white-space:pre-wrap;word-break:break-word;background:var(--surface-2);border:1px solid var(--line-2);border-radius:8px;padding:8px;margin:7px 0 0;max-height:190px;overflow:auto}
+
+/* ---------- chẩn đoán ---------- */
+.dx{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:9px}
+.dx li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:9px;font-size:13.5px;padding:9px 11px;border-radius:var(--r);border:1px solid var(--line-2);background:var(--surface-2)}
+.dx li.hi{border-color:var(--stop);background:var(--stop-bg)}
+.dx li.mid{border-color:var(--gold-soft);background:var(--warn-bg)}
+.dx li.good{border-color:var(--ok);background:var(--ok-bg)}
+.dx b{font-weight:700}
+.dx em{font-style:normal;color:var(--ink-2);display:block;font-size:12.5px;margin-top:2px}
+.dx .mk{font-weight:800;font-family:var(--mono)}
+
+.exp{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:90;background:var(--band);color:var(--band-ink);padding:9px 16px;border-radius:99px;font-size:13.5px;font-weight:600;box-shadow:var(--sh);max-width:min(92vw,520px)}
+footer{padding-block:22px 30px;font-size:12.5px;color:var(--ink-3);text-align:center}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="bar">
+  <div class="bar-in">
+    <div class="brand"><b>Gọt Ngữ Cảnh</b><span>context trimmer</span></div>
+    <div class="gauge st-ok" id="gauge">
+      <div class="gauge-top">
+        <div><span class="big" id="gBefore">—</span><span class="arrow">→</span><span class="big" id="gAfter">—</span></div>
+        <div>ngưỡng <span class="num" id="gBudget">1.000.000</span></div>
+      </div>
+      <div class="track"><i id="gFill" style="width:0"></i><span class="ghost" id="gGhost" hidden></span></div>
+      <div class="verdict" id="gVerdict">Chưa nạp hội thoại</div>
+    </div>
+    <button class="icobtn" id="themeBtn" type="button" title="Đổi sáng/tối" aria-label="Đổi sáng/tối">◐</button>
+  </div>
+</div>
+
+<div class="wrap">
+<div class="grid">
+
+  <div class="stack">
+    <section class="panel">
+      <header><h2>1 · Nạp hội thoại</h2><span class="tag demo" id="srcTag">dữ liệu mẫu</span></header>
+      <div class="body">
+        <div class="drop" id="drop" tabindex="0" role="button" aria-label="Chọn file hội thoại">
+          <b>Kéo file vào đây hoặc bấm để chọn</b>
+          <p class="hint" style="margin:5px 0 0">.jsonl phiên Claude Code · conversations.json xuất từ claude.ai · payload Messages API · hoặc .txt/.md</p>
+        </div>
+        <input type="file" id="file" accept=".jsonl,.json,.txt,.md,.log" hidden>
+        <div class="src">
+          <span class="tag" id="fName">mau-phien.jsonl</span>
+          <span class="tag" id="fFmt">jsonl</span>
+          <span class="tag" id="fSize">0 KB</span>
+          <span class="tag" id="fMsgs">0 tin nhắn</span>
+          <button class="btn sm" id="pasteBtn" type="button">Dán từ clipboard</button>
+        </div>
+        <p class="hint" style="margin-top:11px">File không rời khỏi máy bạn — mọi thao tác chạy trong trình duyệt.</p>
+      </div>
+    </section>
+
+    <section class="panel">
+      <header><h2>2 · Luật gọt</h2>
+        <label style="font-size:12.5px;display:flex;align-items:center;gap:6px;color:var(--ink-2)">ngưỡng
+          <input type="number" id="budget" value="1000000" min="1000" step="50000" style="width:110px">
+        </label>
+      </header>
+      <div class="body" id="rules"></div>
+    </section>
+
+    <section class="panel">
+      <header><h2>4 · Xuất</h2></header>
+      <div class="body">
+        <div class="exp">
+          <button class="btn pri" id="dlBtn" type="button">Tải file đã gọt</button>
+          <button class="btn" id="cpBtn" type="button">Copy nội dung</button>
+          <button class="btn" id="dgBtn" type="button">Tải bản lược (.md)</button>
+        </div>
+        <p class="hint" style="margin-top:11px" id="expNote">—</p>
+        <label class="hint" style="display:flex;align-items:center;gap:7px;margin-top:9px;cursor:pointer">
+          <input type="checkbox" id="compact" checked> Nén khoảng trắng JSON khi xuất (tiết kiệm thêm vài %)
+        </label>
+      </div>
+    </section>
+  </div>
+
+  <div class="stack">
+    <section class="panel">
+      <header><h2>3 · Chẩn đoán</h2></header>
+      <div class="body"><ul class="dx" id="dx"></ul></div>
+    </section>
+
+    <section class="panel">
+      <header><h2>Token theo thành phần</h2><span class="hint" id="catNote">mờ = trước · đậm = sau</span></header>
+      <div class="body"><dl class="cats" id="cats"></dl></div>
+    </section>
+
+    <section class="panel">
+      <header><h2>25 khối nặng nhất</h2><span class="hint">bấm để xem nội dung</span></header>
+      <div class="body" style="padding:0 0 4px">
+        <div class="tblwrap"><table>
+          <thead><tr><th>Khối</th><th class="n">Trước</th><th class="n">Sau</th><th>Xử lý</th></tr></thead>
+          <tbody id="rows"></tbody>
+        </table></div>
+      </div>
+    </section>
+  </div>
+
+</div>
+<footer>Token là <b>ước lượng</b> theo tỉ lệ ký tự/token, lệch khoảng 5–10% so với tokenizer thật. Dùng để so sánh và cắt, không dùng để quyết toán.</footer>
+</div>
+
+<script>
+'use strict';
+/* ====================== tiện ích ====================== */
+const $ = s => document.querySelector(s);
+const fmt = n => Math.round(n).toLocaleString('vi-VN');
+const pct = (a,b) => b>0 ? Math.round(a/b*1000)/10 : 0;
+const DROP = '\u0000__GOT_DROP__';
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+function estTok(s, cpt){
+  if(!s) return 0;
+  let cjk = 0; const n = s.length;
+  for(let i=0;i<n;i++){ const c = s.charCodeAt(i); if((c>=0x3000&&c<=0x9FFF)||(c>=0xAC00&&c<=0xD7AF)) cjk++; }
+  return Math.ceil((n-cjk)/cpt + cjk*1.5);
+}
+function toast(msg){
+  const el = document.createElement('div'); el.className = 'toast'; el.textContent = msg;
+  document.body.appendChild(el); setTimeout(()=>el.remove(), 3200);
+}
+
+/* ====================== trạng thái ====================== */
+const CPT = 3.5;                       // ký tự / token (ước lượng)
+const MINLEN = 16;                     // chuỗi ngắn hơn ngưỡng này gộp vào "khung JSON"
+const S = { raw:'', fmtName:'jsonl', root:null, msgs:[], items:[], name:'mau-phien.jsonl', demo:true, out:'', digest:'' };
+
+const CFG = {
+  budget:1000000, b64:true, reminder:true, squash:true, dedupe:true,
+  trimTR:true, trMax:400, trimAtt:true, attMax:1500,
+  thinking:true, thinkKeep:2, pruneTools:true, meta:true,
+  window:false, keepFirst:4, keepLast:20, hardDelete:false, digest:true,
+  auto:true, compact:true
+};
+
+const KIND = {
+  'system':      {label:'System prompt', color:'var(--band)'},
+  'tool-def':    {label:'Định nghĩa tool', color:'var(--gold)'},
+  'attachment':  {label:'File đính kèm', color:'var(--stop)'},
+  'tool_result': {label:'Kết quả tool', color:'var(--primary)'},
+  'tool_use':    {label:'Lệnh gọi tool', color:'var(--gold-soft)'},
+  'base64':      {label:'Ảnh / base64', color:'var(--ink-3)'},
+  'thinking':    {label:'Suy luận', color:'var(--ink-2)'},
+  'reminder':    {label:'System reminder', color:'var(--warn)'},
+  'text':        {label:'Hội thoại', color:'var(--ok)'},
+  'other':       {label:'Trường khác', color:'var(--line)'},
+  'frame':       {label:'Khung JSON / metadata', color:'var(--line)'}
+};
+
+/* ====================== địa chỉ trong cây ====================== */
+function getAt(root, addr){ let o = root; for(const k of addr){ if(o==null) return undefined; o = o[k]; } return o; }
+function setAt(root, addr, v){
+  let o = root;
+  for(let i=0;i<addr.length-1;i++){ if(o==null) return; o = o[addr[i]]; }
+  if(o!=null) o[addr[addr.length-1]] = v;
+}
+function compact(node){
+  if(Array.isArray(node)){
+    for(let i=node.length-1;i>=0;i--){ if(node[i]===DROP) node.splice(i,1); else compact(node[i]); }
+  } else if(node && typeof node==='object'){
+    for(const k of Object.keys(node)){ if(node[k]===DROP) delete node[k]; else compact(node[k]); }
+  }
+}
+
+/* ====================== đọc & nhận dạng định dạng ====================== */
+function parseSource(text, name){
+  const t = text.trim();
+  // 1) JSON nguyên khối
+  if(t.startsWith('{') || t.startsWith('[')){
+    try{
+      const j = JSON.parse(t);
+      return buildFromJson(j, name);
+    }catch(e){ /* rơi xuống jsonl */ }
+  }
+  // 2) JSONL
+  const lines = text.split(/\r?\n/);
+  let okCount = 0;
+  const root = lines.map(l => {
+    const s = l.trim();
+    if(!s) return {__raw:''};
+    try{ const v = JSON.parse(s); okCount++; return v; }catch(e){ return {__raw:l}; }
+  });
+  if(okCount >= Math.max(1, lines.filter(l=>l.trim()).length*0.5)){
+    const msgs = [];
+    root.forEach((ln,i)=>{
+      if(ln.__raw!==undefined) return;
+      const hasMsg = ln.message && typeof ln.message==='object';
+      const role = (hasMsg ? ln.message.role : ln.role) || ln.type || '?';
+      if(hasMsg || ln.role || ln.content) msgs.push({addr:[i, ...(hasMsg?['message']:[])], del:[i], role:String(role)});
+    });
+    return {fmtName:'jsonl', root, msgs, sysAddr:null, toolsAddr:null};
+  }
+  // 3) Văn bản thuần
+  const chunks = text.split(/\n{2,}/);
+  return {fmtName:'text', root:{__text:chunks}, msgs:chunks.map((c,i)=>({addr:['__text',i], del:['__text',i], role:'text'})), sysAddr:null, toolsAddr:null};
+}
+
+function buildFromJson(j, name){
+  // payload Messages API
+  if(j && !Array.isArray(j) && Array.isArray(j.messages)){
+    return {fmtName:'api-json', root:j,
+      msgs:j.messages.map((m,i)=>({addr:['messages',i], del:['messages',i], role:String(m.role||'?')})),
+      sysAddr:(j.system!==undefined?['system']:null),
+      toolsAddr:(Array.isArray(j.tools)?['tools']:null)};
+  }
+  // export claude.ai
+  const convs = Array.isArray(j) ? j : [j];
+  if(convs.length && convs[0] && Array.isArray(convs[0].chat_messages)){
+    const msgs = [];
+    convs.forEach((c,ci)=>{
+      const base = Array.isArray(j) ? [ci] : [];
+      (c.chat_messages||[]).forEach((m,mi)=>{
+        const a = [...base,'chat_messages',mi];
+        msgs.push({addr:a, del:a, role:String(m.sender||m.role||'?')});
+      });
+    });
+    return {fmtName:'claude.ai-export', root:j, msgs, sysAddr:null, toolsAddr:null};
+  }
+  // mảng message trần
+  if(Array.isArray(j) && j.length && j[0] && (j[0].role || j[0].content)){
+    return {fmtName:'messages-json', root:j, msgs:j.map((m,i)=>({addr:[i], del:[i], role:String(m.role||'?')})), sysAddr:null, toolsAddr:null};
+  }
+  return {fmtName:'json', root:j, msgs:[{addr:[], del:null, role:'root'}], sysAddr:null, toolsAddr:null};
+}
+
+function serialize(root, fmtName, compactJson){
+  if(fmtName==='text') return (root.__text||[]).join('\n\n');
+  if(fmtName==='jsonl'){
+    return root.map(ln => ln.__raw!==undefined ? ln.__raw : JSON.stringify(ln)).filter((s,i,a)=> s!=='' || i===a.length-1).join('\n');
+  }
+  return compactJson ? JSON.stringify(root) : JSON.stringify(root, null, 2);
+}
+
+/* ====================== thu thập khối ====================== */
+const B64RE = /^[A-Za-z0-9+/\s]{400,}={0,2}$/;
+const isB64 = t => t.length>400 && (/^data:[^;,]{0,60};base64,/.test(t) || B64RE.test(t));
+
+/* Cờ ngữ cảnh dính: một tool_result hay document thường bọc thêm một lớp
+   {type:'text'} bên trong, nên không thể phân loại theo type của khối gần nhất. */
+function classify(key, ctx, text){
+  if(ctx.b64 || isB64(text)) return 'base64';
+  if(ctx.think || key==='signature' || key==='thinking') return 'thinking';
+  if(ctx.tr) return 'tool_result';
+  if(ctx.doc || key==='extracted_content' || key==='file_contents') return 'attachment';
+  if(ctx.tu) return 'tool_use';
+  if(text.indexOf('<system-reminder>')>=0) return 'reminder';
+  if(key==='text' || key==='content' || key==='prompt' || key==='input' || key==='output') return 'text';
+  return 'other';
+}
+
+function collectMsg(root, msg, mi, items){
+  const stack = [{node:getAt(root, msg.addr), addr:msg.addr, ctx:{}, block:null}];
+  while(stack.length){
+    const {node, addr, ctx, block} = stack.pop();
+    if(node===null || node===undefined) continue;
+    if(typeof node==='string'){
+      if(node.length < MINLEN) continue;
+      const key = String(addr[addr.length-1]);
+      items.push({
+        addr, key, text:node, kind:classify(key, ctx, node),
+        tok:estTok(node, CPT), mi, role:msg.role, name:ctx.name||'',
+        block, dup:false, out:null, repl:null, rule:''
+      });
+      continue;
+    }
+    if(typeof node!=='object') continue;
+    if(Array.isArray(node)){
+      const k = String(addr[addr.length-1]);
+      const c2 = (k==='attachments'||k==='files'||k==='documents') ? Object.assign({}, ctx, {doc:true}) : ctx;
+      for(let i=node.length-1;i>=0;i--) stack.push({node:node[i], addr:[...addr,i], ctx:c2, block});
+      continue;
+    }
+    const c = Object.assign({}, ctx);
+    if(typeof node.type==='string') c.btype = node.type;
+    if(typeof node.name==='string') c.name = node.name;
+    if(node.type==='tool_result') c.tr = true;
+    if(node.type==='tool_use' || node.type==='server_tool_use') c.tu = true;
+    if(node.type==='document' || node.type==='search_result') c.doc = true;
+    if(node.type==='thinking' || node.type==='redacted_thinking') c.think = true;
+    if(node.type==='base64') c.b64 = true;
+    const k0 = String(addr[addr.length-1]);
+    if(k0==='attachments' || k0==='files' || k0==='documents') c.doc = true;
+    // khối nội dung = phần tử mảng có "type"
+    const blk = (typeof node.type==='string' && typeof addr[addr.length-1]==='number') ? {addr, id:node.id||null, useId:node.tool_use_id||null, type:node.type} : block;
+    for(const k of Object.keys(node)) stack.push({node:node[k], addr:[...addr,k], ctx:c, block:blk});
+  }
+}
+
+/* Tên tool và cặp tool_use↔tool_result phải quét theo cấu trúc, không suy ra từ
+   danh sách khối: "Read", "t1" đều ngắn hơn ngưỡng thu thập chuỗi. */
+function scanStructure(root, msgs){
+  const names = new Set(), pairs = new Map();
+  const walk = (node, mi) => {
+    if(!node || typeof node!=='object') return;
+    if(Array.isArray(node)){ for(const n of node) walk(n, mi); return; }
+    const t = node.type;
+    if(t==='tool_use' || t==='server_tool_use' || t==='mcp_tool_use'){
+      if(typeof node.name==='string') names.add(node.name);
+      if(node.id){ const e = pairs.get(node.id) || {}; e.use = mi; pairs.set(node.id, e); }
+    }
+    if((t==='tool_result' || t==='mcp_tool_result') && node.tool_use_id){
+      const e = pairs.get(node.tool_use_id) || {}; e.res = mi; pairs.set(node.tool_use_id, e);
+    }
+    for(const k in node) walk(node[k], mi);
+  };
+  msgs.forEach((m,i)=>walk(getAt(root, m.addr), i));
+  return {names, pairs};
+}
+
+function analyse(text, name){
+  const p = parseSource(text, name);
+  S.raw = text; S.name = name; S.fmtName = p.fmtName; S.root = p.root; S.msgs = p.msgs;
+  S.sysAddr = p.sysAddr; S.toolsAddr = p.toolsAddr;
+
+  const items = [];
+  if(p.sysAddr){
+    const sv = getAt(p.root, p.sysAddr);
+    const push = (t, addr) => { if(typeof t==='string' && t.length>=MINLEN) items.push({addr, key:'system', text:t, kind:'system', tok:estTok(t,CPT), mi:-1, role:'system', name:'', block:null, dup:false, out:null, repl:null, rule:''}); };
+    if(typeof sv==='string') push(sv, p.sysAddr);
+    else if(Array.isArray(sv)) sv.forEach((b,i)=>{ if(b && typeof b.text==='string') push(b.text, [...p.sysAddr,i,'text']); });
+  }
+  if(p.toolsAddr){
+    const tools = getAt(p.root, p.toolsAddr) || [];
+    tools.forEach((t,i)=>{
+      const s = JSON.stringify(t);
+      items.push({addr:[...p.toolsAddr,i], key:'tool', text:s, kind:'tool-def', tok:estTok(s,CPT),
+        mi:-1, role:'tools', name:(t&&t.name)||('tool#'+i), block:{addr:[...p.toolsAddr,i]}, dup:false, out:null, repl:null, rule:'', wholeBlock:true});
+    });
+  }
+  p.msgs.forEach((m,i)=>collectMsg(p.root, m, i, items));
+
+  const scan = scanStructure(p.root, p.msgs);
+  S.pairs = scan.pairs;
+  S.toolNamesUsed = scan.names;
+
+  // đánh dấu trùng lặp: giữ lần xuất hiện cuối
+  const seen = new Map();
+  items.forEach((it,idx)=>{ if(it.tok>=250){ const k = it.kind+'|'+it.text.length+'|'+it.text.slice(0,120); (seen.get(k)||seen.set(k,[]).get(k)).push(idx); } });
+  seen.forEach(list=>{ if(list.length>1) list.slice(0,-1).forEach(i=>{ items[i].dup = true; }); });
+
+  S.items = items;
+  S.demo = false;
+}
+
+/* ====================== biến đổi nội dung ====================== */
+function stripReminders(t){
+  return t.replace(/<system-reminder>[\s\S]*?<\/system-reminder>\s*/g, '')
+          .replace(/<system-reminder>[\s\S]*$/, '');
+}
+function squashWs(t){
+  return t.replace(/[ \t]+$/gm, '').replace(/\n{4,}/g, '\n\n\n').replace(/ {4,}/g, '   ');
+}
+function headTail(t, maxTok){
+  const maxChars = Math.max(240, Math.floor(maxTok*CPT));
+  if(t.length <= maxChars) return t;
+  const h = Math.floor(maxChars*0.62), tl = maxChars - h;
+  const cut = estTok(t,CPT) - maxTok;
+  return t.slice(0,h) + '\n\n…[GỌT ' + fmt(cut) + ' tokens ở giữa]…\n\n' + t.slice(t.length-tl);
+}
+const stub = (kind, tok) => '[đã lược: ' + (KIND[kind]?KIND[kind].label:kind).toLowerCase() + ', ~' + fmt(tok) + ' tokens]';
+
+/* ====================== lập kế hoạch + dựng kết quả ====================== */
+function plan(){
+  const n = S.msgs.length;
+  // cửa sổ giữ
+  let dropSet = new Set();
+  if(CFG.window && n > CFG.keepFirst + CFG.keepLast){
+    for(let i=CFG.keepFirst;i<n-CFG.keepLast;i++) dropSet.add(i);
+    // bảo vệ cặp tool_use/tool_result bị cắt đôi
+    S.pairs.forEach(p=>{
+      if(p.use===undefined || p.res===undefined) return;
+      const a = dropSet.has(p.use), b = dropSet.has(p.res);
+      if(a !== b){ dropSet.delete(p.use); dropSet.delete(p.res); }
+    });
+  }
+  S.dropSet = dropSet;
+  // xoá hẳn: chỉ xoá được tin nhắn có địa chỉ xoá an toàn
+  S.killMsgs = (CFG.window && CFG.hardDelete)
+    ? new Set([...dropSet].filter(i => S.msgs[i] && S.msgs[i].del))
+    : new Set();
+
+  const thinkFrom = n - CFG.thinkKeep;
+  const saved = {};
+  const mark = (it, r, out, repl) => {
+    it.rule = r; it.out = out; it.repl = repl || null;
+    const left = out===DROP ? (repl ? estTok(JSON.stringify(repl), CPT) : 0) : estTok(out, CPT);
+    saved[r] = (saved[r]||0) + Math.max(0, it.tok - left);
+  };
+
+  const digestLines = [];
+  S.items.forEach(it=>{
+    it.rule = ''; it.out = null; it.repl = null;
+    let t = it.text;
+
+    // không quét ra lệnh gọi nào thì không dám bỏ tool nào — thà giữ hơn bỏ oan
+    if(it.kind==='tool-def' && CFG.pruneTools && it.name && S.toolNamesUsed.size && !S.toolNamesUsed.has(it.name)){ mark(it,'pruneTools',DROP); return; }
+    if(it.kind==='base64' && CFG.b64){
+      // khối ảnh: đổi thành khối text, không xoá — xoá có thể để lại content rỗng và API từ chối
+      if(it.block && (it.block.type==='image' || it.block.type==='document'))
+        mark(it,'b64',DROP,{type:'text', text:stub('base64', it.tok)});
+      else mark(it,'b64', stub('base64', it.tok));
+      return;
+    }
+    if(it.kind==='thinking' && CFG.thinking && it.mi < thinkFrom){ mark(it,'thinking', it.key==='signature' ? '[đã lược]' : stub('thinking', it.tok)); return; }
+    if(it.dup && CFG.dedupe){ mark(it,'dedupe','[đã lược: trùng với một khối giống hệt xuất hiện sau, ~'+fmt(it.tok)+' tokens]'); return; }
+
+    if(S.dropSet.has(it.mi)){
+      if(CFG.digest && it.kind==='text' && t.trim()) digestLines.push('- **#'+it.mi+' '+it.role+'**: '+t.trim().replace(/\s+/g,' ').slice(0,160));
+      if(S.killMsgs.has(it.mi)){ mark(it,'window',DROP); return; }
+      mark(it,'window', stub(it.kind, it.tok)); return;
+    }
+
+    if(CFG.reminder && (it.kind==='reminder' || t.indexOf('<system-reminder>')>=0)){
+      const t2 = stripReminders(t);
+      if(t2.length !== t.length){ t = t2; it.rule = 'reminder'; }
+    }
+    if(CFG.squash){ const t2 = squashWs(t); if(t2.length!==t.length){ t = t2; it.rule = it.rule||'squash'; } }
+    if(CFG.trimTR && it.kind==='tool_result' && estTok(t,CPT) > CFG.trMax){ t = headTail(t, CFG.trMax); it.rule = 'trimTR'; }
+    if(CFG.trimAtt && (it.kind==='attachment'||it.kind==='system') && estTok(t,CPT) > CFG.attMax){ t = headTail(t, CFG.attMax); it.rule = 'trimAtt'; }
+
+    if(it.rule){ it.out = t; saved[it.rule] = (saved[it.rule]||0) + (it.tok - estTok(t,CPT)); }
+  });
+
+  S.digest = digestLines.length
+    ? '# Bản lược phần giữa hội thoại\n\nCác tin nhắn #' + CFG.keepFirst + '–#' + (S.msgs.length-CFG.keepLast-1) + ' đã bị gọt. Nội dung cốt lõi:\n\n' + digestLines.join('\n') + '\n'
+    : '';
+
+  /* Vòng ngân sách: cắt dần các khối lớn nhất. Phải đo lại thật sau mỗi lượt —
+     chuỗi nằm trong JSON bị escape nên tổng thật luôn cao hơn tổng từng khối.
+     Tối đa 4 lượt: phần khung JSON (uuid, timestamp, cwd) là sàn không gọt được. */
+  let budgetCut = 0;
+  if(CFG.auto){
+    for(let pass=0; pass<4; pass++){
+      const cur = measure();
+      if(cur <= CFG.budget) break;
+      const ratio = Math.max(0.15, Math.min(0.8, CFG.budget/cur*0.75));
+      const pool = S.items.filter(it=>it.out!==DROP && !it.repl)
+        .map(it=>({it, tok:estTok(it.out===null?it.text:it.out, CPT)}))
+        .filter(x=>x.tok>100).sort((a,b)=>b.tok-a.tok);
+      if(!pool.length) break;
+      let changed = false;
+      for(const x of pool){
+        const target = Math.max(40, Math.floor(x.tok*ratio));
+        if(target >= x.tok) continue;
+        const t = headTail(x.it.out===null?x.it.text:x.it.out, target);
+        const after = estTok(t, CPT);
+        if(after < x.tok){ x.it.out = t; x.it.rule = 'auto'; budgetCut += x.tok-after; changed = true; }
+      }
+      if(!changed) break;
+    }
+  }
+  if(budgetCut) saved.auto = (saved.auto||0) + budgetCut;
+  S.saved = saved;
+}
+
+/* Metadata lặp trên từng dòng phiên Claude Code. `toolUseResult` là bản sao
+   của chính khối tool_result, nên bỏ nó không mất thông tin nào. */
+const META_KEYS = ['uuid','parentUuid','logicalParentUuid','leafUuid','requestId','sessionId',
+  'version','gitBranch','gitWorktree','cwd','userType','isSidechain','isMeta','isCompactSummary',
+  'isApiErrorMessage','timestamp','toolUseResult','slashCommand','platform','os','level','subtype'];
+const META_SOFT = ['uuid','created_at','updated_at'];
+
+function stripMeta(out){
+  let saved = 0;
+  const kill = (obj, keys) => {
+    if(!obj || typeof obj!=='object' || Array.isArray(obj)) return;
+    keys.forEach(k=>{
+      if(obj[k]===undefined) return;
+      saved += estTok(JSON.stringify(k) + ':' + JSON.stringify(obj[k]), CPT);
+      delete obj[k];
+    });
+  };
+  if(S.fmtName==='jsonl'){
+    out.forEach(ln=>{ if(ln!==DROP && ln && ln.__raw===undefined) kill(ln, META_KEYS); });
+  } else {
+    S.msgs.forEach(m=>{ if(m.del) kill(getAt(out, m.del), META_SOFT); });
+  }
+  return saved;
+}
+
+function buildOut(){
+  const out = JSON.parse(JSON.stringify(S.root));
+  S.items.forEach(it=>{
+    if(it.out===null) return;
+    if(it.repl) setAt(out, it.block ? it.block.addr : it.addr, it.repl);
+    else if(it.out===DROP) setAt(out, (it.wholeBlock||!it.block) ? it.addr : it.block.addr, DROP);
+    else setAt(out, it.addr, it.out);
+  });
+  // bản lược chèn vào tin nhắn còn giữ đầu tiên sau đoạn bị gọt
+  if(CFG.digest && S.digest && S.dropSet && S.dropSet.size){
+    let last = -1; S.dropSet.forEach(i=>{ if(i>last) last = i; });
+    const anchor = S.items.find(it => it.kind==='text' && it.mi > last && it.out!==DROP && !it.repl);
+    if(anchor) setAt(out, anchor.addr, S.digest + '\n---\n\n' + (anchor.out===null ? anchor.text : anchor.out));
+  }
+  // xoá hẳn tin nhắn ở giữa (tuỳ chọn)
+  if(S.killMsgs && S.killMsgs.size) S.killMsgs.forEach(i => setAt(out, S.msgs[i].del, DROP));
+  S.metaSaved = CFG.meta ? stripMeta(out) : 0;
+  compact(out);
+  return serialize(out, S.fmtName, CFG.compact);
+}
+function measure(){ return estTok(buildOut(), CPT); }
+
+/* ====================== vẽ ====================== */
+function render(){
+  plan();
+  const text = buildOut();
+  S.out = text;
+  S.saved.meta = S.metaSaved || 0;
+  const before = estTok(S.raw, CPT), after = estTok(text, CPT);
+
+  // đồng hồ
+  const g = $('#gauge');
+  g.className = 'gauge ' + (after > CFG.budget ? 'st-stop' : after > CFG.budget*0.9 ? 'st-warn' : 'st-ok');
+  $('#gBefore').textContent = fmt(before);
+  $('#gAfter').textContent = fmt(after);
+  $('#gBudget').textContent = fmt(CFG.budget);
+  $('#gFill').style.width = Math.min(100, after/CFG.budget*100) + '%';
+  const gh = $('#gGhost'), bp = before/CFG.budget*100;
+  gh.hidden = bp>100; gh.style.left = Math.min(99.5,bp) + '%';
+  $('#gVerdict').textContent = after > CFG.budget
+    ? 'Vẫn vượt ' + fmt(after-CFG.budget) + ' tokens — bật thêm luật bên dưới'
+    : 'Dưới ngưỡng, còn dư ' + fmt(CFG.budget-after) + ' tokens · đã gọt ' + pct(before-after, before) + '%';
+
+  // nguồn
+  $('#fName').textContent = S.name;
+  $('#fFmt').textContent = S.fmtName;
+  $('#fSize').textContent = (S.raw.length/1024 > 1024 ? (S.raw.length/1048576).toFixed(1)+' MB' : Math.round(S.raw.length/1024)+' KB');
+  $('#fMsgs').textContent = fmt(S.msgs.length) + ' tin nhắn';
+  const st = $('#srcTag');
+  st.className = 'tag ' + (S.demo ? 'demo' : 'live');
+  st.textContent = S.demo ? 'dữ liệu mẫu' : 'file của bạn';
+
+  renderRules();
+
+  // thành phần
+  const cat = {};
+  let sumB = 0, sumA = 0;
+  S.items.forEach(it=>{
+    const a = it.out===DROP ? 0 : estTok(it.out===null?it.text:it.out, CPT);
+    const c = cat[it.kind] || (cat[it.kind] = {b:0,a:0,n:0});
+    c.b += it.tok; c.a += a; c.n++; sumB += it.tok; sumA += a;
+  });
+  cat.frame = {b:Math.max(0,before-sumB), a:Math.max(0,after-sumA), n:0};
+  const list = Object.entries(cat).filter(([,v])=>v.b>0).sort((a,b)=>b[1].b-a[1].b);
+  $('#cats').innerHTML = list.map(([k,v])=>{
+    const m = KIND[k] || {label:k, color:'var(--line)'};
+    return '<div class="cat"><dt><span class="swatch" style="background:'+m.color+'"></span>'+esc(m.label)+
+      (v.n?' <span class="hint">· '+v.n+' khối</span>':'')+'</dt>'+
+      '<dd><s>'+fmt(v.b)+'</s> → <b>'+fmt(v.a)+'</b></dd>'+
+      '<div class="cbar"><u style="width:'+(v.b/before*100)+'%;background:'+m.color+'"></u><b style="width:'+(v.a/before*100)+'%;background:'+m.color+'"></b></div></div>';
+  }).join('');
+
+  // bảng nặng nhất
+  const top = S.items.slice().sort((a,b)=>b.tok-a.tok).slice(0,25);
+  $('#rows').innerHTML = top.map((it,i)=>{
+    const a = it.out===DROP ? 0 : estTok(it.out===null?it.text:it.out, CPT);
+    const act = it.out===DROP ? ['act-drop','Lược bỏ'] : a<it.tok ? ['act-trim','Rút gọn'] : ['act-keep','Giữ'];
+    const m = KIND[it.kind] || {label:it.kind};
+    const where = it.mi>=0 ? '#'+it.mi+' '+it.role : it.role;
+    return '<tr><td><details class="peek"><summary><span class="tag">'+esc(m.label)+'</span> '+esc(where)+(it.name?' · '+esc(it.name):'')+(it.dup?' · <span style="color:var(--warn)">trùng</span>':'')+
+      '</summary><pre>'+esc((it.text||'').slice(0,900))+((it.text||'').length>900?'\n…':'')+'</pre></details></td>'+
+      '<td class="n">'+fmt(it.tok)+'</td><td class="n">'+fmt(a)+'</td>'+
+      '<td><span class="chip '+act[0]+'">'+act[1]+'</span></td></tr>';
+  }).join('') || '<tr><td colspan="4" class="hint" style="padding:14px">Chưa có khối nào.</td></tr>';
+
+  renderDx(cat, before, after);
+
+  $('#expNote').innerHTML = 'Sẽ xuất <b>' + esc(outName()) + '</b> · ' +
+    (text.length/1048576>1 ? (text.length/1048576).toFixed(2)+' MB' : Math.round(text.length/1024)+' KB') +
+    ' · ~' + fmt(after) + ' tokens' + (S.digest ? ' · kèm bản lược ' + fmt(estTok(S.digest,CPT)) + ' tokens' : '');
+  $('#dgBtn').disabled = !S.digest;
+}
+
+function renderDx(cat, before, after){
+  const li = [];
+  const add = (cls, head, body) => li.push('<li class="'+cls+'"><span class="mk">'+(cls==='good'?'✓':cls==='hi'?'!':'·')+'</span><div><b>'+head+'</b><em>'+body+'</em></div></li>');
+  const c = k => cat[k] || {b:0,a:0,n:0};
+
+  if(c('attachment').b/before > 0.15)
+    add('hi', 'File đính kèm chiếm ' + pct(c('attachment').b, before) + '% (' + fmt(c('attachment').b) + ' tokens)',
+      'Đây gần như luôn là nguyên nhân thật của lỗi "prompt is too long". Bỏ bớt file khỏi phiên, hoặc để luật “Rút gọn file đính kèm” cắt còn ' + fmt(CFG.attMax) + ' tokens mỗi file.');
+  if(c('tool-def').b > 15000)
+    add('hi', 'Định nghĩa tool chiếm ' + fmt(c('tool-def').b) + ' tokens (' + c('tool-def').n + ' tool)',
+      'Phần này nằm trong mọi lượt gọi, không gọt được từ phía hội thoại. Tắt các MCP server không dùng rồi mở phiên mới — đó là cách giảm thật.');
+  if(c('tool_result').b/before > 0.25)
+    add('mid', 'Kết quả tool chiếm ' + pct(c('tool_result').b, before) + '% (' + c('tool_result').n + ' khối)',
+      'Output của đọc file / grep / test thường dài vô ích. Hạ ngưỡng “Rút gọn kết quả tool” xuống 200 tokens nếu cần thêm chỗ.');
+  if(c('base64').b > 2000)
+    add('mid', 'Ảnh và chuỗi base64: ' + fmt(c('base64').b) + ' tokens',
+      'Ảnh dán vào hội thoại không nén được và hiếm khi còn cần sau khi đã bàn xong — lược bỏ là lãi nhất trên mỗi đồng công.');
+  if((S.saved.dedupe||0) > 1000)
+    add('mid', 'Nội dung trùng lặp: ' + fmt(S.saved.dedupe) + ' tokens',
+      'Cùng một file được đọc lại nhiều lần trong phiên. Chỉ bản cuối còn đúng, các bản trước đã được thay bằng ghi chú.');
+  if(c('frame').b/before > 0.2)
+    add('mid', 'Khung JSON và metadata chiếm ' + pct(c('frame').b, before) + '%',
+      'Uuid, timestamp, cwd, gitBranch trên từng dòng' + (S.saved.meta ? ' — luật “Bỏ metadata phiên” đang thu về ' + fmt(S.saved.meta) + ' tokens' : '. Bật luật “Bỏ metadata phiên” để thu lại') + '. Thêm “Nén khoảng trắng JSON” ở bước 4 cho phần còn lại.');
+
+  add(after > CFG.budget ? 'hi' : 'good',
+    after > CFG.budget ? 'Còn vượt ' + fmt(after - CFG.budget) + ' tokens' : 'Đạt ngưỡng: ' + fmt(after) + ' / ' + fmt(CFG.budget) + ' tokens',
+    after > CFG.budget
+      ? 'Bật “Chỉ giữ đầu và cuối hội thoại” — đây là luật mạnh nhất, giữ ' + CFG.keepFirst + ' tin đầu và ' + CFG.keepLast + ' tin cuối, phần giữa thành bản lược.'
+      : 'Đã gọt ' + fmt(before - after) + ' tokens (' + pct(before-after, before) + '%). Tải file ở bước 4 rồi đính kèm lại vào phiên mới.');
+
+  if(S.fmtName==='jsonl' && CFG.hardDelete)
+    add('mid', 'Đang xoá hẳn dòng trong file .jsonl',
+      'File xuất ra dùng tốt để đính kèm làm ngữ cảnh, nhưng chuỗi parentUuid bị đứt nên không resume được phiên Claude Code từ nó.');
+
+  $('#dx').innerHTML = li.join('');
+}
+
+/* ====================== bảng luật ====================== */
+const RULES = [
+  {k:'b64',       t:'Lược ảnh và chuỗi base64', d:'Thay mỗi khối ảnh/base64 bằng một ghi chú ngắn.'},
+  {k:'reminder',  t:'Bỏ khối system-reminder',  d:'Nhắc nhở do hệ thống chèn, không mang thông tin của bạn.'},
+  {k:'dedupe',    t:'Bỏ nội dung trùng lặp',    d:'Cùng một nội dung xuất hiện nhiều lần: chỉ giữ lần cuối.'},
+  {k:'thinking',  t:'Bỏ khối suy luận',         d:'Thinking và signature của các lượt cũ.', num:{k:'thinkKeep', suf:'tin cuối vẫn giữ', min:0, max:50, step:1}},
+  {k:'trimTR',    t:'Rút gọn kết quả tool',     d:'Giữ đầu và cuối, cắt phần giữa.', num:{k:'trMax', suf:'tokens mỗi khối', min:50, max:20000, step:50}},
+  {k:'trimAtt',   t:'Rút gọn file đính kèm',    d:'Áp cho file kèm và system prompt dài.', num:{k:'attMax', suf:'tokens mỗi file', min:100, max:50000, step:100}},
+  {k:'pruneTools',t:'Bỏ tool không dùng',       d:'Định nghĩa tool chưa từng được gọi trong hội thoại.'},
+  {k:'squash',    t:'Nén khoảng trắng',         d:'Dòng trống liên tiếp và khoảng trắng cuối dòng.'},
+  {k:'meta',      t:'Bỏ metadata phiên',        d:'uuid, timestamp, cwd, gitBranch và toolUseResult trên từng dòng .jsonl. toolUseResult chỉ là bản sao của khối tool_result nên bỏ không mất gì; nhưng mất uuid thì không resume lại phiên Claude Code từ file này được.'},
+  {k:'window',    t:'Chỉ giữ đầu và cuối hội thoại', d:'Luật mạnh nhất, và mất thông tin. Cặp tool_use/tool_result bị cắt đôi sẽ được tự động giữ lại để file không hỏng.',
+    num:{k:'keepFirst', suf:'tin đầu', min:0, max:200, step:1}, num2:{k:'keepLast', suf:'tin cuối', min:1, max:400, step:1},
+    subs:[{k:'digest', t:'thay phần giữa bằng bản lược'},{k:'hardDelete', t:'xoá hẳn thay vì rút gọn'}]},
+  {k:'auto',      t:'Tự cắt thêm cho vừa ngưỡng', d:'Sau các luật trên, nếu còn vượt thì cắt tiếp các khối lớn nhất.'}
+];
+
+function renderRules(){
+  const host = $('#rules');
+  if(!host.dataset.built){
+    host.innerHTML = RULES.map(r=>{
+      let h = '<div class="rule"><input type="checkbox" id="r_'+r.k+'"'+(CFG[r.k]?' checked':'')+'>'+
+        '<label for="r_'+r.k+'">'+r.t+'</label><p>'+r.d+'</p>';
+      if(r.num || r.subs){
+        h += '<div class="opts">';
+        [r.num, r.num2].forEach(nm=>{ if(nm) h += '<input type="number" id="n_'+nm.k+'" value="'+CFG[nm.k]+'" min="'+nm.min+'" max="'+nm.max+'" step="'+nm.step+'"><span>'+nm.suf+'</span>'; });
+        (r.subs||[]).forEach(s=>{ h += '<label style="display:flex;align-items:center;gap:5px;cursor:pointer"><input type="checkbox" id="r_'+s.k+'"'+(CFG[s.k]?' checked':'')+'> '+s.t+'</label>'; });
+        h += '</div>';
+      }
+      h += '<span class="save" id="s_'+r.k+'">—</span>';
+      if(r.k==='window') h += '<div class="warnline" id="w_window" hidden></div>';
+      h += '</div>';
+      return h;
+    }).join('');
+    host.dataset.built = '1';
+    host.addEventListener('change', e=>{
+      const id = e.target.id;
+      if(id.startsWith('r_')) CFG[id.slice(2)] = e.target.checked;
+      else if(id.startsWith('n_')) CFG[id.slice(2)] = Math.max(0, parseInt(e.target.value,10)||0);
+      schedule();
+    });
+    host.addEventListener('input', e=>{ if(e.target.id.startsWith('n_')) { CFG[e.target.id.slice(2)] = Math.max(0, parseInt(e.target.value,10)||0); schedule(); } });
+  }
+  RULES.forEach(r=>{
+    const el = document.getElementById('s_'+r.k);
+    const v = r.k==='window' ? (S.saved.window||0) : (S.saved[r.k]||0);
+    el.textContent = v>0 ? '−' + fmt(v) + ' tokens' : (CFG[r.k] ? 'không tiết kiệm được' : 'đang tắt');
+    el.className = 'save' + (v>0 ? '' : ' zero');
+  });
+  const w = $('#w_window');
+  if(w){
+    const nd = S.dropSet ? S.dropSet.size : 0;
+    w.hidden = !CFG.window;
+    w.textContent = 'Đang gọt ' + nd + ' / ' + S.msgs.length + ' tin nhắn ở giữa.' +
+      (CFG.digest ? ' Phần cốt lõi được giữ lại trong bản lược chèn ngay trước đoạn cuối.' : ' Không có bản lược: ngữ cảnh đoạn giữa mất hẳn.');
+  }
+}
+
+/* ====================== xuất file ====================== */
+const OK_EXT = ['txt','json','md','csv','html','svg','pdf','zip'];
+function outName(){
+  const dot = S.name.lastIndexOf('.');
+  const base = (dot>0 ? S.name.slice(0,dot) : S.name) + '.got';
+  const ext = dot>0 ? S.name.slice(dot+1).toLowerCase() : 'txt';
+  return base + '.' + ext;
+}
+let _dl;
+async function downloads(){
+  if(_dl !== undefined) return _dl;
+  try{ _dl = (window.claude && window.claude.use) ? await window.claude.use('downloads') : null; }
+  catch(e){ _dl = null; }
+  return _dl;
+}
+async function save(name, text){
+  const dl = await downloads();
+  if(dl){
+    const ext = name.slice(name.lastIndexOf('.')+1).toLowerCase();
+    const fn = OK_EXT.includes(ext) ? name : name + '.txt';
+    try{
+      await dl.save({filename:fn, data:new Blob([text])});
+      toast('Đã lưu ' + fn + (fn!==name ? ' — đổi lại đuôi .' + name.slice(name.lastIndexOf('.')+1) + ' sau khi tải' : ''));
+      return;
+    }catch(e){
+      if(e && e.code==='declined') return;
+      toast('Không lưu được (' + ((e&&e.code)||'lỗi') + '). Dùng nút Copy nội dung.');
+      return;
+    }
+  }
+  const a = document.createElement('a');
+  const url = URL.createObjectURL(new Blob([text], {type:'text/plain;charset=utf-8'}));
+  a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url), 4000);
+  toast('Đang tải ' + name);
+}
+async function copy(text){
+  try{ await navigator.clipboard.writeText(text); toast('Đã copy ' + fmt(text.length) + ' ký tự'); }
+  catch(e){
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.position='fixed'; ta.style.left='-9999px';
+    document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); toast('Đã copy'); }catch(_){ toast('Trình duyệt chặn clipboard — dùng nút Tải file'); }
+    ta.remove();
+  }
+}
+
+/* ====================== dữ liệu mẫu ====================== */
+function sample(){
+  const css = '.card{border:1px solid #D6BDB8;border-radius:10px;padding:16px;background:#fff}\n.card h3{margin:0 0 6px;font-size:15px}\n'.repeat(140);
+  const py  = 'def tinh_diem(row):\n    seo = row.get("seo", 0)\n    geo = row.get("geo", 0)\n    return round(seo*0.6 + geo*0.4, 2)\n\n'.repeat(90);
+  const png = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAA' + 'QUFBQkJDRE' .repeat(620);
+  const rem = '<system-reminder>Nhắc: luôn kiểm tra lại đường dẫn file trước khi sửa.</system-reminder>\n';
+  const L = [];
+  const msg = (role, content, extra) => L.push(JSON.stringify(Object.assign({
+    type:role, uuid:'ses-'+(L.length+1)+'-a1b2c3d4e5f6', parentUuid: L.length?('ses-'+L.length+'-a1b2c3d4e5f6'):null,
+    cwd:'E:\\\\Dinh_code\\\\Project\\\\Agent\\\\Agent-QCQA-TrucPage-Kangnam', gitBranch:'main', timestamp:'2026-11-09T0'+(L.length%10)+':12:00.000Z',
+    message:{role:role==='user'?'user':'assistant', content:content}
+  }, extra||{})));
+
+  msg('user', [{type:'text', text:rem+'Rà lại scorecard GEO cho trang chủ, rồi dựng bảng điểm 26 tiêu chí.'}]);
+  msg('user', [{type:'text', text:'Đây là style hiện tại của trang:'}, {type:'document', name:'trang.css', source:{type:'text', media_type:'text/css', data:css}}]);
+  msg('assistant', [{type:'thinking', thinking:'Cần đọc file tính điểm trước. '.repeat(120), signature:'EqoBCkYIBRgCKkBm' + 'x'.repeat(900)},
+                    {type:'text', text:'Tôi đọc tools/v2calc.py rồi đối chiếu với scorecard.'},
+                    {type:'tool_use', id:'tu_01', name:'Read', input:{file_path:'tools/v2calc.py'}}]);
+  msg('user', [{type:'tool_result', tool_use_id:'tu_01', content:[{type:'text', text:py}]}]);
+  msg('assistant', [{type:'text', text:'File dùng trọng số 0.6/0.4. Tôi xem lại lần nữa sau khi sửa.'},
+                    {type:'tool_use', id:'tu_02', name:'Read', input:{file_path:'tools/v2calc.py'}}]);
+  msg('user', [{type:'tool_result', tool_use_id:'tu_02', content:[{type:'text', text:py}]}]);
+  msg('user', [{type:'text', text:'Ảnh chụp bảng điểm hiện tại:'}, {type:'image', source:{type:'base64', media_type:'image/png', data:png}}]);
+  msg('assistant', [{type:'thinking', thinking:'Bảng trong ảnh thiếu cột thời gian tác động. '.repeat(90), signature:'EqoBCkYIBRgCKkBz' + 'y'.repeat(900)},
+                    {type:'text', text:'Bảng thiếu cột “thời gian tác động”. Tôi thêm vào template.'},
+                    {type:'tool_use', id:'tu_03', name:'Bash', input:{command:'grep -rn "thoi_gian" tools/'}}]);
+  msg('user', [{type:'tool_result', tool_use_id:'tu_03', content:[{type:'text', text:('tools/v2slices.py:118: thoi_gian_tac_dong = "2-4 tuần"\n'.repeat(70))}]}]);
+  for(let i=0;i<9;i++){
+    msg('user', [{type:'text', text:rem+'Tiếp tiêu chí số '+(i+5)+' giúp tôi, ghi rõ câu sửa viết sẵn.'}]);
+    msg('assistant', [{type:'text', text:('Tiêu chí '+(i+5)+': cần một câu khẳng định đặt ngay dưới H2, kèm số liệu có đơn vị. Câu sửa viết sẵn: “Niềng răng mắc cài kim loại tại Kangnam mất 18–24 tháng với chi phí 28–45 triệu đồng.” ').repeat(14)}]);
+  }
+  msg('user', [{type:'text', text:'Giờ chốt lại toàn bộ bảng 26 tiêu chí và xuất ra out/scorecard.md.'}]);
+  return L.join('\n');
+}
+
+/* ====================== khởi động ====================== */
+let timer;
+function schedule(){ clearTimeout(timer); timer = setTimeout(render, 110); }
+
+function load(text, name){
+  try{
+    analyse(text, name);
+    render();
+    toast('Đã phân tích ' + fmt(S.msgs.length) + ' tin nhắn · ' + fmt(estTok(text,CPT)) + ' tokens');
+  }catch(e){
+    toast('Không đọc được file: ' + e.message);
+  }
+}
+
+$('#file').addEventListener('change', e=>{
+  const f = e.target.files && e.target.files[0]; if(!f) return;
+  const r = new FileReader();
+  r.onload = () => load(String(r.result), f.name);
+  r.onerror = () => toast('Không đọc được file.');
+  r.readAsText(f);
+});
+const drop = $('#drop');
+drop.addEventListener('click', ()=>$('#file').click());
+drop.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); $('#file').click(); } });
+['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev, e=>{ e.preventDefault(); drop.classList.add('hot'); }));
+['dragleave','drop'].forEach(ev=>drop.addEventListener(ev, e=>{ e.preventDefault(); drop.classList.remove('hot'); }));
+drop.addEventListener('drop', e=>{
+  const f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]; if(!f) return;
+  const r = new FileReader(); r.onload = () => load(String(r.result), f.name); r.readAsText(f);
+});
+$('#pasteBtn').addEventListener('click', async ()=>{
+  try{
+    const t = await navigator.clipboard.readText();
+    if(!t || !t.trim()) return toast('Clipboard trống.');
+    load(t, 'dan-vao.txt');
+  }catch(e){ toast('Trình duyệt không cho đọc clipboard — dùng nút chọn file.'); }
+});
+$('#budget').addEventListener('input', e=>{ CFG.budget = Math.max(1000, parseInt(e.target.value,10)||1000000); schedule(); });
+$('#compact').addEventListener('change', e=>{ CFG.compact = e.target.checked; schedule(); });
+$('#dlBtn').addEventListener('click', ()=>save(outName(), S.out));
+$('#cpBtn').addEventListener('click', ()=>copy(S.out));
+$('#dgBtn').addEventListener('click', ()=>{ if(S.digest) save(outName().replace(/\.[^.]+$/,'') + '.luoc.md', S.digest); });
+$('#themeBtn').addEventListener('click', ()=>{
+  const cur = document.documentElement.getAttribute('data-theme');
+  const dark = cur ? cur==='dark' : matchMedia('(prefers-color-scheme:dark)').matches;
+  document.documentElement.setAttribute('data-theme', dark ? 'light' : 'dark');
+});
+
+analyse(sample(), 'mau-phien.jsonl');
+S.demo = true;
+render();
+</script>

@@ -2,10 +2,11 @@
 """Bộ chỉ số Q1-Q8 bản 2 — tính lại từ file hội thoại gốc.
 SLA khung 8:15-21:30 · tách khách cũ · thị trường 6 nhóm."""
 import re, json, os, csv, collections, datetime, statistics as st
+import ky as _ky
 
-BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/'
-SP = BASE + 'out/03-11_05-11-2026'
-SRC = BASE + 'du-lieu/Bệnh viện thẩm mỹ Kangnam_20261103-20261105.txt'
+BASE = _ky.BASE
+KY, SP = _ky.chon_ky()
+SRC = _ky.nguon_txt(KY)
 
 txt = open(SRC, encoding='utf-8-sig').read()
 parts = re.split(r'\n## \d+\. (HT-[0-9a-f]+)\n', txt)
@@ -14,7 +15,7 @@ CONV = {parts[i]: parts[i+1] for i in range(1, len(parts), 2)}
 LINE = re.compile(r'^\[(\d\d)/(\d\d) (\d\d):(\d\d):(\d\d)\] \*\*'
                   r'(KH|BOT|HT|QC|NV \((NV-\d+)\)[^:]*)\:\*\* (.*)$')
 SDT = re.compile(r'\[SĐT ẩn\]')
-OBS = datetime.datetime(2026, 11, 6, 0, 0, 0)           # mốc hết quan sát
+OBS = _ky.moc_quan_sat(KY)                              # mốc hết quan sát
 SLA_FROM, SLA_TO = datetime.time(8, 15), datetime.time(21, 30)
 
 def parse(t):
@@ -84,7 +85,7 @@ def market(msgs):
 
 # ---------- gắn dịch vụ / khung giờ từ ht.csv ----------
 meta = {}
-for r in csv.DictReader(open(BASE+'out/03-11_05-11-2026/ht.csv', encoding='utf-8-sig')):
+for r in csv.DictReader(open(SP+'/ht.csv', encoding='utf-8-sig')):
     meta[r['ma']] = r
 
 OUT = []
@@ -143,7 +144,8 @@ for ma, t in CONV.items():
 
     OUT.append({
         'ma': ma, 'nv': md['nv_chinh'], 'dv': md['dich_vu'], 'kg': md['khung_gio'],
-        'ngay': md['ngay'], 'nhiet': md['nhiet_loc'], 'nguon': md['nguon'],
+        'ngay': md['ngay'], 'page': md.get('page', ''), 'nhiet': md['nhiet_loc'],
+        'nguon': md['nguon'], 'so_nv': int(md['so_nv'] or 0) if (md.get('so_nv') or '').strip().isdigit() else 0,
         'cu': cu, 'tt': market(msgs),
         'co_sdt': sdt_ts is not None, 'gio_sdt': gio,
         'du6': (OBS - t0).total_seconds()/3600 >= 6,

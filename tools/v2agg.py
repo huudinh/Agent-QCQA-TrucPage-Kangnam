@@ -1,21 +1,14 @@
 # -*- coding: utf-8 -*-
 import json, os, collections
-SP = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/out/03-11_05-11-2026'
+import ky as _ky
+KY, SP = _ky.chon_ky()
 ROWS = json.load(open(SP+'/v2rows.json', encoding='utf-8'))
 NEW = [r for r in ROWS if not r['cu']]
 
-# điểm AI đã chấm khi đọc mẫu (thang 0-2) — Q6 xử lí từ chối, Q7 tuân thủ kịch bản
-AI = {
- "NV-236425444": {"q6":1.9,"q7":1.7,"doc":7},  "NV-254668856": {"q6":1.0,"q7":1.5,"doc":7},
- "NV-238736928": {"q6":0.9,"q7":1.0,"doc":6},  "NV-232258930": {"q6":1.6,"q7":1.8,"doc":10},
- "NV-264113743": {"q6":1.2,"q7":1.3,"doc":6},  "NV-198843202": {"q6":1.4,"q7":1.8,"doc":8},
- "NV-205107209": {"q6":0.8,"q7":0.9,"doc":5},  "NV-258612608": {"q6":1.6,"q7":1.7,"doc":3},
- "NV-202194914": {"q6":0.7,"q7":1.0,"doc":3},  "NV-226199192": {"q6":1.3,"q7":1.4,"doc":2},
- "NV-240896987": {"q6":0.9,"q7":1.3,"doc":2},  "NV-262546406": {"q6":1.1,"q7":1.5,"doc":2},
- "NV-269001161": {"q6":1.2,"q7":1.7,"doc":3},  "NV-198842634": {"q6":0.9,"q7":1.1,"doc":2},
- "NV-198842558": {"q6":1.8,"q7":1.6,"doc":2},
- "NV-202193608": {"q6":None,"q7":None,"doc":0},"NV-262546620":{"q6":None,"q7":None,"doc":1},
-}
+import diem_ai as _ai
+
+AI_KY = _ai.AI_KY
+AI = _ai.dict_dang_khoa()
 LBL = {'MAT':'Mắt','BODY':'Béo/Hút mỡ','DA_TRE_HOA':'Da','MUI':'Mũi','NGUC':'Ngực',
        'HAM_MAT':'Hàm mặt','KHAC':'Khác','KHONG_XAC_DINH':'Chưa rõ'}
 MKT = [('HA_NOI','Hà Nội'),('HO_CHI_MINH','Hồ Chí Minh'),('TINH_KHAC','Các tỉnh khác'),
@@ -90,6 +83,12 @@ for nv, rs in by.items():
     NVS.append(b)
 
 # ---------- điểm tổng & hạng: so với trung bình đội ----------
+if KY != AI_KY:
+    thieu = sorted({r['nv'] for r in NEW if r.get('nv')} - set(AI))
+    print(f'\n⚠️  Q6/Q7 đang dùng điểm AI chấm cho kỳ {AI_KY}, không phải {KY}.')
+    print(f'    {len(thieu)} nhân viên không có điểm nào → phụ thuộc tụt còn 80%.')
+    print('    Chấm lại bằng tools/tp.py mau rồi thay AI = {...} trước khi tin bảng hạng.\n')
+
 W = [('q1', .30), ('q3', .15), ('q5', .20), ('q8', .15), ('q6', .10), ('q7', .10)]
 for b in NVS:
     tot, wsum = 0.0, 0.0
@@ -128,10 +127,13 @@ KGS = slices(lambda r: r['kg'], [(k, k.replace('-', '–')+'h') for k in
       ['00-06','06-09','09-12','12-14','14-18','18-22','22-24']])
 NGS = slices(lambda r: r['nguon'], [('QC','Từ quảng cáo'),('TRUC_TIEP','Nhắn thẳng page'),
       ('COMMENT','Từ bình luận')])
-NGAY = slices(lambda r: r['ngay'], [('03/11','03/11 · Thứ 3'),('04/11','04/11 · Thứ 4'),
-      ('05/11','05/11 · Thứ 5')])
+NGAY = slices(lambda r: r['ngay'], _ky.nhan_ngay(KY, _ky.sap_ngay(r['ngay'] for r in ROWS)))
 
-json.dump({'team': TEAM, 'nv': NVS, 'dv': DVS, 'mkt': MKTS, 'kg': KGS,
+# Trang tự ghi tiêu đề từ đây, nên không phải sửa tay mỗi kỳ
+PAGES = sorted({r['page'] for r in ROWS if r.get('page')})
+
+json.dump({'ky': KY, 'pages': PAGES,
+           'team': TEAM, 'nv': NVS, 'dv': DVS, 'mkt': MKTS, 'kg': KGS,
            'nguon': NGS, 'ngay': NGAY},
           open(SP+'/v2.json', 'w', encoding='utf-8'), ensure_ascii=False)
 

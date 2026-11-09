@@ -3,20 +3,22 @@
 số nhân viên/hội thoại, mẫu tin dán chung chứa từ cấm."""
 import json, os, re, csv, collections, datetime, statistics as st
 
-BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/'
-SP = BASE + 'out/03-11_05-11-2026'
+import ky as _ky
+
+BASE = _ky.BASE
+KY, SP = _ky.chon_ky()
 ROWS = json.load(open(SP + '/v2rows.json', encoding='utf-8'))
 NEW = [r for r in ROWS if not r['cu']]
 LBL = {'MAT': 'Mắt', 'BODY': 'Body / Hút mỡ', 'DA_TRE_HOA': 'Da / Trẻ hoá', 'MUI': 'Mũi',
        'NGUC': 'Ngực', 'HAM_MAT': 'Hàm mặt', 'KHAC': 'Khác', 'KHONG_XAC_DINH': 'Chưa xếp được'}
-DAYS = ['03/11', '04/11', '05/11']
+DAYS = _ky.sap_ngay(r['ngay'] for r in ROWS)
 
 def p(a, b, nd=1):
     return round(a / b * 100, nd) if b else None
 
 # ---------- số nhân viên riêng biệt / hội thoại ----------
 sonv = {}
-for r in csv.DictReader(open(BASE + 'out/03-11_05-11-2026/ht.csv', encoding='utf-8-sig')):
+for r in csv.DictReader(open(SP + '/ht.csv', encoding='utf-8-sig')):
     try:
         sonv[r['ma']] = int(r['so_nv'] or 0)
     except ValueError:
@@ -104,8 +106,7 @@ for k, lab in [(1, '1 người'), (2, '2 người'), (3, '3 người'), (4, '4 n
                     'n': len(s48), 'ht': len(sub)})
 
 # ---------- 5. Mẫu tin dán chung chứa từ cấm ----------
-txt = open(BASE + 'du-lieu/Bệnh viện thẩm mỹ Kangnam_20261103-20261105.txt',
-           encoding='utf-8-sig').read()
+txt = open(_ky.nguon_txt(KY), encoding='utf-8-sig').read()
 parts = re.split(r'\n## \d+\. (HT-[0-9a-f]+)\n', txt)
 CONV = {parts[i]: parts[i + 1] for i in range(1, len(parts), 2)}
 NVLINE = re.compile(r'\*\*NV \((NV-\d+)\)[^:]*:\*\* (.*)')
